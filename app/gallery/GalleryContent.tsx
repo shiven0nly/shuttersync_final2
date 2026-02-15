@@ -60,7 +60,7 @@ export default function GalleryContent() {
                 <div className="text-center mb-16">
                     <h1 className="text-5xl md:text-7xl font-serif italic text-white mb-4">Community Gallery</h1>
                     <p className="text-lg text-white/50 max-w-2xl mx-auto">
-                        Explore stunning work from our community. Like, comment, and discover the camera settings behind every shot.
+                        Explore stunning work of our members. Thanks To All Members.
                     </p>
                 </div>
 
