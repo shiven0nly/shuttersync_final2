@@ -31,8 +31,8 @@ const admins = [
         email: 'rajnish@shuttersync.in',
         instagram: 'quanta_01_',
         bio: 'Ensuring smooth operations and strategic growth for the ShutterSync community behind the scenes.',
-        avatar: '/r_hr.jpeg',
-        photo: '/logo.jpeg',
+        avatar: 'R',
+        photo: '/r_hs.jpeg',
     },
     {
         id: 3,
@@ -55,8 +55,8 @@ const admins = [
         email: 'sampada@shuttersync.in',
         instagram: 'sam_kindaaaa',
         bio: 'Organizing photo walks, workshops, and events that bring the community together in real life.',
-        avatar: '/s_hs.jpeg',
-        photo: '/logo.jpeg',
+        avatar: 'S',
+        photo: '/s_hs.jpeg',
     },
     {
         id: 5,
@@ -65,10 +65,10 @@ const admins = [
         badge: '⚙️ Technical Lead',
         mobile: '9460272387',
         email: 'shiven@shuttersync.in',
-        instagram: 'shiven_ss',
+        instagram: 'notshivenn',
         bio: 'Blending technology and photography to create seamless digital experiences for the community.',
-        avatar: '/s2_hs.jpg',
-        photo: '/logo.jpeg',
+        avatar: 'S',
+        photo: '/s2_hs.jpg',
     },
 ];
 
@@ -406,16 +406,29 @@ interface AdminCardProps {
 }
 
 function AdminCard({ admin }: AdminCardProps) {
+    // Check if admin has a real headshot (not logo.jpeg)
+    const hasHeadshot = admin.photo && admin.photo !== '/logo.jpeg';
+    
     return (
         <div className="admin-card soft-card p-8 text-center group hover:translate-y-[-4px] hover:shadow-2xl transition-all duration-300">
             {/* Portrait */}
             <div className="relative mx-auto mb-5 w-24 h-24">
-                <div 
-                    className="w-24 h-24 rounded-full shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200 flex items-center justify-center text-4xl font-semibold text-white group-hover:scale-105"
-                    style={{ background: '#C4783E' }}
-                >
-                    {admin.avatar}
-                </div>
+                {hasHeadshot ? (
+                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200">
+                        <img
+                            src={admin.photo}
+                            alt={admin.name}
+                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        />
+                    </div>
+                ) : (
+                    <div 
+                        className="w-24 h-24 rounded-full shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200 flex items-center justify-center text-4xl font-semibold text-white transform group-hover:scale-105"
+                        style={{ background: '#C4783E' }}
+                    >
+                        {admin.avatar}
+                    </div>
+                )}
             </div>
 
             {/* Name */}
