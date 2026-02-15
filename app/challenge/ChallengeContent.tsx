@@ -10,7 +10,7 @@ import Link from 'next/link';
 
   const pastWinners = [
     { id: 1, image: '/flower1.jpeg', photographer: '', theme: 'Floral Photography', week: '' },
-    { id: 2, image: '/abstract1.jpeg', photographer: '', theme: 'Abstract', week: '' },
+    { id: 2, image: '/abstract1.jpeg', photographer: '', theme: 'Different Perspective', week: '' },
     { id: 3, image: '/building_minimal.jpeg', photographer: '', theme: 'Buildings', week: '' },
     { id: 4, image: '/low-key1.jpeg', photographer: '', theme: 'Low-Key', week: '' },
     { id: 5, image: '/building_bnw.jpeg', photographer: '', theme: 'Black and White', week: '' },
@@ -105,7 +105,7 @@ export default function ChallengeContent() {
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-serif text-foreground mb-2">{winner.theme}</h3>
-                                    <p className="text-sm text-foreground/40">{winner.week} Highlight — Photographed by {winner.photographer}</p>
+                                    <p className="text-sm text-foreground/40">Photographed by Our Member</p>
                                 </div>
                             </div>
                         ))}
@@ -138,25 +138,10 @@ export default function ChallengeContent() {
                 <div>
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-5xl font-serif italic text-foreground mb-4">Past Winners</h2>
-                        <p className="text-foreground/50">Celebrating those who captured the essence of previous themes.</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {pastWinners.map((winner) => (
-                            <div key={winner.id} className="soft-card overflow-hidden group">
-                                <div className="aspect-square relative overflow-hidden">
-                                    <AppImage src={winner.image} alt={winner.photographer}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                    <div className="absolute top-3 left-3 bg-foreground/80 text-background px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider">
-                                        🏆 Winner
-                                    </div>
-                                </div>
-                                <div className="p-4">
-                                    <p className="text-sm font-medium text-foreground">{winner.photographer}</p>
-                                    <p className="text-xs text-foreground/40">{winner.week} — {winner.theme}</p>
-                                </div>
-                            </div>
-                        ))}
+                        <p className="text-foreground/50">Celebrating those who captured the essence of previous themes.</p><br/>
+                         <p   className="challenge-btn inline-flex items-center bg-[#563454] text-white px-10 py-3 rounded-full text-base font-semibold font-serif tracking-wide hover:brightness-110 transition-all shadow-xl">
+                            <i>This Section Is Coming Soon</i>
+                         </p>
                     </div>
                 </div>
             </div>
