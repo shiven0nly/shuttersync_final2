@@ -9,12 +9,12 @@ import Link from 'next/link';
 // No longer using individual submissions for voting
 
   const pastWinners = [
-    { id: 1, image: '/flower1.jpeg', photographer: 'Nina Patel', theme: 'Floral Photography', week: 'Week 5' },
-    { id: 2, image: '/abstract1.jpeg', photographer: 'Carlos Vega', theme: 'Abstract', week: 'Week 4' },
-    { id: 3, image: '/building_minimal.jpeg', photographer: 'Tom Harris', theme: 'Buildings', week: 'Week 3' },
-    { id: 4, image: '/low-key1.jpeg', photographer: 'Lena Berg', theme: 'Low-Key', week: 'Week 2' },
-    { id: 5, image: '/building_bnw.jpeg', photographer: 'Sarah J.', theme: 'Black and White', week: 'Week 1' },
-    { id: 6, image: '/cloud1.jpeg', photographer: 'Mike T.', theme: 'Cloud', week: 'Week 0' },
+    { id: 1, image: '/flower1.jpeg', photographer: '', theme: 'Floral Photography', week: '' },
+    { id: 2, image: '/abstract1.jpeg', photographer: '', theme: 'Abstract', week: '' },
+    { id: 3, image: '/building_minimal.jpeg', photographer: '', theme: 'Buildings', week: '' },
+    { id: 4, image: '/low-key1.jpeg', photographer: '', theme: 'Low-Key', week: '' },
+    { id: 5, image: '/building_bnw.jpeg', photographer: '', theme: 'Black and White', week: '' },
+    { id: 6, image: '/cloud1.jpeg', photographer: '', theme: 'Cloud', week: '' },
 ];
 
 function getNextSunday() {
@@ -65,15 +65,15 @@ export default function ChallengeContent() {
                         Challenge of the Week
                     </span>
                     <h1 className="text-5xl md:text-7xl font-serif italic text-foreground mb-4">
-                        &ldquo;Floral Photography&rdquo;
+                        &ldquo;Abstract Photography&rdquo;
                     </h1>
                     <p className="text-lg text-foreground/50 max-w-2xl mx-auto mb-8">
-                        Capture the magic of golden hour — that warm, ethereal light just before sunset or after sunrise. Show us how you harness its beauty.
+                        what if a photograph didn't need to look real? Blur the lines. Break the forms.<br/><em>Play With Color, Light,Motion and perspective.</em>
                     </p>
                     <div className="flex flex-col items-center gap-6">
                         <div className="inline-flex items-center gap-2 bg-foreground/5 rounded-full px-6 py-3 text-sm text-foreground/60">
                             <Icon name="CalendarIcon" size={16} variant="outline" />
-                            <span>Feb 10 — Feb 16, 2026</span>
+                            <span>Feb 16 — Feb 21, 2026</span>
                         </div>
                         <Link
                             href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR"
