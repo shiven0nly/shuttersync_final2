@@ -1,0 +1,216 @@
+﻿
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\challenge\ChallengeContent.tsx
+  30:12  warning  'countdown' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\Footer.tsx
+  107:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\Header.tsx
+  15:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\Header.tsx:15:5
+  13 |
+  14 |   useEffect(() => {
+> 15 |     setIsHydrated(true);
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  16 |   }, []);
+  17 |
+  18 |   useEffect(() => {  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\NavigationLoader.tsx
+  16:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\NavigationLoader.tsx:16:9
+  14 |     useEffect(() => {
+  15 |         // Initial load hydration
+> 16 |         setIsVisible(true);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  17 |         const timer = setTimeout(() => {
+  18 |             setIsExiting(true);
+  19 |         }, 1200);  react-hooks/set-state-in-effect
+  28:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\common\NavigationLoader.tsx:28:9
+  26 |         lastPathname.current = pathname;
+  27 |
+> 28 |         setIsVisible(true);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |         setIsExiting(false);
+  30 |
+  31 |         const timer = setTimeout(() => {                                      react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\ui\AppIcon.tsx
+  17:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  30:88  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\components\ui\AppImage.tsx
+   20:20  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   72:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+   87:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  119:17  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                              jsx-a11y/alt-text
+  130:9   warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                              jsx-a11y/alt-text
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\events\EventsContent.tsx
+  89:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\forgot-password\page.tsx
+  22:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\global-error.tsx
+  4:5  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\AboutSection.tsx
+  43:31  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          @typescript-eslint/no-explicit-any
+  56:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\AboutSection.tsx:56:21
+  54 |   const sectionRef = useRef<HTMLDivElement>(null);
+  55 |
+> 56 |   useEffect(() => { setIsHydrated(true); }, []);
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  57 |
+  58 |   useEffect(() => {
+  59 |     if (!isHydrated || !sectionRef.current) return;  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\HeroSection.tsx
+   28:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\HeroSection.tsx:28:5
+  26 |
+  27 |   useEffect(() => {
+> 28 |     setIsHydrated(true);
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |   }, []);
+  30 |
+  31 |   useEffect(() => {  react-hooks/set-state-in-effect
+  133:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @next/next/no-img-element
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\HomepageInteractive.tsx
+  21:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\JoinSection.tsx
+   7:10  warning  'isHydrated' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  16:21  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\JoinSection.tsx:16:21
+  14 |   });
+  15 |
+> 16 |   useEffect(() => { setIsHydrated(true); }, []);
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  17 |
+  18 |   const handleSubmit = (e: React.FormEvent) => {
+  19 |     e.preventDefault();  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\MembersWorkSection.tsx
+  66:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\MembersWorkSection.tsx:66:21
+  64 |   const sectionRef = useRef<HTMLDivElement>(null);
+  65 |
+> 66 |   useEffect(() => { setIsHydrated(true); }, []);
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  67 |
+  68 |   useEffect(() => {
+  69 |     if (!isHydrated || !sectionRef.current) return;  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\ServicesSection.tsx
+  27:29  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  49:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\ServicesSection.tsx:49:21
+  47 |   const sectionRef = useRef<HTMLDivElement>(null);
+  48 |
+> 49 |   useEffect(() => { setIsHydrated(true); }, []);
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  50 |
+  51 |   useEffect(() => {
+  52 |     if (!isHydrated || !sectionRef.current) return;  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\TestimonialSection.tsx
+  47:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\homepage\components\TestimonialSection.tsx:47:21
+  45 |   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  46 |
+> 47 |   useEffect(() => { setIsHydrated(true); }, []);
+     |                     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  48 |
+  49 |   useEffect(() => {
+  50 |     if (!isHydrated || !sectionRef.current || !scrollContainerRef.current) return;  react-hooks/set-state-in-effect
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\login\page.tsx
+  30:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  44:18  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  44:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  55:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\not-found.tsx
+  31:33  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  31:54  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  31:67  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\app\signup\page.tsx
+  39:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  54:18  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  54:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  65:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\Shive\Downloads\shutterSync\my-app2\tailwind.config.js
+  102:13  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+Γ£û 38 problems (26 errors, 12 warnings)
+
