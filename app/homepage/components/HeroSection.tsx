@@ -5,18 +5,18 @@ import Link from 'next/link';
 import gsap from 'gsap';
 
 const heroPhotos = [
-  { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80', alt: 'Mountain landscape' },
-  { src: 'https://images.unsplash.com/photo-1516234140488-fecd4f4ab234?auto=format&fit=crop&w=400&q=80', alt: 'Urban cityscape' },
-  { src: 'https://images.unsplash.com/photo-1548588681-adf41d474533?auto=format&fit=crop&w=400&q=80', alt: 'Mountain majesty' },
-  { src: 'https://images.unsplash.com/photo-1574526787396-da66a83b83fc?auto=format&fit=crop&w=400&q=80', alt: 'Portrait photography' },
-  { src: 'https://images.unsplash.com/photo-1533331605935-1e28889cb5c4?auto=format&fit=crop&w=400&q=80', alt: 'Architecture' },
-  { src: 'https://images.unsplash.com/photo-1638814838160-fe53ae216d14?auto=format&fit=crop&w=400&q=80', alt: 'Wildlife eagle' },
-  { src: 'https://images.unsplash.com/photo-1726774045558-4f6ae15d89eb?auto=format&fit=crop&w=400&q=80', alt: 'Abstract light' },
-  { src: 'https://images.unsplash.com/photo-1632689998744-8608215796f5?auto=format&fit=crop&w=400&q=80', alt: 'Wedding silhouette' },
-  { src: 'https://images.unsplash.com/photo-1698431411784-a93825012505?auto=format&fit=crop&w=400&q=80', alt: 'Food photography' },
-  { src: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80', alt: 'Nature forest' },
-  { src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80', alt: 'Starry mountain' },
-  { src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80', alt: 'Sunset lake' },
+  { src: '/scenery1.jpeg', alt: 'Mountain landscape' },
+  { src: '/building_minimal.jpeg', alt: 'Urban architecture' },
+  { src: '/scenery2.jpeg', alt: 'Scenic vista' },
+  { src: '/girl_in_pool.jpeg', alt: 'Portrait photography' },
+  { src: '/building_bnw.jpeg', alt: 'Architecture black and white' },
+  { src: '/swan.jpeg', alt: 'Wildlife swan' },
+  { src: '/lightPhotography1.jpeg', alt: 'Abstract light' },
+  { src: '/sunset.jpeg', alt: 'Sunset scenery' },
+  { src: '/food.jpeg', alt: 'Food photography' },
+  { src: '/cloud1.jpeg', alt: 'Nature clouds' },
+  { src: '/nightsky1.jpeg', alt: 'Starry night sky' },
+  { src: '/macau.jpeg', alt: 'Macau cityscape' },
 ];
 
 export default function HeroSection() {

@@ -42,16 +42,7 @@ function ProjectCard({ image, alt, title, photographer, category, exif }: Projec
             }`}
         >
           <div className="absolute inset-0 p-6 flex flex-col justify-end">
-            <h3 className="text-2xl font-serif text-white mb-2">{title}</h3>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-white/80 mb-1">{photographer}</p>
-                <p className="text-xs text-white/60 uppercase tracking-wider">{category}</p>
-              </div>
-              {exif && (
-                <div className="text-xs font-mono text-white/60 text-right">{exif}</div>
-              )}
-            </div>
+            <h3 className="text-3xl font-serif text-white">{category}</h3>
           </div>
         </div>
       </div>
@@ -85,14 +76,14 @@ export default function MembersWorkSection() {
   }, [isHydrated]);
 
   const projects = [
-    { id: 'project_urban', image: 'https://images.unsplash.com/photo-1516234140488-fecd4f4ab234?auto=format&fit=crop&w=800&q=80', alt: 'Urban cityscape at dusk', title: 'Urban Pulse', photographer: 'Sarah Chen', category: 'Street', exif: 'f/2.8 • 1/250s' },
-    { id: 'project_nature', image: 'https://images.unsplash.com/photo-1548588681-adf41d474533?auto=format&fit=crop&w=800&q=80', alt: 'Mountain landscape', title: 'Mountain Majesty', photographer: 'Alex Rivera', category: 'Landscape', exif: 'f/11 • 1/60s' },
-    { id: 'project_portrait', image: 'https://images.unsplash.com/photo-1574526787396-da66a83b83fc?auto=format&fit=crop&w=800&q=80', alt: 'Portrait photography', title: 'Silent Strength', photographer: 'Marcus Johnson', category: 'Portrait', exif: 'f/1.8 • 1/125s' },
-    { id: 'project_architecture', image: 'https://images.unsplash.com/photo-1533331605935-1e28889cb5c4?auto=format&fit=crop&w=800&q=80', alt: 'Modern architecture', title: 'Geometric Dreams', photographer: 'Emma Watson', category: 'Architecture', exif: 'f/8 • 1/200s' },
-    { id: 'project_wildlife', image: 'https://images.unsplash.com/photo-1638814838160-fe53ae216d14?auto=format&fit=crop&w=800&q=80', alt: 'Eagle in flight', title: 'Wings of Freedom', photographer: 'David Park', category: 'Wildlife', exif: 'f/5.6 • 1/2000s' },
-    { id: 'project_abstract', image: 'https://images.unsplash.com/photo-1726774045558-4f6ae15d89eb?auto=format&fit=crop&w=800&q=80', alt: 'Abstract light painting', title: 'Light Dance', photographer: 'Sofia Martinez', category: 'Abstract', exif: 'f/16 • 30s' },
-    { id: 'project_wedding', image: 'https://images.unsplash.com/photo-1632689998744-8608215796f5?auto=format&fit=crop&w=800&q=80', alt: 'Wedding sunset', title: 'Forever Begins', photographer: 'James Lee', category: 'Wedding', exif: 'f/2.0 • 1/500s' },
-    { id: 'project_food', image: 'https://images.unsplash.com/photo-1698431411784-a93825012505?auto=format&fit=crop&w=800&q=80', alt: 'Food photography', title: 'Culinary Art', photographer: 'Rachel Kim', category: 'Food', exif: 'f/4 • 1/60s' },
+    { id: 'project_urban', image: '/street.jpeg', alt: 'Urban street scene', title: 'Urban Pulse', photographer: 'Sarah Chen', category: 'Street', exif: 'f/2.8 • 1/250s' },
+    { id: 'project_nature', image: '/scenery1.jpeg', alt: 'Mountain landscape', title: 'Mountain Majesty', photographer: 'Alex Rivera', category: 'Landscape', exif: 'f/11 • 1/60s' },
+    { id: 'project_portrait', image: '/girl_in_pool.jpeg', alt: 'Portrait photography', title: 'Silent Strength', photographer: 'Marcus Johnson', category: 'Portrait', exif: 'f/1.8 • 1/125s' },
+    { id: 'project_architecture', image: '/building_with_staircase.jpeg', alt: 'Modern architecture', title: 'Geometric Dreams', photographer: 'Emma Watson', category: 'Architecture', exif: 'f/8 • 1/200s' },
+    { id: 'project_wildlife', image: '/sparrow.jpeg', alt: 'Sparrow bird', title: 'Wings of Freedom', photographer: 'David Park', category: 'Wildlife', exif: 'f/5.6 • 1/2000s' },
+    { id: 'project_abstract', image: '/lightphotography2.jpeg', alt: 'Abstract light painting', title: 'Light Dance', photographer: 'Sofia Martinez', category: 'Abstract', exif: 'f/16 • 30s' },
+    { id: 'project_night', image: '/night1.jpeg', alt: 'Night photography', title: 'Midnight Dreams', photographer: 'James Lee', category: 'Night', exif: 'f/2.0 • 1/500s' },
+    { id: 'project_food', image: '/food.jpeg', alt: 'Food photography', title: 'Culinary Art', photographer: 'Rachel Kim', category: 'Food', exif: 'f/4 • 1/60s' },
   ];
 
   return (

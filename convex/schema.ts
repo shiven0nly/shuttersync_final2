@@ -8,6 +8,7 @@ export default defineSchema({
     email: v.string(),
     phoneNumber: v.string(),
     workshopId: v.number(),
+    nextWorkshopInterest: v.optional(v.string()), // What workshop they want next
     status: v.string(), // "active" or "cancelled"
     cancelledBy: v.optional(v.string()), // admin email who cancelled
     cancelledAt: v.optional(v.number()), // timestamp

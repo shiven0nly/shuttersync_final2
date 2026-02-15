@@ -38,7 +38,7 @@ export default function Footer() {
           className="absolute inset-0 z-0"
           style={{
             backgroundImage:
-              'url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80)',
+              'url(/scenery1.jpeg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

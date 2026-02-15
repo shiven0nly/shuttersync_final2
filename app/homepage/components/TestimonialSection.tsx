@@ -69,11 +69,11 @@ export default function TestimonialsSection() {
   }, [isHydrated]);
 
   const testimonials = [
-    { id: 'member_elena', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80', alt: 'Elena Martinez', quote: 'Joining ShutterSync was the best decision for my photography journey. The collective growth and shared passion here are truly inspiring.', name: 'Elena Martinez', role: 'Landscape Photographer' },
-    { id: 'member_michael', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80', alt: 'Michael Chen', quote: 'I came for the gear tips and stayed for the community. The photowalks have completely changed how I see the city through my lens.', name: 'Michael Chen', role: 'Street Photographer' },
-    { id: 'member_sophia', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80', alt: 'Sophia Rodriguez', quote: 'Being part of this collective has given me the confidence to showcase my work. The feedback sessions are invaluable.', name: 'Sophia Rodriguez', role: 'Portrait Artist' },
-    { id: 'member_james', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80', alt: 'James Wilson', quote: "ShutterSync isn't just a club—it's a family of creatives. Every meetup is an opportunity to learn something new.", name: 'James Wilson', role: 'Documentary Photographer' },
-    { id: 'member_aisha', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80', alt: 'Aisha Kumar', quote: "The collaborative energy here is unmatched. I've grown more in six months with the club than in years on my own.", name: 'Aisha Kumar', role: 'Architectural Photographer' },
+    { id: 'member_elena', image: '/logo.jpeg', alt: 'Elena Martinez', quote: 'Joining ShutterSync was the best decision for my photography journey. The collective growth and shared passion here are truly inspiring.', name: 'Elena Martinez', role: 'Landscape Photographer' },
+    { id: 'member_michael', image: '/logo.jpeg', alt: 'Michael Chen', quote: 'I came for the gear tips and stayed for the community. The photowalks have completely changed how I see the city through my lens.', name: 'Michael Chen', role: 'Street Photographer' },
+    { id: 'member_sophia', image: '/logo.jpeg', alt: 'Sophia Rodriguez', quote: 'Being part of this collective has given me the confidence to showcase my work. The feedback sessions are invaluable.', name: 'Sophia Rodriguez', role: 'Portrait Artist' },
+    { id: 'member_james', image: '/logo.jpeg', alt: 'James Wilson', quote: "ShutterSync isn't just a club—it's a family of creatives. Every meetup is an opportunity to learn something new.", name: 'James Wilson', role: 'Documentary Photographer' },
+    { id: 'member_aisha', image: '/logo.jpeg', alt: 'Aisha Kumar', quote: "The collaborative energy here is unmatched. I've grown more in six months with the club than in years on my own.", name: 'Aisha Kumar', role: 'Architectural Photographer' },
   ];
 
   return (

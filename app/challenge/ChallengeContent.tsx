@@ -8,13 +8,13 @@ import Link from 'next/link';
 
 // No longer using individual submissions for voting
 
-const pastWinners = [
-    { id: 1, image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80', photographer: 'Nina Patel', theme: 'Floral Photography', week: 'Week 5' },
-    { id: 2, image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80', photographer: 'Carlos Vega', theme: 'Abstract', week: 'Week 4' },
-    { id: 3, image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80', photographer: 'Tom Harris', theme: 'Buildings', week: 'Week 3' },
-    { id: 4, image: 'https://images.unsplash.com/photo-1574526787396-da66a83b83fc?auto=format&fit=crop&w=400&q=80', photographer: 'Lena Berg', theme: 'Low-Key', week: 'Week 2' },
-    { id: 5, image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80', photographer: 'Sarah J.', theme: 'Black and White', week: 'Week 1' },
-    { id: 6, image: 'https://images.unsplash.com/photo-1516234140488-fecd4f4ab234?auto=format&fit=crop&w=400&q=80', photographer: 'Mike T.', theme: 'Cloud', week: 'Week 0' },
+  const pastWinners = [
+    { id: 1, image: '/flower1.jpeg', photographer: 'Nina Patel', theme: 'Floral Photography', week: 'Week 5' },
+    { id: 2, image: '/abstract1.jpeg', photographer: 'Carlos Vega', theme: 'Abstract', week: 'Week 4' },
+    { id: 3, image: '/building_minimal.jpeg', photographer: 'Tom Harris', theme: 'Buildings', week: 'Week 3' },
+    { id: 4, image: '/low-key1.jpeg', photographer: 'Lena Berg', theme: 'Low-Key', week: 'Week 2' },
+    { id: 5, image: '/building_bnw.jpeg', photographer: 'Sarah J.', theme: 'Black and White', week: 'Week 1' },
+    { id: 6, image: '/cloud1.jpeg', photographer: 'Mike T.', theme: 'Cloud', week: 'Week 0' },
 ];
 
 function getNextSunday() {

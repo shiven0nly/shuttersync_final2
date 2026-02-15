@@ -20,7 +20,7 @@ const admins = [
         instagram: 'aquib_ss',
         bio: 'Passionate about building creative communities and connecting photographers across all skill levels.',
         avatar: 'A',
-        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+        photo: '/logo.jpeg',
     },
     {
         id: 2,
@@ -32,7 +32,7 @@ const admins = [
         instagram: 'rajnish_ss',
         bio: 'Ensuring smooth operations and strategic growth for the ShutterSync community behind the scenes.',
         avatar: 'R',
-        photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
+        photo: '/logo.jpeg',
     },
     {
         id: 3,
@@ -44,7 +44,7 @@ const admins = [
         instagram: 'maitri_ss',
         bio: 'Curating visual experiences and ensuring every photo challenge sparks creativity and growth.',
         avatar: 'M',
-        photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80',
+        photo: '/logo.jpeg',
     },
     {
         id: 4,
@@ -56,7 +56,7 @@ const admins = [
         instagram: 'sampada_ss',
         bio: 'Organizing photo walks, workshops, and events that bring the community together in real life.',
         avatar: 'S',
-        photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=300&q=80',
+        photo: '/logo.jpeg',
     },
     {
         id: 5,
@@ -68,7 +68,7 @@ const admins = [
         instagram: 'shiven_ss',
         bio: 'Blending technology and photography to create seamless digital experiences for the community.',
         avatar: 'S',
-        photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80',
+        photo: '/logo.jpeg',
     },
 ];
 
@@ -165,7 +165,7 @@ export default function ContactContent() {
                 <div
                     className="absolute inset-0"
                     style={{
-                        backgroundImage: 'url(https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=2000&q=80)',
+                        backgroundImage: 'url(/sunset.jpeg)',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         filter: 'blur(2px)',

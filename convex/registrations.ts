@@ -9,6 +9,7 @@ export const register = mutation({
     email: v.string(),
     phoneNumber: v.string(),
     workshopId: v.number(),
+    nextWorkshopInterest: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     // Check if already registered
@@ -28,6 +29,7 @@ export const register = mutation({
       email: args.email,
       phoneNumber: args.phoneNumber,
       workshopId: args.workshopId,
+      nextWorkshopInterest: args.nextWorkshopInterest,
       status: "active",
     });
 

@@ -4,15 +4,19 @@ import { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
-import { ShareIcon, ClockIcon, CalendarIcon, CheckCircleIcon, ExclamationCircleIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
+import { ShareIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { QRCodeSVG } from 'qrcode.react';
+import { WorkshopsIcon, ChallengesIcon } from '@/components/ui/LineArtIcons';
 
 export default function WorkshopRegisterPage() {
     const { user, isLoaded } = useUser();
+    const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
-        phone: ''
+        phone: '',
+        nextWorkshop: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -33,10 +37,16 @@ export default function WorkshopRegisterPage() {
             setFormData({
                 fullName: userRegistration.fullName,
                 email: userRegistration.email,
-                phone: userRegistration.phoneNumber
+                phone: userRegistration.phoneNumber,
+                nextWorkshop: userRegistration.nextWorkshopInterest || ''
             });
         }
     }, [userRegistration]);
+
+    const handleNextStep = (e: React.FormEvent) => {
+        e.preventDefault();
+        setStep(2);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,7 +63,8 @@ export default function WorkshopRegisterPage() {
                 fullName: formData.fullName,
                 email: formData.email,
                 phoneNumber: formData.phone,
-                workshopId: 2
+                workshopId: 2,
+                nextWorkshopInterest: formData.nextWorkshop || undefined
             });
             setShowSuccess(true);
         } catch (error: any) {
@@ -84,159 +95,436 @@ export default function WorkshopRegisterPage() {
     }
 
     return (
-        <div className="min-h-screen pt-32 pb-20 px-6 bg-[#fafafa]">
-            <div className="max-w-4xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-20">
-                    {/* Left Side: Info */}
-                    <div>
-                        <Link href="/events" className="text-xs uppercase tracking-[0.2em] text-foreground/40 hover:text-foreground transition-colors mb-8 inline-block">
-                            ← Back to Events
-                        </Link>
+        <div className="min-h-screen relative overflow-hidden bg-[#fafafa]">
+            {/* Minimal Line Art Doodles Background - More Visible */}
+            <div className="absolute inset-0 opacity-[0.08] text-foreground">
+                {/* Top Left - Camera */}
+                <svg className="absolute top-20 left-10 w-64 h-64" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="40" y="60" width="120" height="80" rx="8" />
+                    <circle cx="100" cy="100" r="25" />
+                    <circle cx="100" cy="100" r="15" />
+                    <rect x="130" y="70" width="15" height="10" rx="2" />
+                    <path d="M70 60 L80 45 L120 45 L130 60" />
+                    <circle cx="145" cy="75" r="3" fill="currentColor" />
+                </svg>
+                
+                {/* Top Center - Lens */}
+                <svg className="absolute top-10 left-1/3 w-48 h-48" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="100" cy="100" r="50" />
+                    <circle cx="100" cy="100" r="35" />
+                    <circle cx="100" cy="100" r="20" />
+                    <path d="M100 50 L100 65" />
+                    <path d="M100 135 L100 150" />
+                    <path d="M50 100 L65 100" />
+                    <path d="M135 100 L150 100" />
+                </svg>
 
-                        <div className="bg-white p-8 rounded-[2rem] border border-blue-100 shadow-sm mb-8">
-                            <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-6">
-                                <AcademicCapIcon className="w-6 h-6" />
+                {/* Top Right - Film Strip */}
+                <svg className="absolute top-40 right-20 w-56 h-56" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="50" y="40" width="100" height="120" rx="4" />
+                    <line x1="50" y1="60" x2="150" y2="60" />
+                    <line x1="50" y1="90" x2="150" y2="90" />
+                    <line x1="50" y1="120" x2="150" y2="120" />
+                    <rect x="55" y="45" width="8" height="8" />
+                    <rect x="137" y="45" width="8" height="8" />
+                    <rect x="55" y="152" width="8" height="8" />
+                    <rect x="137" y="152" width="8" height="8" />
+                </svg>
+
+                {/* Middle Left - Aperture */}
+                <svg className="absolute top-1/3 left-20 w-60 h-60" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="100" cy="100" r="50" />
+                    <path d="M100 50 L120 85 L100 100 L80 85 Z" />
+                    <path d="M150 100 L115 120 L100 100 L115 80 Z" />
+                    <path d="M100 150 L80 115 L100 100 L120 115 Z" />
+                    <path d="M50 100 L85 80 L100 100 L85 120 Z" />
+                    <circle cx="100" cy="100" r="15" />
+                </svg>
+
+                {/* Middle Center - Tripod */}
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 w-44 h-44" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <line x1="100" y1="50" x2="100" y2="120" />
+                    <line x1="100" y1="120" x2="60" y2="160" />
+                    <line x1="100" y1="120" x2="140" y2="160" />
+                    <line x1="100" y1="120" x2="100" y2="165" />
+                    <circle cx="100" cy="50" r="8" />
+                    <rect x="95" y="60" width="10" height="15" rx="2" />
+                </svg>
+
+                {/* Middle Right - Color Wheel */}
+                <svg className="absolute top-1/3 right-10 w-64 h-64" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="100" cy="100" r="50" />
+                    <circle cx="100" cy="100" r="20" />
+                    <line x1="100" y1="50" x2="100" y2="70" />
+                    <line x1="100" y1="130" x2="100" y2="150" />
+                    <line x1="50" y1="100" x2="70" y2="100" />
+                    <line x1="130" y1="100" x2="150" y2="100" />
+                    <line x1="64.6" y1="64.6" x2="78.8" y2="78.8" />
+                    <line x1="121.2" y1="121.2" x2="135.4" y2="135.4" />
+                    <line x1="135.4" y1="64.6" x2="121.2" y2="78.8" />
+                    <line x1="78.8" y1="121.2" x2="64.6" y2="135.4" />
+                </svg>
+
+                {/* Bottom Left - Light Bulb */}
+                <svg className="absolute bottom-32 left-16 w-48 h-48" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="100" cy="80" r="30" />
+                    <path d="M85 105 L85 125 L115 125 L115 105" />
+                    <line x1="90" y1="130" x2="110" y2="130" />
+                    <line x1="92" y1="135" x2="108" y2="135" />
+                    <line x1="100" y1="50" x2="100" y2="35" />
+                    <line x1="130" y1="65" x2="142" y2="53" />
+                    <line x1="70" y1="65" x2="58" y2="53" />
+                    <line x1="135" y1="95" x2="147" y2="95" />
+                    <line x1="65" y1="95" x2="53" y2="95" />
+                </svg>
+
+                {/* Bottom Center - Flash */}
+                <svg className="absolute bottom-20 left-1/3 w-40 h-40" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M100 40 L80 100 L110 100 L90 160 L130 90 L100 90 Z" />
+                    <circle cx="100" cy="40" r="5" />
+                </svg>
+
+                {/* Bottom Right - SD Card */}
+                <svg className="absolute bottom-40 right-24 w-52 h-52" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M70 50 L70 70 L60 80 L60 150 L140 150 L140 50 Z" />
+                    <line x1="80" y1="50" x2="80" y2="70" />
+                    <line x1="95" y1="50" x2="95" y2="70" />
+                    <line x1="110" y1="50" x2="110" y2="70" />
+                    <line x1="125" y1="50" x2="125" y2="70" />
+                    <rect x="75" y="90" width="50" height="40" rx="2" />
+                </svg>
+
+                {/* Top Far Right - Shutter */}
+                <svg className="absolute top-24 right-1/4 w-44 h-44" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="100" cy="100" r="45" />
+                    <path d="M100 55 L115 85 L100 100 Z" />
+                    <path d="M145 100 L115 115 L100 100 Z" />
+                    <path d="M100 145 L85 115 L100 100 Z" />
+                    <path d="M55 100 L85 85 L100 100 Z" />
+                    <path d="M115 85 L130 100 L115 115 Z" />
+                    <path d="M85 115 L70 100 L85 85 Z" />
+                </svg>
+
+                {/* Middle Far Left - Photo Frame */}
+                <svg className="absolute top-1/2 left-5 w-36 h-36" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="50" y="60" width="100" height="80" rx="4" />
+                    <rect x="60" y="70" width="80" height="60" rx="2" />
+                    <circle cx="80" cy="90" r="8" />
+                    <path d="M60 130 L85 110 L105 125 L140 95 L140 130 Z" />
+                </svg>
+
+                {/* Top Far Left - Star/Sparkle */}
+                <svg className="absolute top-16 left-1/4 w-32 h-32" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M100 60 L105 90 L115 95 L105 100 L100 130 L95 100 L85 95 L95 90 Z" />
+                    <path d="M140 80 L143 95 L148 98 L143 101 L140 116 L137 101 L132 98 L137 95 Z" />
+                    <path d="M60 110 L63 120 L68 123 L63 126 L60 136 L57 126 L52 123 L57 120 Z" />
+                </svg>
+
+                {/* Bottom Far Right - Histogram */}
+                <svg className="absolute bottom-16 right-10 w-48 h-48" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="50" y="50" width="100" height="100" />
+                    <line x1="60" y1="140" x2="60" y2="120" />
+                    <line x1="70" y1="140" x2="70" y2="100" />
+                    <line x1="80" y1="140" x2="80" y2="80" />
+                    <line x1="90" y1="140" x2="90" y2="90" />
+                    <line x1="100" y1="140" x2="100" y2="70" />
+                    <line x1="110" y1="140" x2="110" y2="85" />
+                    <line x1="120" y1="140" x2="120" y2="95" />
+                    <line x1="130" y1="140" x2="130" y2="110" />
+                    <line x1="140" y1="140" x2="140" y2="125" />
+                </svg>
+
+                {/* Middle Top - Viewfinder */}
+                <svg className="absolute top-28 left-1/2 w-40 h-40" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="60" y="60" width="80" height="80" rx="4" />
+                    <line x1="100" y1="60" x2="100" y2="140" />
+                    <line x1="60" y1="100" x2="140" y2="100" />
+                    <circle cx="100" cy="100" r="20" />
+                    <path d="M60 60 L70 70" />
+                    <path d="M140 60 L130 70" />
+                    <path d="M60 140 L70 130" />
+                    <path d="M140 140 L130 130" />
+                </svg>
+
+                {/* Bottom Middle Left - Slider/Adjustment */}
+                <svg className="absolute bottom-28 left-1/4 w-36 h-36" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <line x1="60" y1="80" x2="140" y2="80" />
+                    <circle cx="90" cy="80" r="8" fill="currentColor" />
+                    <line x1="60" y1="100" x2="140" y2="100" />
+                    <circle cx="110" cy="100" r="8" fill="currentColor" />
+                    <line x1="60" y1="120" x2="140" y2="120" />
+                    <circle cx="80" cy="120" r="8" fill="currentColor" />
+                </svg>
+
+                {/* Top Middle Right - Brush/Edit Tool */}
+                <svg className="absolute top-36 right-1/3 w-40 h-40" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M80 120 L120 80 L130 90 L90 130 Z" />
+                    <circle cx="125" cy="75" r="15" />
+                    <path d="M80 120 L70 150 L85 135 Z" />
+                    <line x1="135" y1="65" x2="145" y2="55" />
+                </svg>
+            </div>
+
+            <div className="relative z-10 pt-32 pb-20 px-6">
+                <div className="max-w-6xl mx-auto">
+                    <Link href="/events" className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors mb-12 text-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back to Events
+                    </Link>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        {/* Left Side: Info */}
+                        <div className="space-y-8">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-full">
+                                <svg className="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l14 9-14 9V3z" />
+                                </svg>
+                                <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">Limited Seats</span>
                             </div>
-                            <h1 className="text-3xl md:text-4xl font-serif italic text-foreground mb-4">
-                                Color Grading <br />Workshops
-                            </h1>
-                            <p className="text-foreground/50 text-sm leading-relaxed">
-                                Master the art of color storytelling. Learn how to use professional tools to create cinematic moods, consistent aesthetics, and breathtaking visuals that define your unique style.
-                            </p>
-                        </div>
 
-                        <div className="space-y-4 px-4">
-                            <div className="flex items-center gap-4 text-foreground/70">
-                                <CalendarIcon className="w-5 h-5 text-blue-500" />
-                                <span className="text-sm font-medium">Next Session: Coming Soon</span>
+                            <div>
+                                <h1 className="text-5xl md:text-6xl font-serif italic text-foreground mb-4 leading-tight">
+                                    Color Grading<br />Workshop
+                                </h1>
+                                <div className="w-20 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full mb-6" />
+                                <p className="text-lg text-foreground/70 leading-relaxed">
+                                    Master the art of color storytelling. Learn how to use professional tools to create cinematic moods, consistent aesthetics, and breathtaking visuals that define your unique style.
+                                </p>
                             </div>
-                            <div className="flex items-center gap-4 text-foreground/70">
-                                <ClockIcon className="w-5 h-5 text-blue-500" />
-                                <span className="text-sm">Schedule: Updated Soon</span>
-                            </div>
-                        </div>
 
-                        {isRegistered && (
-                            <button
-                                onClick={handleShare}
-                                className="mt-10 flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all text-sm font-medium"
-                            >
-                                <ShareIcon className="w-4 h-4" />
-                                Share with friends
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Right Side: Form Card */}
-                    <div className="relative group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-500 -z-0 opacity-50" />
-
-                        <div className="relative z-10 bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-                            {isCancelled ? (
-                                <div className="text-center py-10">
-                                    <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                        <ExclamationCircleIcon className="w-8 h-8" />
-                                    </div>
-                                    <h3 className="text-2xl font-serif text-foreground mb-2">Registration Cancelled</h3>
-                                    <p className="text-sm text-foreground/50 mb-6">Your registration has been cancelled by an administrator.</p>
-                                    <div className="bg-red-50 p-4 rounded-xl text-left border border-red-100">
-                                        <p className="text-[10px] uppercase tracking-wider text-red-600 mb-1">Status</p>
-                                        <p className="text-sm font-medium text-red-700">Cancelled</p>
-                                        {userRegistration?.cancelledBy && (
-                                            <p className="text-xs text-red-600 mt-2">By: {userRegistration.cancelledBy}</p>
-                                        )}
-                                    </div>
-                                </div>
-                            ) : isRegistered && !showSuccess ? (
-                                <div className="text-center py-10">
-                                    <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                        <CheckCircleIcon className="w-8 h-8" />
-                                    </div>
-                                    <h3 className="text-2xl font-serif text-foreground mb-2">You're Registered!</h3>
-                                    <p className="text-sm text-foreground/50 mb-6">We'll send the workshop details to {formData.email} soon.</p>
-                                    <div className="bg-[#fafafa] p-4 rounded-xl text-left border border-black/5">
-                                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-1">Details</p>
-                                        <p className="text-sm font-medium text-foreground">Workshop: Color Grading</p>
-                                        <p className="text-sm font-medium text-foreground">Status: Priority List</p>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-4 text-foreground/80">
+                                    <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round"/>
+                                            <line x1="8" y1="2" x2="8" y2="6" strokeWidth="2" strokeLinecap="round"/>
+                                            <line x1="3" y1="10" x2="21" y2="10" strokeWidth="2" strokeLinecap="round"/>
                                         </svg>
                                     </div>
-                                    <h2 className="text-2xl font-serif text-foreground mb-2">Join Color Grading</h2>
-                                    <p className="text-sm text-foreground/50 mb-8">Secure your priority registration.</p>
+                                    <div>
+                                        <p className="text-xs text-foreground/50 uppercase tracking-wider">Next Session</p>
+                                        <p className="text-sm font-medium">Coming Soon</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4 text-foreground/80">
+                                    <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="10" strokeWidth="2"/>
+                                            <polyline points="12 6 12 12 16 14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-foreground/50 uppercase tracking-wider">Duration</p>
+                                        <p className="text-sm font-medium">Updated Soon</p>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    {error && (
-                                        <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
-                                            {error}
-                                        </div>
-                                    )}
+                            {/* QR Code */}
+                            <div className="hidden lg:block">
+                                <div className="bg-white p-6 rounded-2xl border border-black/5 shadow-sm inline-block">
+                                    <p className="text-xs text-foreground/40 uppercase tracking-wider mb-3 text-center">Share Workshop</p>
+                                    <QRCodeSVG 
+                                        value="https://shuttersync-photography.netlify.app/workshops/register"
+                                        size={160}
+                                        level="H"
+                                        includeMargin={true}
+                                    />
+                                    <p className="text-xs text-foreground/60 mt-3 text-center">Scan to share</p>
+                                </div>
+                            </div>
 
-                                    <form onSubmit={handleSubmit} className="space-y-4">
-                                        <div>
-                                            <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Full Name</label>
-                                            <input
-                                                type="text"
-                                                value={formData.fullName}
-                                                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                                required
-                                                className="w-full px-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-blue-500/30 transition-colors"
-                                                placeholder="John Doe"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Email Address</label>
-                                            <input
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                required
-                                                className="w-full px-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-blue-500/30 transition-colors"
-                                                placeholder="john@example.com"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Phone Number</label>
-                                            <input
-                                                type="tel"
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                required
-                                                className="w-full px-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-blue-500/30 transition-colors"
-                                                placeholder="+1-234-567-890"
-                                            />
-                                        </div>
-                                        <button
-                                            type="submit"
-                                            disabled={isSubmitting}
-                                            className="w-full py-4 bg-foreground text-background rounded-xl text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 transition-all disabled:opacity-50 mt-4"
-                                        >
-                                            {isSubmitting ? 'Registering...' : 'Complete Registration'}
-                                        </button>
-                                    </form>
-                                </>
+                            {isRegistered && (
+                                <button
+                                    onClick={handleShare}
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
+                                >
+                                    <ShareIcon className="w-4 h-4" />
+                                    Share with friends
+                                </button>
                             )}
+                        </div>
+
+                        {/* Right Side: Form Card */}
+                        <div className="relative">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-[2.5rem] blur-xl opacity-10" />
+                            
+                            <div className="relative bg-white p-10 rounded-[2.5rem] shadow-xl border border-black/5">
+                                {isCancelled ? (
+                                    <div className="text-center py-10">
+                                        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-2xl font-serif text-foreground mb-2">Registration Cancelled</h3>
+                                        <p className="text-sm text-foreground/50 mb-6">Your registration has been cancelled by an administrator.</p>
+                                        <div className="bg-red-50 p-4 rounded-xl text-left border border-red-100">
+                                            <p className="text-[10px] uppercase tracking-wider text-red-600 mb-1">Status</p>
+                                            <p className="text-sm font-medium text-red-700">Cancelled</p>
+                                            {userRegistration?.cancelledBy && (
+                                                <p className="text-xs text-red-600 mt-2">By: {userRegistration.cancelledBy}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ) : isRegistered && !showSuccess ? (
+                                    <div className="text-center py-10">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-2xl font-serif text-foreground mb-2">You're Registered!</h3>
+                                        <p className="text-sm text-foreground/50 mb-6">We'll send the workshop details to {formData.email} soon.</p>
+                                        <div className="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-2xl text-left border border-orange-100">
+                                            <p className="text-[10px] uppercase tracking-wider text-orange-600 mb-2">Workshop Details</p>
+                                            <p className="text-sm font-medium text-foreground">Color Grading Masterclass</p>
+                                            <p className="text-sm text-foreground/60 mt-1">Status: Priority List</p>
+                                            {formData.nextWorkshop && (
+                                                <p className="text-xs text-orange-600 mt-3">Next interest: {formData.nextWorkshop}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="flex items-center justify-center gap-2 mb-8">
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 1 ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                                1
+                                            </div>
+                                            <div className="w-12 h-0.5 bg-gray-200" />
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 2 ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                                2
+                                            </div>
+                                        </div>
+
+                                        <div className="text-center mb-8">
+                                            <div className="w-12 h-12 bg-white border-2 border-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                                <WorkshopsIcon size={28} className="text-orange-500" />
+                                            </div>
+                                            <h2 className="text-2xl font-serif text-foreground mb-1">
+                                                {step === 1 ? 'Join Color Grading' : "What's Next?"}
+                                            </h2>
+                                            <p className="text-sm text-foreground/50">
+                                                {step === 1 ? 'Step 1 of 2 — Registration' : 'Step 2 of 2 — Your Interests'}
+                                            </p>
+                                        </div>
+
+                                        {error && (
+                                            <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+                                                {error}
+                                            </div>
+                                        )}
+
+                                        {step === 1 ? (
+                                            <form onSubmit={handleNextStep} className="space-y-4">
+                                                <div>
+                                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2 ml-1">Full Name</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.fullName}
+                                                        onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                                                        required
+                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                                                        placeholder="John Doe"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2 ml-1">Email Address</label>
+                                                    <input
+                                                        type="email"
+                                                        value={formData.email}
+                                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                        required
+                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                                                        placeholder="john@example.com"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2 ml-1">Phone Number</label>
+                                                    <input
+                                                        type="tel"
+                                                        value={formData.phone}
+                                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                        required
+                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                                                        placeholder="+1-234-567-890"
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="submit"
+                                                    className="w-full py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:shadow-lg hover:scale-[1.02] transition-all mt-4 flex items-center justify-center gap-2"
+                                                >
+                                                    Next Step
+                                                    <ArrowRightIcon className="w-4 h-4" />
+                                                </button>
+                                            </form>
+                                        ) : (
+                                            <form onSubmit={handleSubmit} className="space-y-4">
+                                                <div>
+                                                    <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2 ml-1">What workshop would you like next?</label>
+                                                    <select
+                                                        value={formData.nextWorkshop}
+                                                        onChange={(e) => setFormData({ ...formData, nextWorkshop: e.target.value })}
+                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
+                                                    >
+                                                        <option value="">Select a workshop (Optional)</option>
+                                                        <option value="Portrait Photography">Portrait Photography</option>
+                                                        <option value="Lighting Techniques">Lighting Techniques</option>
+                                                        <option value="Post-Production">Post-Production Workflows</option>
+                                                        <option value="Street Photography">Street Photography</option>
+                                                        <option value="Product Photography">Product Photography</option>
+                                                        <option value="Video Editing">Video Editing</option>
+                                                    </select>
+                                                </div>
+                                                <div className="flex gap-3">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setStep(1)}
+                                                        className="flex-1 py-4 bg-gray-100 text-foreground rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:bg-gray-200 transition-all"
+                                                    >
+                                                        Back
+                                                    </button>
+                                                    <button
+                                                        type="submit"
+                                                        disabled={isSubmitting}
+                                                        className="flex-1 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                                    >
+                                                        {isSubmitting ? 'Registering...' : 'Complete Registration'}
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom Section: Coming Soon */}
-                <div className="border-t border-foreground/5 pt-16">
-                    <div className="bg-slate-900 rounded-[2.5rem] p-12 text-center relative overflow-hidden group">
-                        <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl group-hover:bg-blue-500/20 transition-all duration-700" />
-                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl group-hover:bg-purple-500/20 transition-all duration-700" />
-
+                {/* Bottom Section with Line Art */}
+                <div className="max-w-6xl mx-auto mt-20">
+                    <div className="relative overflow-hidden rounded-[2.5rem] p-12 text-center bg-white border border-black/5 shadow-sm">
+                        {/* Decorative Line Art Icons */}
+                        <div className="absolute top-8 left-8 opacity-10">
+                            <WorkshopsIcon size={80} className="text-orange-500" />
+                        </div>
+                        <div className="absolute bottom-8 right-8 opacity-10">
+                            <ChallengesIcon size={80} className="text-orange-500" />
+                        </div>
+                        
                         <div className="relative z-10">
-                            <span className="inline-block py-1 px-3 bg-white/10 text-white/60 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">Roadmap</span>
-                            <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 italic">More Workshops are Coming Soon</h2>
-                            <p className="text-white/40 max-w-lg mx-auto mb-10 leading-relaxed">
+                            <span className="inline-block py-1 px-3 bg-orange-50 text-orange-600 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">Roadmap</span>
+                            <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-4 italic">More Workshops Coming Soon</h2>
+                            <p className="text-foreground/40 max-w-lg mx-auto mb-10 leading-relaxed">
                                 We're curating a series of specialized masterclasses covering Lighting, Portrait Photography, and Post-Production workflows.
                             </p>
-                            <Link href="/events" className="inline-flex items-center gap-2 text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:gap-4 transition-all">
+                            <Link href="/events" className="inline-flex items-center gap-2 text-orange-600 text-[10px] uppercase tracking-[0.2em] font-bold hover:gap-4 transition-all">
                                 Explore the Roadmap →
                             </Link>
                         </div>
@@ -244,19 +532,21 @@ export default function WorkshopRegisterPage() {
                 </div>
             </div>
 
-            {/* Login Error Popup */}
+            {/* Login Popup */}
             {showLoginPopup && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm animate-in fade-in duration-300">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
                     <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5 animate-in zoom-in-95 duration-300">
-                        <div className="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6">
-                            <ExclamationCircleIcon className="w-6 h-6" />
+                        <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
                         </div>
                         <h3 className="text-xl font-serif text-foreground mb-2">Sign in Required</h3>
                         <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please sign in to your ShutterSync account to register for workshops.</p>
                         <div className="flex flex-col gap-3">
                             <Link
                                 href="/sign-in"
-                                className="w-full py-3 bg-foreground text-center text-background rounded-xl text-sm font-semibold uppercase tracking-wider"
+                                className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
                             >
                                 Sign In
                             </Link>
@@ -273,16 +563,18 @@ export default function WorkshopRegisterPage() {
 
             {/* Success Dialog */}
             {showSuccess && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/20 backdrop-blur-sm animate-in fade-in duration-300">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
                     <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5 animate-in zoom-in-95 duration-300">
-                        <div className="w-12 h-12 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center mb-6">
-                            <CheckCircleIcon className="w-6 h-6" />
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-2xl flex items-center justify-center mb-6">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
                         <h3 className="text-xl font-serif text-foreground mb-2">Registration Completed</h3>
                         <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Your spot has been secured! Check your email for further instructions and the workshop schedule.</p>
                         <button
                             onClick={() => setShowSuccess(false)}
-                            className="w-full py-3 bg-foreground text-background rounded-xl text-sm font-semibold uppercase tracking-wider"
+                            className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
                         >
                             Awesome
                         </button>
