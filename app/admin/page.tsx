@@ -1,34 +1,70 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
+import { useState } from 'react';
+import { useUser, SignInButton, SignOutButton, UserButton } from '@clerk/nextjs';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
-import { EnvelopeIcon as MailIcon, PhoneIcon, ArrowRightOnRectangleIcon as LogOutIcon, Squares2X2Icon as LayoutDashboardIcon, DocumentTextIcon as ScrollTextIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon as MailIcon, PhoneIcon, ArrowDownTrayIcon, Squares2X2Icon as LayoutDashboardIcon, DocumentTextIcon as ScrollTextIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { exportToExcel } from '@/lib/exportToExcel';
 
 const ADMIN_EMAIL = 'admin@shuttersync.com';
 
+type RegistrationType = 'workshop' | 'photowalk' | 'course' | 'competition';
+
 export default function AdminPage() {
     const { user, isLoaded } = useUser();
-    const registrations = useQuery(api.registrations.getAllRegistrations);
-    const cancelRegistration = useMutation(api.registrations.cancelRegistration);
-    const reactivateRegistration = useMutation(api.registrations.reactivateRegistration);
-    
-    const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState<RegistrationType>('workshop');
     const [actionLoading, setActionLoading] = useState<string | null>(null);
+    const [exporting, setExporting] = useState(false);
+
+    // Queries for all registration types
+    const workshopRegistrations = useQuery(api.registrations.getAllRegistrations);
+    const photowalkRegistrations = useQuery(api.photowalks.getAllRegistrations);
+    const courseRegistrations = useQuery(api.courses.getAllRegistrations);
+    const competitionRegistrations = useQuery(api.competitions.getAllRegistrations);
+
+    // Mutations
+    const cancelWorkshop = useMutation(api.registrations.cancelRegistration);
+    const reactivateWorkshop = useMutation(api.registrations.reactivateRegistration);
+    const cancelPhotowalk = useMutation(api.photowalks.cancelRegistration);
+    const reactivatePhotowalk = useMutation(api.photowalks.reactivateRegistration);
+    const cancelCourse = useMutation(api.courses.cancelRegistration);
+    const reactivateCourse = useMutation(api.courses.reactivateRegistration);
+    const cancelCompetition = useMutation(api.competitions.cancelRegistration);
+    const reactivateCompetition = useMutation(api.competitions.reactivateRegistration);
 
     const isAdmin = user?.primaryEmailAddress?.emailAddress === ADMIN_EMAIL;
 
-    const handleCancelRegistration = async (registrationId: Id<"workshop_registrations">) => {
+    const getCurrentData = () => {
+        switch (activeTab) {
+            case 'workshop': return workshopRegistrations || [];
+            case 'photowalk': return photowalkRegistrations || [];
+            case 'course': return courseRegistrations || [];
+            case 'competition': return competitionRegistrations || [];
+        }
+    };
+
+    const handleCancel = async (registrationId: any) => {
         if (!confirm('Are you sure you want to cancel this registration?')) return;
         
         setActionLoading(registrationId);
         try {
-            await cancelRegistration({
-                registrationId,
-                adminEmail: user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL
-            });
+            const adminEmail = user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL;
+            switch (activeTab) {
+                case 'workshop':
+                    await cancelWorkshop({ registrationId, adminEmail });
+                    break;
+                case 'photowalk':
+                    await cancelPhotowalk({ registrationId, adminEmail });
+                    break;
+                case 'course':
+                    await cancelCourse({ registrationId, adminEmail });
+                    break;
+                case 'competition':
+                    await cancelCompetition({ registrationId, adminEmail });
+                    break;
+            }
         } catch (error) {
             alert('Failed to cancel registration');
         } finally {
@@ -36,16 +72,48 @@ export default function AdminPage() {
         }
     };
 
-    const handleReactivateRegistration = async (registrationId: Id<"workshop_registrations">) => {
+    const handleReactivate = async (registrationId: any) => {
         if (!confirm('Are you sure you want to reactivate this registration?')) return;
         
         setActionLoading(registrationId);
         try {
-            await reactivateRegistration({ registrationId });
+            switch (activeTab) {
+                case 'workshop':
+                    await reactivateWorkshop({ registrationId });
+                    break;
+                case 'photowalk':
+                    await reactivatePhotowalk({ registrationId });
+                    break;
+                case 'course':
+                    await reactivateCourse({ registrationId });
+                    break;
+                case 'competition':
+                    await reactivateCompetition({ registrationId });
+                    break;
+            }
         } catch (error) {
             alert('Failed to reactivate registration');
         } finally {
             setActionLoading(null);
+        }
+    };
+
+    const handleExport = async () => {
+        setExporting(true);
+        try {
+            const data = getCurrentData();
+            const tabNames = {
+                workshop: 'Workshop Registrations',
+                photowalk: 'Photowalk Registrations',
+                course: 'Course Registrations',
+                competition: 'Competition Registrations',
+            };
+            const filename = `${activeTab}_registrations_${new Date().toISOString().split('T')[0]}.xlsx`;
+            await exportToExcel(data, filename, tabNames[activeTab]);
+        } catch (error) {
+            alert('Failed to export data');
+        } finally {
+            setExporting(false);
         }
     };
 
@@ -66,7 +134,6 @@ export default function AdminPage() {
                     </div>
                     <h1 className="text-3xl font-serif text-center text-foreground mb-2">Admin Dashboard</h1>
                     <p className="text-center text-foreground/40 text-sm mb-10">Restricted access area.</p>
-
                     <SignInButton mode="modal">
                         <button className="w-full py-4 bg-foreground text-background rounded-2xl text-sm font-semibold uppercase tracking-widest hover:opacity-90 transition-all">
                             Sign In as Admin
@@ -92,12 +159,20 @@ export default function AdminPage() {
         );
     }
 
-    const activeRegistrations = registrations?.filter(r => r.status === 'active') || [];
-    const cancelledRegistrations = registrations?.filter(r => r.status === 'cancelled') || [];
+    const currentData = getCurrentData();
+    const activeRegistrations = currentData.filter(r => r.status === 'active');
+    const cancelledRegistrations = currentData.filter(r => r.status === 'cancelled');
+
+    const tabs = [
+        { id: 'workshop' as RegistrationType, label: 'Workshops', icon: '🎨' },
+        { id: 'photowalk' as RegistrationType, label: 'Photowalks', icon: '📸' },
+        { id: 'course' as RegistrationType, label: 'Courses', icon: '📚' },
+        { id: 'competition' as RegistrationType, label: 'Competitions', icon: '🏆' },
+    ];
 
     return (
         <div className="min-h-screen bg-[#fafafa] pt-32 pb-20 px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
@@ -107,18 +182,43 @@ export default function AdminPage() {
                             </span>
                             <span className="text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Admin Portal</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-serif italic text-foreground">Workshop <br />Registrations</h1>
+                        <h1 className="text-4xl md:text-5xl font-serif italic text-foreground">Registration <br />Management</h1>
                     </div>
                     <div className="flex items-center gap-4">
-                        <UserButton afterSignOutUrl="/" />
+                        <SignOutButton redirectUrl="/">
+                            <button className="px-6 py-3 bg-red-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-red-600 transition-all flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                Logout Admin
+                            </button>
+                        </SignOutButton>
                     </div>
                 </div>
 
+                {/* Tabs */}
+                <div className="flex flex-wrap gap-3 mb-8">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`px-6 py-3 rounded-2xl text-sm font-semibold uppercase tracking-wider transition-all ${
+                                activeTab === tab.id
+                                    ? 'bg-foreground text-background shadow-lg'
+                                    : 'bg-white text-foreground/60 hover:text-foreground border border-black/5'
+                            }`}
+                        >
+                            <span className="mr-2">{tab.icon}</span>
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+
                 {/* Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                     <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Total Registrations</p>
-                        <p className="text-4xl font-serif">{registrations?.length || 0}</p>
+                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Total</p>
+                        <p className="text-4xl font-serif">{currentData.length}</p>
                     </div>
                     <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
                         <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Active</p>
@@ -128,9 +228,21 @@ export default function AdminPage() {
                         <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Cancelled</p>
                         <p className="text-4xl font-serif text-red-600">{cancelledRegistrations.length}</p>
                     </div>
+                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
+                        <button
+                            onClick={handleExport}
+                            disabled={exporting || currentData.length === 0}
+                            className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
+                        >
+                            <ArrowDownTrayIcon className="w-8 h-8" />
+                            <span className="text-xs font-semibold uppercase tracking-wider">
+                                {exporting ? 'Exporting...' : 'Export Excel'}
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Active Registrations Table */}
+                {/* Active Registrations */}
                 <div className="mb-8">
                     <h2 className="text-2xl font-serif text-foreground mb-4">Active Registrations</h2>
                     <div className="bg-white rounded-[2.5rem] border border-black/5 shadow-sm overflow-hidden">
@@ -145,7 +257,7 @@ export default function AdminPage() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-black/[0.03]">
-                                    {!registrations ? (
+                                    {!currentData ? (
                                         <tr>
                                             <td colSpan={4} className="px-8 py-20 text-center">
                                                 <div className="w-6 h-6 border-2 border-foreground border-t-transparent rounded-full animate-spin mx-auto" />
@@ -159,7 +271,7 @@ export default function AdminPage() {
                                         </tr>
                                     ) : (
                                         activeRegistrations.map((reg) => (
-                                            <tr key={reg._id} className="hover:bg-[#fafafa] transition-colors group">
+                                            <tr key={reg._id} className="hover:bg-[#fafafa] transition-colors">
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-8 h-8 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-[10px] font-bold">
@@ -182,7 +294,7 @@ export default function AdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <button
-                                                        onClick={() => handleCancelRegistration(reg._id)}
+                                                        onClick={() => handleCancel(reg._id)}
                                                         disabled={actionLoading === reg._id}
                                                         className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
                                                     >
@@ -198,7 +310,7 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {/* Cancelled Registrations Table */}
+                {/* Cancelled Registrations */}
                 {cancelledRegistrations.length > 0 && (
                     <div>
                         <h2 className="text-2xl font-serif text-foreground mb-4">Cancelled Registrations</h2>
@@ -232,7 +344,7 @@ export default function AdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <button
-                                                        onClick={() => handleReactivateRegistration(reg._id)}
+                                                        onClick={() => handleReactivate(reg._id)}
                                                         disabled={actionLoading === reg._id}
                                                         className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
                                                     >

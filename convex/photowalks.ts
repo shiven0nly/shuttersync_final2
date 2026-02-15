@@ -1,0 +1,84 @@
+import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
+
+export const register = mutation({
+  args: {
+    userId: v.string(),
+    fullName: v.string(),
+    email: v.string(),
+    phoneNumber: v.string(),
+    photowalkId: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("photowalk_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .filter((q) => q.eq(q.field("photowalkId"), args.photowalkId))
+      .first();
+
+    if (existing) {
+      throw new Error("Already registered for this photowalk");
+    }
+
+    return await ctx.db.insert("photowalk_registrations", {
+      userId: args.userId,
+      fullName: args.fullName,
+      email: args.email,
+      phoneNumber: args.phoneNumber,
+      photowalkId: args.photowalkId,
+      status: "active",
+    });
+  },
+});
+
+export const getUserRegistration = query({
+  args: {
+    userId: v.string(),
+    photowalkId: v.number(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("photowalk_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .filter((q) => q.eq(q.field("photowalkId"), args.photowalkId))
+      .first();
+  },
+});
+
+export const getAllRegistrations = query({
+  handler: async (ctx) => {
+    return await ctx.db
+      .query("photowalk_registrations")
+      .order("desc")
+      .collect();
+  },
+});
+
+export const cancelRegistration = mutation({
+  args: {
+    registrationId: v.id("photowalk_registrations"),
+    adminEmail: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.registrationId, {
+      status: "cancelled",
+      cancelledBy: args.adminEmail,
+      cancelledAt: Date.now(),
+    });
+    return { success: true };
+  },
+});
+
+export const reactivateRegistration = mutation({
+  args: {
+    registrationId: v.id("photowalk_registrations"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.registrationId, {
+      status: "active",
+      cancelledBy: undefined,
+      cancelledAt: undefined,
+    });
+    return { success: true };
+  },
+});

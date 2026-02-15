@@ -8,6 +8,9 @@
  * @module
  */
 
+import type * as competitions from "../competitions.js";
+import type * as courses from "../courses.js";
+import type * as photowalks from "../photowalks.js";
 import type * as registrations from "../registrations.js";
 
 import type {
@@ -17,6 +20,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  competitions: typeof competitions;
+  courses: typeof courses;
+  photowalks: typeof photowalks;
   registrations: typeof registrations;
 }>;
 

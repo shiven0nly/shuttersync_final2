@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   keywords:
     "photography, community, gallery, challenges, photo walks, workshops, ShutterSync",
   openGraph: {
-    title: "ShutterSync — Photography Community",
+    title: "ShutterSync - Photography Community",
     description:
       "A hub for photographers to share their clicks, discuss editing techniques, and participate in weekly challenges.",
     type: "website",
