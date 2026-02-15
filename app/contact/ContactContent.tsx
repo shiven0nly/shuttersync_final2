@@ -410,12 +410,11 @@ function AdminCard({ admin }: AdminCardProps) {
         <div className="admin-card soft-card p-8 text-center group hover:translate-y-[-4px] hover:shadow-2xl transition-all duration-300">
             {/* Portrait */}
             <div className="relative mx-auto mb-5 w-24 h-24">
-                <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200">
-                    <img
-                        src={admin.photo}
-                        alt={admin.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                <div 
+                    className="w-24 h-24 rounded-full shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200 flex items-center justify-center text-4xl font-semibold text-white group-hover:scale-105"
+                    style={{ background: '#C4783E' }}
+                >
+                    {admin.avatar}
                 </div>
             </div>
 

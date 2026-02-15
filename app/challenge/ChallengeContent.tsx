@@ -65,7 +65,7 @@ export default function ChallengeContent() {
                         Challenge of the Week
                     </span>
                     <h1 className="text-5xl md:text-7xl font-serif italic text-foreground mb-4">
-                        &ldquo;Golden Hour&rdquo;
+                        &ldquo;Floral Photography&rdquo;
                     </h1>
                     <p className="text-lg text-foreground/50 max-w-2xl mx-auto mb-8">
                         Capture the magic of golden hour — that warm, ethereal light just before sunset or after sunrise. Show us how you harness its beauty.
