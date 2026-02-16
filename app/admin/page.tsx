@@ -6,7 +6,7 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { Id } from 'convex/_generated/dataModel';
 import { EnvelopeIcon as MailIcon, PhoneIcon, ArrowDownTrayIcon, Squares2X2Icon as LayoutDashboardIcon, DocumentTextIcon as ScrollTextIcon, XCircleIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { exportToExcel } from '@/lib/exportToExcel';
+import { exportToExcel, exportJoinMembersToExcel } from '@/lib/exportToExcel';
 
 const ADMIN_EMAIL = 'admin@shuttersync.com';
 
@@ -139,9 +139,15 @@ export default function AdminPage() {
                 photowalk: 'Photowalk Registrations',
                 course: 'Course Registrations',
                 competition: 'Competition Registrations',
+                joinMembers: 'Join Members Applications',
             };
-            const filename = `${activeTab}_registrations_${new Date().toISOString().split('T')[0]}.xlsx`;
-            await exportToExcel(data, filename, tabNames[activeTab]);
+            const filename = `${activeTab}_${activeTab === 'joinMembers' ? 'applications' : 'registrations'}_${new Date().toISOString().split('T')[0]}.xlsx`;
+            
+            if (activeTab === 'joinMembers') {
+                await exportJoinMembersToExcel(data as any, filename, tabNames[activeTab]);
+            } else {
+                await exportToExcel(data as any, filename, tabNames[activeTab]);
+            }
         } catch (error) {
             alert('Failed to export data');
         } finally {
@@ -277,20 +283,19 @@ export default function AdminPage() {
                             <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Approved</p>
                             <p className="text-4xl font-serif text-blue-600">{approvedApplications.length}</p>
                         </div>
-                    ) : (
-                        <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
-                            <button
-                                onClick={handleExport}
-                                disabled={exporting || currentData.length === 0}
-                                className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
-                            >
-                                <ArrowDownTrayIcon className="w-8 h-8" />
-                                <span className="text-xs font-semibold uppercase tracking-wider">
-                                    {exporting ? 'Exporting...' : 'Export Excel'}
-                                </span>
-                            </button>
-                        </div>
-                    )}
+                    ) : null}
+                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
+                        <button
+                            onClick={handleExport}
+                            disabled={exporting || currentData.length === 0}
+                            className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
+                        >
+                            <ArrowDownTrayIcon className="w-8 h-8" />
+                            <span className="text-xs font-semibold uppercase tracking-wider">
+                                {exporting ? 'Exporting...' : 'Export Excel'}
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Active Registrations / Pending Applications */}
