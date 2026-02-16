@@ -43,11 +43,6 @@ export default function WorkshopRegisterPage() {
         }
     }, [userRegistration]);
 
-    const handleNextStep = (e: React.FormEvent) => {
-        e.preventDefault();
-        setStep(2);
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) {
@@ -72,6 +67,15 @@ export default function WorkshopRegisterPage() {
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const handleNextStep = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!user) {
+            setShowLoginPopup(true);
+            return;
+        }
+        setStep(2);
     };
 
     const handleShare = () => {
@@ -465,19 +469,13 @@ export default function WorkshopRegisterPage() {
                                             <form onSubmit={handleSubmit} className="space-y-4">
                                                 <div>
                                                     <label className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2 ml-1">What workshop would you like next?</label>
-                                                    <select
+                                                    <textarea
                                                         value={formData.nextWorkshop}
                                                         onChange={(e) => setFormData({ ...formData, nextWorkshop: e.target.value })}
-                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all"
-                                                    >
-                                                        <option value="">Select a workshop (Optional)</option>
-                                                        <option value="Portrait Photography">Portrait Photography</option>
-                                                        <option value="Lighting Techniques">Lighting Techniques</option>
-                                                        <option value="Post-Production">Post-Production Workflows</option>
-                                                        <option value="Street Photography">Street Photography</option>
-                                                        <option value="Product Photography">Product Photography</option>
-                                                        <option value="Video Editing">Video Editing</option>
-                                                    </select>
+                                                        rows={4}
+                                                        className="w-full px-5 py-4 rounded-2xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all resize-none"
+                                                        placeholder="Tell us what workshop topics interest you... (Optional)"
+                                                    />
                                                 </div>
                                                 <div className="flex gap-3">
                                                     <button
@@ -541,8 +539,8 @@ export default function WorkshopRegisterPage() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-serif text-foreground mb-2">Sign in Required</h3>
-                        <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please sign in to your ShutterSync account to register for workshops.</p>
+                        <h3 className="text-xl font-serif text-foreground mb-2">Login First</h3>
+                        <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please login first, then register for the workshop.</p>
                         <div className="flex flex-col gap-3">
                             <Link
                                 href="/sign-in"

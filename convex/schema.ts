@@ -62,4 +62,20 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_status", ["status"])
     .index("by_competition", ["competitionId"]),
+
+  join_members: defineTable({
+    name: v.string(),
+    email: v.string(),
+    portfolio: v.optional(v.string()),
+    experience: v.string(), // "beginner", "intermediate", "advanced", "professional"
+    message: v.optional(v.string()),
+    photoUrl: v.optional(v.string()),
+    status: v.string(), // "pending", "approved", "rejected"
+    reviewedBy: v.optional(v.string()), // admin email who reviewed
+    reviewedAt: v.optional(v.number()), // timestamp
+    submittedAt: v.number(), // timestamp
+  })
+    .index("by_email", ["email"])
+    .index("by_status", ["status"])
+    .index("by_submitted_at", ["submittedAt"]),
 });

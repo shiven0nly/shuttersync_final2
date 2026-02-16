@@ -10,7 +10,7 @@ import { exportToExcel } from '@/lib/exportToExcel';
 
 const ADMIN_EMAIL = 'admin@shuttersync.com';
 
-type RegistrationType = 'workshop' | 'photowalk' | 'course' | 'competition';
+type RegistrationType = 'workshop' | 'photowalk' | 'course' | 'competition' | 'joinMembers';
 
 export default function AdminPage() {
     const { user, isLoaded } = useUser();
@@ -23,6 +23,7 @@ export default function AdminPage() {
     const photowalkRegistrations = useQuery(api.photowalks.getAllRegistrations);
     const courseRegistrations = useQuery(api.courses.getAllRegistrations);
     const competitionRegistrations = useQuery(api.competitions.getAllRegistrations);
+    const joinMembersApplications = useQuery(api.joinMembers.getAllApplications);
 
     // Mutations
     const cancelWorkshop = useMutation(api.registrations.cancelRegistration);
@@ -33,6 +34,8 @@ export default function AdminPage() {
     const reactivateCourse = useMutation(api.courses.reactivateRegistration);
     const cancelCompetition = useMutation(api.competitions.cancelRegistration);
     const reactivateCompetition = useMutation(api.competitions.reactivateRegistration);
+    const approveApplication = useMutation(api.joinMembers.approveApplication);
+    const rejectApplication = useMutation(api.joinMembers.rejectApplication);
 
     const isAdmin = user?.primaryEmailAddress?.emailAddress === ADMIN_EMAIL;
 
@@ -42,6 +45,7 @@ export default function AdminPage() {
             case 'photowalk': return photowalkRegistrations || [];
             case 'course': return courseRegistrations || [];
             case 'competition': return competitionRegistrations || [];
+            case 'joinMembers': return joinMembersApplications || [];
         }
     };
 
@@ -93,6 +97,34 @@ export default function AdminPage() {
             }
         } catch (error) {
             alert('Failed to reactivate registration');
+        } finally {
+            setActionLoading(null);
+        }
+    };
+
+    const handleApprove = async (applicationId: any) => {
+        if (!confirm('Are you sure you want to approve this application?')) return;
+        
+        setActionLoading(applicationId);
+        try {
+            const adminEmail = user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL;
+            await approveApplication({ applicationId, adminEmail });
+        } catch (error) {
+            alert('Failed to approve application');
+        } finally {
+            setActionLoading(null);
+        }
+    };
+
+    const handleReject = async (applicationId: any) => {
+        if (!confirm('Are you sure you want to reject this application?')) return;
+        
+        setActionLoading(applicationId);
+        try {
+            const adminEmail = user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL;
+            await rejectApplication({ applicationId, adminEmail });
+        } catch (error) {
+            alert('Failed to reject application');
         } finally {
             setActionLoading(null);
         }
@@ -160,14 +192,22 @@ export default function AdminPage() {
     }
 
     const currentData = getCurrentData();
-    const activeRegistrations = currentData.filter(r => r.status === 'active');
-    const cancelledRegistrations = currentData.filter(r => r.status === 'cancelled');
+    const activeRegistrations = activeTab === 'joinMembers' 
+        ? currentData.filter((r: any) => r.status === 'pending')
+        : currentData.filter((r: any) => r.status === 'active');
+    const cancelledRegistrations = activeTab === 'joinMembers'
+        ? currentData.filter((r: any) => r.status === 'rejected')
+        : currentData.filter((r: any) => r.status === 'cancelled');
+    const approvedApplications = activeTab === 'joinMembers'
+        ? currentData.filter((r: any) => r.status === 'approved')
+        : [];
 
     const tabs = [
         { id: 'workshop' as RegistrationType, label: 'Workshops', icon: '🎨' },
         { id: 'photowalk' as RegistrationType, label: 'Photowalks', icon: '📸' },
         { id: 'course' as RegistrationType, label: 'Courses', icon: '📚' },
         { id: 'competition' as RegistrationType, label: 'Competitions', icon: '🏆' },
+        { id: 'joinMembers' as RegistrationType, label: 'Join Members', icon: '👥' },
     ];
 
     return (
@@ -221,30 +261,43 @@ export default function AdminPage() {
                         <p className="text-4xl font-serif">{currentData.length}</p>
                     </div>
                     <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Active</p>
+                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">
+                            {activeTab === 'joinMembers' ? 'Pending' : 'Active'}
+                        </p>
                         <p className="text-4xl font-serif text-green-600">{activeRegistrations.length}</p>
                     </div>
                     <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
-                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Cancelled</p>
+                        <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">
+                            {activeTab === 'joinMembers' ? 'Rejected' : 'Cancelled'}
+                        </p>
                         <p className="text-4xl font-serif text-red-600">{cancelledRegistrations.length}</p>
                     </div>
-                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
-                        <button
-                            onClick={handleExport}
-                            disabled={exporting || currentData.length === 0}
-                            className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
-                        >
-                            <ArrowDownTrayIcon className="w-8 h-8" />
-                            <span className="text-xs font-semibold uppercase tracking-wider">
-                                {exporting ? 'Exporting...' : 'Export Excel'}
-                            </span>
-                        </button>
-                    </div>
+                    {activeTab === 'joinMembers' ? (
+                        <div className="bg-white p-8 rounded-3xl border border-black/5 shadow-sm">
+                            <p className="text-[10px] uppercase tracking-wider text-foreground/40 mb-2">Approved</p>
+                            <p className="text-4xl font-serif text-blue-600">{approvedApplications.length}</p>
+                        </div>
+                    ) : (
+                        <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
+                            <button
+                                onClick={handleExport}
+                                disabled={exporting || currentData.length === 0}
+                                className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
+                            >
+                                <ArrowDownTrayIcon className="w-8 h-8" />
+                                <span className="text-xs font-semibold uppercase tracking-wider">
+                                    {exporting ? 'Exporting...' : 'Export Excel'}
+                                </span>
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                {/* Active Registrations */}
+                {/* Active Registrations / Pending Applications */}
                 <div className="mb-8">
-                    <h2 className="text-2xl font-serif text-foreground mb-4">Active Registrations</h2>
+                    <h2 className="text-2xl font-serif text-foreground mb-4">
+                        {activeTab === 'joinMembers' ? 'Pending Applications' : 'Active Registrations'}
+                    </h2>
                     <div className="bg-white rounded-[2.5rem] border border-black/5 shadow-sm overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
@@ -252,25 +305,83 @@ export default function AdminPage() {
                                     <tr className="border-b border-black/5">
                                         <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Name</th>
                                         <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Email</th>
-                                        <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Phone</th>
+                                        {activeTab === 'joinMembers' ? (
+                                            <>
+                                                <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Experience</th>
+                                                <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Portfolio</th>
+                                            </>
+                                        ) : (
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Phone</th>
+                                        )}
                                         <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold text-right">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-black/[0.03]">
                                     {!currentData ? (
                                         <tr>
-                                            <td colSpan={4} className="px-8 py-20 text-center">
+                                            <td colSpan={5} className="px-8 py-20 text-center">
                                                 <div className="w-6 h-6 border-2 border-foreground border-t-transparent rounded-full animate-spin mx-auto" />
                                             </td>
                                         </tr>
                                     ) : activeRegistrations.length === 0 ? (
                                         <tr>
-                                            <td colSpan={4} className="px-8 py-20 text-center text-foreground/30 italic">
-                                                No active registrations found.
+                                            <td colSpan={5} className="px-8 py-20 text-center text-foreground/30 italic">
+                                                {activeTab === 'joinMembers' ? 'No pending applications found.' : 'No active registrations found.'}
                                             </td>
                                         </tr>
+                                    ) : activeTab === 'joinMembers' ? (
+                                        activeRegistrations.map((app: any) => (
+                                            <tr key={app._id} className="hover:bg-[#fafafa] transition-colors">
+                                                <td className="px-8 py-6">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-[10px] font-bold">
+                                                            {app.name.charAt(0)}
+                                                        </div>
+                                                        <span className="text-sm font-medium text-foreground">{app.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <div className="flex items-center gap-2 text-foreground/60 text-sm">
+                                                        <MailIcon className="w-3.5 h-3.5" />
+                                                        {app.email}
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <span className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded-full capitalize">
+                                                        {app.experience}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    {app.portfolio ? (
+                                                        <a href={app.portfolio} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">
+                                                            View Portfolio
+                                                        </a>
+                                                    ) : (
+                                                        <span className="text-xs text-foreground/30">N/A</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-8 py-6 text-right">
+                                                    <div className="flex gap-2 justify-end">
+                                                        <button
+                                                            onClick={() => handleApprove(app._id)}
+                                                            disabled={actionLoading === app._id}
+                                                            className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
+                                                        >
+                                                            {actionLoading === app._id ? 'Approving...' : 'Approve'}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleReject(app._id)}
+                                                            disabled={actionLoading === app._id}
+                                                            className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
+                                                        >
+                                                            {actionLoading === app._id ? 'Rejecting...' : 'Reject'}
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
                                     ) : (
-                                        activeRegistrations.map((reg) => (
+                                        activeRegistrations.map((reg: any) => (
                                             <tr key={reg._id} className="hover:bg-[#fafafa] transition-colors">
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-3">
@@ -310,10 +421,12 @@ export default function AdminPage() {
                     </div>
                 </div>
 
-                {/* Cancelled Registrations */}
+                {/* Cancelled Registrations / Rejected Applications */}
                 {cancelledRegistrations.length > 0 && (
-                    <div>
-                        <h2 className="text-2xl font-serif text-foreground mb-4">Cancelled Registrations</h2>
+                    <div className="mb-8">
+                        <h2 className="text-2xl font-serif text-foreground mb-4">
+                            {activeTab === 'joinMembers' ? 'Rejected Applications' : 'Cancelled Registrations'}
+                        </h2>
                         <div className="bg-white rounded-[2.5rem] border border-red-100 shadow-sm overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left">
@@ -321,35 +434,97 @@ export default function AdminPage() {
                                         <tr className="border-b border-red-100">
                                             <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Name</th>
                                             <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Email</th>
-                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Cancelled By</th>
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">
+                                                {activeTab === 'joinMembers' ? 'Rejected By' : 'Cancelled By'}
+                                            </th>
                                             <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold text-right">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-red-50">
-                                        {cancelledRegistrations.map((reg) => (
+                                        {cancelledRegistrations.map((reg: any) => (
                                             <tr key={reg._id} className="hover:bg-red-50/30 transition-colors">
                                                 <td className="px-8 py-6">
                                                     <div className="flex items-center gap-3">
                                                         <div className="w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-[10px] font-bold">
-                                                            {reg.fullName.charAt(0)}
+                                                            {(activeTab === 'joinMembers' ? reg.name : reg.fullName).charAt(0)}
                                                         </div>
-                                                        <span className="text-sm font-medium text-foreground/60">{reg.fullName}</span>
+                                                        <span className="text-sm font-medium text-foreground/60">
+                                                            {activeTab === 'joinMembers' ? reg.name : reg.fullName}
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     <span className="text-sm text-foreground/60">{reg.email}</span>
                                                 </td>
                                                 <td className="px-8 py-6">
-                                                    <span className="text-xs text-foreground/40">{reg.cancelledBy || 'Unknown'}</span>
+                                                    <span className="text-xs text-foreground/40">
+                                                        {activeTab === 'joinMembers' ? (reg.reviewedBy || 'Unknown') : (reg.cancelledBy || 'Unknown')}
+                                                    </span>
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
-                                                    <button
-                                                        onClick={() => handleReactivate(reg._id)}
-                                                        disabled={actionLoading === reg._id}
-                                                        className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
-                                                    >
-                                                        {actionLoading === reg._id ? 'Reactivating...' : 'Reactivate'}
-                                                    </button>
+                                                    {activeTab === 'joinMembers' ? (
+                                                        <button
+                                                            onClick={() => handleApprove(reg._id)}
+                                                            disabled={actionLoading === reg._id}
+                                                            className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
+                                                        >
+                                                            {actionLoading === reg._id ? 'Approving...' : 'Approve'}
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={() => handleReactivate(reg._id)}
+                                                            disabled={actionLoading === reg._id}
+                                                            className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
+                                                        >
+                                                            {actionLoading === reg._id ? 'Reactivating...' : 'Reactivate'}
+                                                        </button>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Approved Applications (Join Members only) */}
+                {activeTab === 'joinMembers' && approvedApplications.length > 0 && (
+                    <div>
+                        <h2 className="text-2xl font-serif text-foreground mb-4">Approved Applications</h2>
+                        <div className="bg-white rounded-[2.5rem] border border-green-100 shadow-sm overflow-hidden">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <thead>
+                                        <tr className="border-b border-green-100">
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Name</th>
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Email</th>
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Experience</th>
+                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Approved By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-green-50">
+                                        {approvedApplications.map((app: any) => (
+                                            <tr key={app._id} className="hover:bg-green-50/30 transition-colors">
+                                                <td className="px-8 py-6">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-[10px] font-bold">
+                                                            {app.name.charAt(0)}
+                                                        </div>
+                                                        <span className="text-sm font-medium text-foreground">{app.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <span className="text-sm text-foreground/60">{app.email}</span>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <span className="text-xs px-2 py-1 bg-green-50 text-green-600 rounded-full capitalize">
+                                                        {app.experience}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <span className="text-xs text-foreground/40">{app.reviewedBy || 'Unknown'}</span>
                                                 </td>
                                             </tr>
                                         ))}

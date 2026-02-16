@@ -79,6 +79,9 @@ export default function MembersWorkSection() {
     { id: 'project_urban', image: '/street.jpeg', alt: 'Urban street scene', title: 'Urban Pulse', photographer: 'Sarah Chen', category: 'Street', exif: 'f/2.8 • 1/250s' },
     { id: 'project_nature', image: '/scenery1.jpeg', alt: 'Mountain landscape', title: 'Mountain Majesty', photographer: 'Alex Rivera', category: 'Landscape', exif: 'f/11 • 1/60s' },
     { id: 'project_portrait', image: '/girl_in_pool.jpeg', alt: 'Portrait photography', title: 'Silent Strength', photographer: 'Marcus Johnson', category: 'Portrait', exif: 'f/1.8 • 1/125s' },
+  ];
+
+  const moreProjects = [
     { id: 'project_architecture', image: '/building_with_staircase.jpeg', alt: 'Modern architecture', title: 'Geometric Dreams', photographer: 'Emma Watson', category: 'Architecture', exif: 'f/8 • 1/200s' },
     { id: 'project_wildlife', image: '/sparrow.jpeg', alt: 'Sparrow bird', title: 'Wings of Freedom', photographer: 'David Park', category: 'Wildlife', exif: 'f/5.6 • 1/2000s' },
     { id: 'project_abstract', image: '/lightphotography2.jpeg', alt: 'Abstract light painting', title: 'Light Dance', photographer: 'Sofia Martinez', category: 'Abstract', exif: 'f/16 • 30s' },
@@ -105,7 +108,12 @@ export default function MembersWorkSection() {
 
         {/* Masonry Grid */}
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
+            <div key={project.id} className="project-card break-inside-avoid">
+              <ProjectCard {...project} />
+            </div>
+          ))}
+          {moreProjects.map((project) => (
             <div key={project.id} className="project-card break-inside-avoid">
               <ProjectCard {...project} />
             </div>

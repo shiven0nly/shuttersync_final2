@@ -10,6 +10,7 @@
 
 import type * as competitions from "../competitions.js";
 import type * as courses from "../courses.js";
+import type * as joinMembers from "../joinMembers.js";
 import type * as photowalks from "../photowalks.js";
 import type * as registrations from "../registrations.js";
 
@@ -22,6 +23,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   competitions: typeof competitions;
   courses: typeof courses;
+  joinMembers: typeof joinMembers;
   photowalks: typeof photowalks;
   registrations: typeof registrations;
 }>;

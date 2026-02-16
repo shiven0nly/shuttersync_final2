@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
 
 const heroPhotos = [
@@ -23,6 +25,9 @@ export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const photosRef = useRef<(HTMLDivElement | null)[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const { user, isLoaded } = useUser();
+  const router = useRouter();
 
   useEffect(() => {
     setIsHydrated(true);
@@ -166,14 +171,50 @@ export default function HeroSection() {
           >
             Join the Community
           </Link>
-          <Link
-            href="/workshops/register"
+          <button
+            onClick={() => {
+              if (!isLoaded) return;
+              if (!user) {
+                setShowLoginDialog(true);
+              } else {
+                router.push('/workshops/register');
+              }
+            }}
             className="hero-btn inline-flex items-center gap-2 border-2 border-foreground/20 text-foreground px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:border-foreground/40 transition-all"
           >
             Join Workshop
-          </Link>
+          </button>
         </div>
       </div>
+
+      {/* Login Dialog */}
+      {showLoginDialog && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5 animate-in zoom-in-95 duration-300">
+            <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-serif text-foreground mb-2">Login First</h3>
+            <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please login first, then register for the workshop.</p>
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/sign-in"
+                className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
+              >
+                Sign In
+              </Link>
+              <button
+                onClick={() => setShowLoginDialog(false)}
+                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

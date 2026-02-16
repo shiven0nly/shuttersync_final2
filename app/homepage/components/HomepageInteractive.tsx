@@ -1,11 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import HeroSection from './HeroSection';
-import AboutSection from './AboutSection';
-import MembersWorkSection from './MembersWorkSection';
-import ServicesSection from './ServicesSection';
-import JoinSection from './JoinSection';
+
+// Lazy load non-critical sections
+const AboutSection = dynamic(() => import('./AboutSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const MembersWorkSection = dynamic(() => import('./MembersWorkSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const ServicesSection = dynamic(() => import('./ServicesSection'), {
+  loading: () => <div className="h-screen" />,
+});
+const JoinSection = dynamic(() => import('./JoinSection'), {
+  loading: () => <div className="h-screen" />,
+});
 
 export default function HomepageInteractive() {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -35,9 +46,11 @@ export default function HomepageInteractive() {
       requestAnimationFrame(raf);
     };
 
-    initLenis();
+    // Delay Lenis initialization to prioritize critical content
+    const timer = setTimeout(initLenis, 100);
 
     return () => {
+      clearTimeout(timer);
       if (lenis) lenis.destroy();
     };
   }, [isHydrated]);

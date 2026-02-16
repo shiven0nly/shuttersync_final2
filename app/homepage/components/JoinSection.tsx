@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useMutation } from 'convex/react';
+import { api } from 'convex/_generated/api';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -20,10 +22,13 @@ export default function JoinSection() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const submitApplication = useMutation(api.joinMembers.submitApplication);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -74,9 +79,26 @@ export default function JoinSection() {
     setErrors({});
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      await submitApplication({
+        name: formData.name,
+        email: formData.email,
+        portfolio: formData.portfolio || undefined,
+        experience: formData.experience,
+        message: formData.message || undefined,
+        photoUrl: photoPreview || undefined,
+      });
+      setSubmitted(true);
+    } catch (error: any) {
+      setErrors({ submit: error.message || 'Failed to submit application. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -278,6 +300,12 @@ export default function JoinSection() {
 
                 {step === 2 && (
                   <div className="space-y-8">
+                    {errors.submit && (
+                      <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+                        {errors.submit}
+                      </div>
+                    )}
+                    
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="join-portfolio" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-3">Portfolio URL</label>
@@ -337,9 +365,10 @@ export default function JoinSection() {
                       </button>
                       <button
                         type="submit"
-                        className="w-full md:w-auto px-12 py-4 bg-foreground hover:bg-foreground/90 text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 flex items-center justify-center gap-3 group"
+                        disabled={isSubmitting}
+                        className="w-full md:w-auto px-12 py-4 bg-foreground hover:bg-foreground/90 text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Submit Application
+                        {isSubmitting ? 'Submitting...' : 'Submit Application'}
                         <Icon name="ArrowRightIcon" size={16} variant="outline" className="group-hover:translate-x-1 transition-transform" />
                       </button>
                     </div>
