@@ -99,7 +99,13 @@ export default function WorkshopRegisterPage() {
     }
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-[#fafafa]">
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-orange-50 via-red-50 to-orange-100">
+            {/* Ocean Wave Background */}
+            <div className="ocean">
+                <div className="wave"></div>
+                <div className="wave"></div>
+            </div>
+
             {/* Minimal Line Art Doodles Background - More Visible */}
             <div className="absolute inset-0 opacity-[0.08] text-foreground">
                 {/* Top Left - Camera */}
@@ -579,6 +585,55 @@ export default function WorkshopRegisterPage() {
                     </div>
                 </div>
             )}
+
+            {/* Ocean Wave Styles */}
+            <style jsx>{`
+                .ocean {
+                    height: 8%;
+                    width: 100%;
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    background: linear-gradient(180deg, #ff6b35 0%, #f7931e 100%);
+                    z-index: 1;
+                }
+
+                .wave {
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 198"><path fill="%23ff8c42" d="M0,100 Q400,150 800,100 T1600,100 L1600,198 L0,198 Z" /></svg>') repeat-x;
+                    position: absolute;
+                    top: -198px;
+                    width: 6400px;
+                    height: 198px;
+                    animation: wave 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+                    transform: translate3d(0, 0, 0);
+                }
+
+                .wave:nth-of-type(2) {
+                    top: -175px;
+                    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 198"><path fill="%23ffa45c" d="M0,80 Q400,120 800,80 T1600,80 L1600,198 L0,198 Z" /></svg>') repeat-x;
+                    animation: wave 10s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
+                               swell 8s ease -1.25s infinite;
+                    opacity: 0.9;
+                }
+
+                @keyframes wave {
+                    0% {
+                        margin-left: 0;
+                    }
+                    100% {
+                        margin-left: -1600px;
+                    }
+                }
+
+                @keyframes swell {
+                    0%, 100% {
+                        transform: translate3d(0, -25px, 0);
+                    }
+                    50% {
+                        transform: translate3d(0, 5px, 0);
+                    }
+                }
+            `}</style>
         </div>
     );
 }
