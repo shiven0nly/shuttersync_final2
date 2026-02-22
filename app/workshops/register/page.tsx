@@ -358,10 +358,13 @@ export default function WorkshopRegisterPage() {
                                     </button>
                                     <Link
                                         href="/workshops/color-grading"
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
+                                        className="group relative inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full font-medium text-sm overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300"
                                     >
-                                        <ArrowRightIcon className="w-4 h-4" />
-                                        Access Workshop
+                                        <div className="absolute inset-0 bg-gradient-to-r from-foreground via-gray-800 to-foreground bg-[length:200%_100%] group-hover:bg-[position:100%_0] transition-all duration-500" />
+                                        <svg className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                        <span className="relative z-10">Access Workshop</span>
                                     </Link>
                                 </div>
                             )}
