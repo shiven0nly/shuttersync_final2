@@ -78,4 +78,36 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_status", ["status"])
     .index("by_submitted_at", ["submittedAt"]),
+
+  workshop_submissions: defineTable({
+    userId: v.string(),
+    registrationId: v.id("workshop_registrations"),
+    workshopId: v.number(),
+    fullName: v.string(),
+    email: v.string(),
+    driveLink: v.string(),
+    videoCompleted: v.boolean(),
+    status: v.string(), // "pending", "approved", "rejected"
+    reviewedBy: v.optional(v.string()),
+    reviewedAt: v.optional(v.number()),
+    submittedAt: v.number(),
+    certificateIssued: v.boolean(),
+    certificateId: v.optional(v.string()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_registration", ["registrationId"])
+    .index("by_status", ["status"])
+    .index("by_workshop", ["workshopId"]),
+
+  certificates: defineTable({
+    certificateId: v.string(),
+    userId: v.string(),
+    fullName: v.string(),
+    workshopTitle: v.string(),
+    workshopId: v.number(),
+    issueDate: v.number(),
+    submissionId: v.id("workshop_submissions"),
+  })
+    .index("by_certificate_id", ["certificateId"])
+    .index("by_user", ["userId"]),
 });

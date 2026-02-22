@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 const isPublicRoute = createRouteMatcher([
   '/',
@@ -12,6 +13,7 @@ const isPublicRoute = createRouteMatcher([
   '/sso-callback(.*)',
   '/forgot-password(.*)',
   '/api(.*)',
+  '/certificates/(.*)',
 ]);
 
 const isProtectedRoute = createRouteMatcher([
@@ -19,7 +21,22 @@ const isProtectedRoute = createRouteMatcher([
   '/workshops/register(.*)',
 ]);
 
+const isProtectedWorkshopRoute = createRouteMatcher([
+  '/workshops/color-grading',
+]);
+
 export default clerkMiddleware(async (auth, request) => {
+  const { userId } = await auth();
+
+  // Protect workshop routes - require authentication
+  if (isProtectedWorkshopRoute(request)) {
+    if (!userId) {
+      const signInUrl = new URL('/sign-in', request.url);
+      signInUrl.searchParams.set('redirect_url', request.url);
+      return NextResponse.redirect(signInUrl);
+    }
+  }
+
   // Protect specific routes that require authentication
   if (isProtectedRoute(request)) {
     await auth.protect();

@@ -348,13 +348,22 @@ export default function WorkshopRegisterPage() {
                             </div>
 
                             {isRegistered && (
-                                <button
-                                    onClick={handleShare}
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
-                                >
-                                    <ShareIcon className="w-4 h-4" />
-                                    Share with friends
-                                </button>
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={handleShare}
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
+                                    >
+                                        <ShareIcon className="w-4 h-4" />
+                                        Share with friends
+                                    </button>
+                                    <Link
+                                        href="/workshops/color-grading"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
+                                    >
+                                        <ArrowRightIcon className="w-4 h-4" />
+                                        Access Workshop
+                                    </Link>
+                                </div>
                             )}
                         </div>
 
