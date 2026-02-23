@@ -21,21 +21,72 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "ShutterSync-Photography Community",
+  metadataBase: new URL('https://shuttersync-photography.netlify.app'),
+  title: {
+    default: "ShutterSync - Photography Community | Share, Learn & Connect",
+    template: "%s | ShutterSync Photography"
+  },
   description:
     "A hub for photographers to share their clicks, discuss editing techniques, participate in weekly challenges, and connect. Sync your vision with ShutterSync.",
   keywords:
-    "photography, community, gallery, challenges, photo walks, workshops, ShutterSync",
+    "photography, community, gallery, challenges, photo walks, workshops, ShutterSync, photography courses, photo editing, camera techniques, photography events",
+  authors: [{ name: "ShutterSync Photography" }],
+  creator: "ShutterSync Photography",
+  publisher: "ShutterSync Photography",
+  alternates: {
+    canonical: "https://shuttersync-photography.netlify.app",
+  },
   openGraph: {
-    title: "ShutterSync - Photography Community",
-    description:
-      "A hub for photographers to share their clicks, discuss editing techniques, and participate in weekly challenges.",
     type: "website",
+    locale: "en_US",
+    url: "https://shuttersync-photography.netlify.app",
+    siteName: "ShutterSync Photography Community",
+    title: "ShutterSync - Photography Community | Share, Learn & Connect",
+    description:
+      "Join our vibrant photography community. Share your work, participate in weekly challenges, attend workshops, and connect with fellow photographers.",
+    images: [
+      {
+        url: "/logo.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "ShutterSync Photography Community Logo",
+        type: "image/jpeg",
+      },
+      {
+        url: "/heroSectionbg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "ShutterSync Photography Hero",
+        type: "image/jpeg",
+      }
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ShutterSync - Photography Community | Share, Learn & Connect",
+    description:
+      "Join our vibrant photography community. Share your work, participate in weekly challenges, attend workshops, and connect with fellow photographers.",
+    images: ["/logo.jpeg"],
+    creator: "@shuttersync",
+    site: "@shuttersync",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   icons: {
     icon: "/logo.jpeg",
     apple: "/logo.jpeg",
+    shortcut: "/logo.jpeg",
   },
+  manifest: "/manifest.json",
 };
 
 export const viewport = {
