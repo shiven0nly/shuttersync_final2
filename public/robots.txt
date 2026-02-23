@@ -1,0 +1,25 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+
+# Disallow authentication pages from indexing
+Disallow: /sign-in/
+Disallow: /sign-up/
+Disallow: /forgot-password/
+Disallow: /sso-callback/
+Disallow: /auth/
+
+# Allow important pages
+Allow: /homepage
+Allow: /gallery
+Allow: /events
+Allow: /challenge
+Allow: /contact
+Allow: /workshops/
+
+# Sitemap location
+Sitemap: https://shuttersync-photography.netlify.app/sitemap.xml
