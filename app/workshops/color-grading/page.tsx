@@ -247,7 +247,7 @@ export default function ColorGradingWorkshopPage() {
               <li>Name your files clearly (e.g., Photo1_YourName.jpg, Photo2_YourName.jpg, etc.)</li>
               <li>Add a watermark in the bottom right corner: <code className="bg-gray-100 px-2 py-1 rounded">edited_by_YourName</code></li>
               <li>Upload to the Google Drive folder</li>
-              <li>Submit the Drive link below seperated with commas</li>
+              <li>Submit the google photos below</li>
             </ol>
 
             <div className="bg-orange-50 border border-orange-200 p-4 rounded-xl mt-6">
