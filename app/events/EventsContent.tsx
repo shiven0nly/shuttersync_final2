@@ -156,11 +156,12 @@ export default function EventsContent() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                     placeholder="your@email.com"
-                                    className="flex-1 px-5 py-3 rounded-full border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-foreground/30 transition-colors"
+                                    aria-label="Email address"
+                                    className="flex-1 px-5 py-3 rounded-full border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/50 focus:border-foreground/30 transition-colors"
                                 />
                                 <button
                                     type="submit"
-                                    className="px-6 py-3 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-foreground/90 transition-all"
+                                    className="px-6 py-3 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
                                 >
                                     Notify Me
                                 </button>
@@ -184,13 +185,13 @@ export default function EventsContent() {
                         <div className="flex flex-col gap-3">
                             <Link
                                 href="/sign-in"
-                                className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
+                                className="w-full py-3 bg-orange-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors"
                             >
                                 Sign In
                             </Link>
                             <button
                                 onClick={() => setShowLoginDialog(false)}
-                                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground transition-colors"
+                                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 rounded-xl transition-colors"
                             >
                                 Close
                             </button>

@@ -289,7 +289,7 @@ export default function JoinSection() {
                       <button
                         type="button"
                         onClick={handleNext}
-                        className="px-10 py-4 bg-foreground text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 flex items-center gap-3"
+                        className="px-10 py-4 bg-foreground text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center gap-3"
                       >
                         Next Step
                         <Icon name="ArrowRightIcon" size={14} variant="outline" />
@@ -358,7 +358,7 @@ export default function JoinSection() {
                       <button
                         type="button"
                         onClick={handleBack}
-                        className="inline-flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground transition-colors duration-200"
+                        className="inline-flex items-center gap-2 text-sm text-foreground/50 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 rounded-lg px-3 py-2 transition-colors"
                       >
                         <Icon name="ArrowLeftIcon" size={14} variant="outline" />
                         Back
@@ -366,7 +366,7 @@ export default function JoinSection() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full md:w-auto px-12 py-4 bg-foreground hover:bg-foreground/90 text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full md:w-auto px-12 py-4 bg-foreground hover:bg-foreground/90 text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isSubmitting ? 'Submitting...' : 'Submit Application'}
                         <Icon name="ArrowRightIcon" size={16} variant="outline" className="group-hover:translate-x-1 transition-transform" />

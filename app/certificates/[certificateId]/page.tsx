@@ -112,7 +112,7 @@ export default function CertificateVerificationPage() {
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
       ` }} />
-      <div className="min-h-screen bg-gradient-to-b from-orange-50 via-red-50 to-orange-100 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6">
+      <div className="min-h-screen bg-orange-50 pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
 
           {/* Main Message */}
@@ -183,7 +183,7 @@ export default function CertificateVerificationPage() {
                   </h3>
                   
                   {/* Decorative Line */}
-                  <div className="w-20 sm:w-28 md:w-32 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent rounded-full mb-3 sm:mb-6 md:mb-8" />
+                  <div className="w-20 sm:w-28 md:w-32 h-0.5 sm:h-1 bg-orange-400 rounded-full mb-3 sm:mb-6 md:mb-8" />
                   
                   {/* This certifies text */}
                   <p className="text-xs sm:text-sm md:text-base lg:text-lg text-foreground/60 mb-3 sm:mb-4 md:mb-6 px-2" style={{ fontFamily: 'Cormorant Garamond, serif' }}>

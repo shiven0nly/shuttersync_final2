@@ -233,16 +233,16 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link href="/admin/workshop-submissions">
-                            <button className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all flex items-center gap-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button className="px-6 py-3 bg-orange-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Workshop Submissions
                             </button>
                         </Link>
                         <SignOutButton redirectUrl="/">
-                            <button className="px-6 py-3 bg-red-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-red-600 transition-all flex items-center gap-2">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button className="px-6 py-3 bg-red-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/50 transition-colors flex items-center gap-2">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
                                 Logout Admin
@@ -293,11 +293,12 @@ export default function AdminPage() {
                             <p className="text-4xl font-serif text-blue-600">{approvedApplications.length}</p>
                         </div>
                     ) : null}
-                    <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 rounded-3xl shadow-lg flex items-center justify-center">
+                    <div className="bg-blue-500 p-8 rounded-3xl shadow-lg flex items-center justify-center">
                         <button
                             onClick={handleExport}
                             disabled={exporting || currentData.length === 0}
-                            className="flex flex-col items-center gap-2 text-white disabled:opacity-50"
+                            className="flex flex-col items-center gap-2 text-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-4 py-2"
+                            aria-label="Export data to Excel"
                         >
                             <ArrowDownTrayIcon className="w-8 h-8" />
                             <span className="text-xs font-semibold uppercase tracking-wider">

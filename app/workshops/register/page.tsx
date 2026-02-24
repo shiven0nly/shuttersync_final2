@@ -99,7 +99,7 @@ export default function WorkshopRegisterPage() {
     }
 
     return (
-        <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-orange-50 via-red-50 to-orange-100">
+        <div className="min-h-screen relative overflow-hidden bg-orange-50">
             {/* Ocean Wave Background */}
             <div className="ocean">
                 <div className="wave"></div>
@@ -298,8 +298,8 @@ export default function WorkshopRegisterPage() {
                                 <h1 className="text-5xl md:text-6xl font-serif italic text-foreground mb-4 leading-tight">
                                     Color Grading<br />Workshop
                                 </h1>
-                                <div className="w-20 h-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-full mb-6" />
-                                <p className="text-lg text-foreground/70 leading-relaxed">
+                                <div className="w-20 h-1 bg-orange-500 rounded-full mb-6" />
+                                <p className="text-lg text-foreground/70 leading-relaxed text-pretty">
                                     Master the art of color storytelling. Learn how to use professional tools to create cinematic moods, consistent aesthetics, and breathtaking visuals that define your unique style.
                                 </p>
                             </div>
@@ -351,20 +351,19 @@ export default function WorkshopRegisterPage() {
                                 <div className="flex gap-4">
                                     <button
                                         onClick={handleShare}
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:shadow-lg hover:scale-105 transition-all text-sm font-medium"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors text-sm font-medium"
                                     >
                                         <ShareIcon className="w-4 h-4" />
                                         Share with friends
                                     </button>
                                     <Link
                                         href="/workshops/color-grading"
-                                        className="group relative inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full font-medium text-sm overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full font-medium text-sm hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-foreground via-gray-800 to-foreground bg-[length:200%_100%] group-hover:bg-[position:100%_0] transition-all duration-500" />
-                                        <svg className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                         </svg>
-                                        <span className="relative z-10">Access Workshop</span>
+                                        <span>Access Workshop</span>
                                     </Link>
                                 </div>
                             )}
@@ -372,7 +371,7 @@ export default function WorkshopRegisterPage() {
 
                         {/* Right Side: Form Card */}
                         <div className="relative">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-500 rounded-[2.5rem] blur-xl opacity-10" />
+                            <div className="absolute -inset-1 bg-orange-500 rounded-[2.5rem] blur-xl opacity-10" />
                             
                             <div className="relative bg-white p-10 rounded-[2.5rem] shadow-xl border border-black/5">
                                 {isCancelled ? (
@@ -394,14 +393,14 @@ export default function WorkshopRegisterPage() {
                                     </div>
                                 ) : isRegistered && !showSuccess ? (
                                     <div className="text-center py-10">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div className="w-16 h-16 bg-orange-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                         </div>
                                         <h3 className="text-2xl font-serif text-foreground mb-2">You're Registered!</h3>
-                                        <p className="text-sm text-foreground/50 mb-6">We'll send the workshop details to {formData.email} soon.</p>
-                                        <div className="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-2xl text-left border border-orange-100">
+                                        <p className="text-sm text-foreground/50 mb-6 text-pretty">We'll send the workshop details to {formData.email} soon.</p>
+                                        <div className="bg-orange-50 p-6 rounded-2xl text-left border border-orange-100">
                                             <p className="text-[10px] uppercase tracking-wider text-orange-600 mb-2">Workshop Details</p>
                                             <p className="text-sm font-medium text-foreground">Color Grading Masterclass</p>
                                             <p className="text-sm text-foreground/60 mt-1">Status: Priority List</p>
@@ -413,11 +412,11 @@ export default function WorkshopRegisterPage() {
                                 ) : (
                                     <>
                                         <div className="flex items-center justify-center gap-2 mb-8">
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 1 ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                                 1
                                             </div>
                                             <div className="w-12 h-0.5 bg-gray-200" />
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 2 ? 'bg-gradient-to-br from-orange-500 to-red-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${step === 2 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                                 2
                                             </div>
                                         </div>
@@ -477,7 +476,7 @@ export default function WorkshopRegisterPage() {
                                                 </div>
                                                 <button
                                                     type="submit"
-                                                    className="w-full py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:shadow-lg hover:scale-[1.02] transition-all mt-4 flex items-center justify-center gap-2"
+                                                    className="w-full py-4 bg-orange-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors mt-4 flex items-center justify-center gap-2"
                                                 >
                                                     Next Step
                                                     <ArrowRightIcon className="w-4 h-4" />
@@ -506,10 +505,10 @@ export default function WorkshopRegisterPage() {
                                                     <button
                                                         type="submit"
                                                         disabled={isSubmitting}
-                                                        className="flex-1 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                                        className="flex-1 py-4 bg-orange-500 text-white rounded-2xl text-sm font-semibold uppercase tracking-[0.15em] hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                                     >
                                                         {isSubmitting ? 'Registering...' : 'Complete Registration'}
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                         </svg>
                                                     </button>
@@ -562,7 +561,7 @@ export default function WorkshopRegisterPage() {
                         <div className="flex flex-col gap-3">
                             <Link
                                 href="/sign-in"
-                                className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
+                                className="w-full py-3 bg-orange-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors"
                             >
                                 Sign In
                             </Link>
@@ -579,18 +578,18 @@ export default function WorkshopRegisterPage() {
 
             {/* Success Dialog */}
             {showSuccess && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
-                    <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5 animate-in zoom-in-95 duration-300">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-2xl flex items-center justify-center mb-6">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="success-title">
+                    <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5">
+                        <div className="w-12 h-12 bg-orange-500 text-white rounded-2xl flex items-center justify-center mb-6">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-serif text-foreground mb-2">Registration Completed</h3>
-                        <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Your spot has been secured! Check your email for further instructions and the workshop schedule.</p>
+                        <h3 id="success-title" className="text-xl font-serif text-foreground mb-2">Registration Completed</h3>
+                        <p className="text-sm text-foreground/50 mb-8 leading-relaxed text-pretty">Your spot has been secured! Check your email for further instructions and the workshop schedule.</p>
                         <button
                             onClick={() => setShowSuccess(false)}
-                            className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
+                            className="w-full py-3 bg-orange-500 text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors"
                         >
                             Awesome
                         </button>

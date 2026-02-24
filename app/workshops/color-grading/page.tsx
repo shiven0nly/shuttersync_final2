@@ -103,23 +103,23 @@ export default function ColorGradingWorkshopPage() {
   const isRejected = submission?.status === 'rejected';
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 via-red-50 to-orange-100 pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-orange-50 pt-32 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <Link href="/workshops/register" className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground transition-colors mb-6 text-sm">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <Link href="/workshops/register" className="inline-flex items-center gap-2 text-foreground/60 hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/50 rounded-lg px-2 py-1 transition-colors mb-6 text-sm">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Back to Registration
           </Link>
-          <h1 className="text-5xl font-serif italic text-foreground mb-4">Color Grading Workshop</h1>
+          <h1 className="text-5xl font-serif italic text-foreground mb-4 text-balance">Color Grading Workshop</h1>
           <p className="text-lg text-foreground/70">Welcome, {registration.fullName}!</p>
         </div>
 
         {/* Certificate Status */}
         {isApproved && submission?.certificateId && (
-          <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-8 rounded-3xl mb-8 shadow-xl">
+          <div className="bg-green-600 text-white p-8 rounded-3xl mb-8 shadow-xl">
             <div className="flex items-center gap-4 mb-6">
               <CheckCircleIcon className="w-12 h-12" />
               <div>
@@ -130,7 +130,7 @@ export default function ColorGradingWorkshopPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href={`/certificates/${submission.certificateId}`}
-                className="inline-block px-6 py-3 bg-white text-green-600 rounded-full font-semibold hover:shadow-lg transition-all text-center"
+                className="inline-block px-6 py-3 bg-white text-green-600 rounded-full font-semibold hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors text-center"
               >
                 View Certificate
               </Link>
@@ -140,9 +140,9 @@ export default function ColorGradingWorkshopPage() {
                   navigator.clipboard.writeText(url);
                   alert('Certificate link copied! Share it with anyone.');
                 }}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/20 backdrop-blur text-white rounded-full font-semibold hover:bg-white/30 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/20 backdrop-blur text-white rounded-full font-semibold hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
                 Copy Shareable Link
@@ -189,7 +189,8 @@ export default function ColorGradingWorkshopPage() {
               type="checkbox"
               checked={videoCompleted}
               onChange={(e) => setVideoCompleted(e.target.checked)}
-              className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+              className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-2 focus:ring-orange-500"
+              aria-label="Mark video as completed"
             />
             <span className="text-sm text-foreground/70">I have completed watching the workshop video</span>
           </label>
@@ -296,27 +297,24 @@ export default function ColorGradingWorkshopPage() {
             <button
               type="submit"
               disabled={isSubmitting || !videoCompleted || !driveLink}
-              className="group relative w-full py-4 bg-foreground text-background rounded-2xl font-semibold transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              className="w-full py-4 bg-foreground text-background rounded-2xl font-semibold hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-foreground via-gray-800 to-foreground bg-[length:200%_100%] group-hover:bg-[position:100%_0] transition-all duration-500" />
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {submission ? 'Update Submission' : 'Submit Assignment'}
-                  </>
-                )}
-              </span>
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Submitting...
+                </>
+              ) : (
+                <>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {submission ? 'Update Submission' : 'Submit Assignment'}
+                </>
+              )}
             </button>
 
             {!videoCompleted && (

@@ -25,28 +25,43 @@ export default function GsapFillButton({
         const button = buttonRef.current;
         const fill = fillRef.current;
 
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         const handleMouseEnter = () => {
-            gsap.to(fill, {
-                y: '0%',
-                duration: 0.4,
-                ease: 'power2.out',
-            });
-            gsap.to(button, {
-                color: variant === 'light' ? '#000' : '#fff',
-                duration: 0.4,
-            });
+            if (prefersReducedMotion) {
+                // Simple color change for reduced motion
+                button.style.backgroundColor = variant === 'light' ? '#fff' : '#000';
+                button.style.color = variant === 'light' ? '#000' : '#fff';
+            } else {
+                gsap.to(fill, {
+                    y: '0%',
+                    duration: 0.3,
+                    ease: 'power2.out',
+                });
+                gsap.to(button, {
+                    color: variant === 'light' ? '#000' : '#fff',
+                    duration: 0.3,
+                });
+            }
         };
 
         const handleMouseLeave = () => {
-            gsap.to(fill, {
-                y: '100%',
-                duration: 0.4,
-                ease: 'power2.in',
-            });
-            gsap.to(button, {
-                color: variant === 'light' ? '#fff' : '#fff', // Adjust based on contrast
-                duration: 0.4,
-            });
+            if (prefersReducedMotion) {
+                // Reset to original state
+                button.style.backgroundColor = '';
+                button.style.color = '';
+            } else {
+                gsap.to(fill, {
+                    y: '100%',
+                    duration: 0.3,
+                    ease: 'power2.in',
+                });
+                gsap.to(button, {
+                    color: variant === 'light' ? '#fff' : '#fff',
+                    duration: 0.3,
+                });
+            }
         };
 
         button.addEventListener('mouseenter', handleMouseEnter);
@@ -66,7 +81,8 @@ export default function GsapFillButton({
         <button
             ref={buttonRef}
             onClick={onClick}
-            className={`relative overflow-hidden transition-colors ${baseStyles} rounded-full py-2 px-6 ${className}`}
+            className={`relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors ${baseStyles} rounded-full py-2 px-6 ${className}`}
+            type="button"
         >
             <div
                 ref={fillRef}

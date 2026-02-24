@@ -58,8 +58,8 @@ export default function GalleryContent() {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <h1 className="text-5xl md:text-7xl font-serif italic text-white mb-4">Community Gallery</h1>
-                    <p className="text-lg text-white/50 max-w-2xl mx-auto">
+                    <h1 className="text-5xl md:text-7xl font-serif italic text-white mb-4 text-balance">Community Gallery</h1>
+                    <p className="text-lg text-white/70 max-w-2xl mx-auto text-pretty">
                         Explore stunning work of our members. Thanks To All Members.
                     </p>
                 </div>
@@ -70,10 +70,11 @@ export default function GalleryContent() {
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all ${activeCategory === cat
+                            className={`px-5 py-2 rounded-full text-xs uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors ${activeCategory === cat
                                     ? 'bg-white text-black font-semibold'
-                                    : 'bg-white/10 text-white/60 hover:bg-white/20'
+                                    : 'bg-white/10 text-white/70 hover:bg-white/20'
                                 }`}
+                            aria-pressed={activeCategory === cat}
                         >
                             {cat}
                         </button>

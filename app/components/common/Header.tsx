@@ -86,26 +86,27 @@ export default function Header() {
             {/* CTA Button */}
             {isLoaded && user ? (
               <SignOutButton redirectUrl="/">
-                <button className="hidden lg:inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background px-6 py-3 rounded-full hover:bg-foreground/90 transition-all">
+                <button className="hidden lg:inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background px-6 py-3 rounded-full hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors">
                   Logout
                 </button>
               </SignOutButton>
             ) : isLoaded ? (
               <Link
                 href="/sign-in"
-                className="hidden lg:inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background px-6 py-3 rounded-full hover:bg-foreground/90 transition-all"
+                className="hidden lg:inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background px-6 py-3 rounded-full hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
               >
                 Sign In
               </Link>
             ) : (
-              <div className="hidden lg:block w-24 h-10 bg-foreground/10 rounded-full animate-pulse" />
+              <div className="hidden lg:block w-24 h-10 bg-foreground/10 rounded-full animate-pulse" aria-label="Loading" />
             )}
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 text-foreground"
-              aria-label="Toggle menu"
+              className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 text-foreground hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-black/20 transition-colors"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMenuOpen}
             >
               <Icon
                 name={isMenuOpen ? 'XMarkIcon' : 'Bars3Icon'}
@@ -150,7 +151,7 @@ export default function Header() {
                   <SignOutButton redirectUrl="/">
                     <button
                       onClick={() => setIsMenuOpen(false)}
-                      className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.2em]"
+                      className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.2em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
                     >
                       Logout
                     </button>
@@ -159,12 +160,12 @@ export default function Header() {
                   <Link
                     href="/sign-in"
                     onClick={() => setIsMenuOpen(false)}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.2em]"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.2em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
                   >
                     Sign In
                   </Link>
                 ) : (
-                  <div className="w-full h-12 bg-foreground/10 rounded-full animate-pulse" />
+                  <div className="w-full h-12 bg-foreground/10 rounded-full animate-pulse" aria-label="Loading" />
                 )}
               </div>
             </nav>

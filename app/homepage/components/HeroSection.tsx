@@ -148,26 +148,26 @@ export default function HeroSection() {
       {/* Center Content */}
       <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
         {/* Logo Circle */}
-        <div data-hero-content className="mx-auto mb-8 w-24 h-24 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-xl">
-          <img src="/logo.jpeg" alt="Logo" className="w-full h-full object-cover rounded-full" />
+        <div data-hero-content className="mx-auto mb-8 w-24 h-24 rounded-full bg-orange-500 flex items-center justify-center shadow-xl">
+          <img src="/logo.jpeg" alt="ShutterSync Logo" className="w-full h-full object-cover rounded-full" />
         </div>
 
         <p data-hero-content className="text-[10px] tracking-[0.4em] uppercase text-foreground/40 mb-4">
           A Photography Community
         </p>
 
-        <h1 data-hero-content className="text-4xl md:text-6xl lg:text-7xl font-serif text-foreground leading-tight mb-6">
+        <h1 data-hero-content className="text-4xl md:text-6xl lg:text-7xl font-serif text-foreground leading-tight mb-6 text-balance">
           Sync Your Vision
           <span className="block italic text-foreground/50">with ShutterSync</span>
         </h1>
 
-        <p data-hero-content className="text-base md:text-lg text-foreground/50 font-light max-w-xl mx-auto mb-10 leading-relaxed">
+        <p data-hero-content className="text-base md:text-lg text-foreground/50 font-light max-w-xl mx-auto mb-10 leading-relaxed text-pretty">
           Share your clicks, discuss techniques, participate in weekly challenges, and connect with passionate photographers.
         </p>
           <div  data-hero-content className="flex flex-wrap items-center justify-center gap-4">
          <Link
             href="/signup"
-            className="hero-btn inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 transition-all shadow-lg"
+            className="hero-btn inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors shadow-lg"
           >
             Join the Community
           </Link>
@@ -180,7 +180,7 @@ export default function HeroSection() {
                 router.push('/workshops/register');
               }
             }}
-            className="hero-btn inline-flex items-center gap-2 border-2 border-foreground/20 text-foreground px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:border-foreground/40 transition-all"
+            className="hero-btn inline-flex items-center gap-2 border-2 border-foreground/20 text-foreground px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:border-foreground/40 hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
           >
             Join Workshop
           </button>
@@ -189,25 +189,30 @@ export default function HeroSection() {
 
       {/* Login Dialog */}
       {showLoginDialog && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5 animate-in zoom-in-95 duration-300">
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="login-dialog-title"
+        >
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5">
             <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h3 className="text-xl font-serif text-foreground mb-2">Login First</h3>
+            <h3 id="login-dialog-title" className="text-xl font-serif text-foreground mb-2">Login First</h3>
             <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please login first, then register for the workshop.</p>
             <div className="flex flex-col gap-3">
               <Link
                 href="/sign-in"
-                className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:shadow-lg transition-all"
+                className="w-full py-3 bg-orange-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors"
               >
                 Sign In
               </Link>
               <button
                 onClick={() => setShowLoginDialog(false)}
-                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground transition-colors"
+                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 rounded-xl transition-colors"
               >
                 Close
               </button>

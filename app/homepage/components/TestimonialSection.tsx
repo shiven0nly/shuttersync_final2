@@ -92,15 +92,15 @@ export default function TestimonialsSection() {
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={() => scrollContainerRef.current?.scrollBy({ left: -400, behavior: 'smooth' })}
-              className="w-10 h-10 rounded-full soft-card flex items-center justify-center hover:bg-foreground/5 transition-all"
-              aria-label="Previous"
+              className="w-10 h-10 rounded-full soft-card flex items-center justify-center hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
+              aria-label="Previous testimonial"
             >
               <Icon name="ChevronLeftIcon" size={20} variant="outline" className="text-foreground" />
             </button>
             <button
               onClick={() => scrollContainerRef.current?.scrollBy({ left: 400, behavior: 'smooth' })}
-              className="w-10 h-10 rounded-full soft-card flex items-center justify-center hover:bg-foreground/5 transition-all"
-              aria-label="Next"
+              className="w-10 h-10 rounded-full soft-card flex items-center justify-center hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
+              aria-label="Next testimonial"
             >
               <Icon name="ChevronRightIcon" size={20} variant="outline" className="text-foreground" />
             </button>

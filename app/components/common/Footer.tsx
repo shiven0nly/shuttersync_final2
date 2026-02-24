@@ -48,24 +48,24 @@ export default function Footer() {
 
         {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 leading-tight">
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-6 leading-tight text-balance">
             Capture Your
             <span className="italic block">World.</span>
           </h2>
-          <p className="text-lg md:text-xl text-white/70 font-light max-w-2xl mx-auto mb-10">
+          <p className="text-lg md:text-xl text-white/70 font-light max-w-2xl mx-auto mb-10 text-pretty">
             Join a community of passionate photographers who believe every frame tells a story worth sharing.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/signup"
-              className="footer-btn inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-white/90 transition-all"
+              className="footer-btn inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
             >
               Join ShutterSync
               <Icon name="ArrowRightIcon" size={16} variant="outline" />
             </Link>
             <Link
               href="/gallery"
-              className="footer-btn inline-flex items-center gap-2 border border-white/30 text-white px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-white/10 transition-all"
+              className="footer-btn inline-flex items-center gap-2 border-2 border-white/30 text-white px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
             >
               View Gallery
             </Link>

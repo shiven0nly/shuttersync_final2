@@ -384,7 +384,7 @@ export default function ContactContent() {
 
                                         <button
                                             type="submit"
-                                            className="w-full py-4 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 transition-all duration-200 hover:translate-y-[-2px] hover:shadow-lg active:translate-y-0 flex items-center justify-center gap-3 group"
+                                            className="w-full py-4 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center justify-center gap-3 group"
                                         >
                                             Send Message
                                             <Icon name="PaperAirplaneIcon" size={16} variant="outline" className="group-hover:translate-x-1 transition-transform" />

@@ -98,10 +98,10 @@ export default function MembersWorkSection() {
             <span className="text-[10px] tracking-[0.3em] uppercase text-foreground/40">Featured</span>
             <div className="w-8 h-[1px] bg-foreground/20" />
           </div>
-          <h2 className="text-4xl md:text-6xl font-serif italic text-foreground mb-6">
+          <h2 className="text-4xl md:text-6xl font-serif italic text-foreground mb-6 text-balance">
             Featured Clicks
           </h2>
-          <p className="text-lg text-foreground/50 max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/50 max-w-2xl mx-auto text-pretty">
             A curated collection showcasing the diverse talent and unique perspectives of our photography community.
           </p>
         </div>
@@ -124,7 +124,7 @@ export default function MembersWorkSection() {
         <div className="text-center mt-16">
           <Link
             href="/gallery"
-            className="inline-flex items-center gap-2 soft-card px-8 py-4 text-sm uppercase tracking-wider text-foreground hover:bg-foreground/5 transition-colors"
+            className="inline-flex items-center gap-2 soft-card px-8 py-4 text-sm uppercase tracking-wider text-foreground hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/50 rounded-lg transition-colors"
           >
             <span>View Full Gallery</span>
             <Icon name="ArrowRightIcon" size={16} variant="outline" />

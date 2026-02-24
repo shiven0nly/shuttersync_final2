@@ -64,10 +64,10 @@ export default function ChallengeContent() {
                     <span className="inline-block py-1.5 px-4 border border-foreground/15 rounded-full text-[10px] tracking-[0.2em] uppercase text-foreground/60 mb-6">
                         Challenge of the Week
                     </span>
-                    <h1 className="text-5xl md:text-7xl font-serif italic text-foreground mb-4">
+                    <h1 className="text-5xl md:text-7xl font-serif italic text-foreground mb-4 text-balance">
                         &ldquo;Abstract Photography&rdquo;
                     </h1>
-                    <p className="text-lg text-foreground/50 max-w-2xl mx-auto mb-8">
+                    <p className="text-lg text-foreground/50 max-w-2xl mx-auto mb-8 text-pretty">
                         what if a photograph didn't need to look real? Blur the lines. Break the forms.<br/><em>Play With Color, Light,Motion and perspective.</em>
                     </p>
                     <div className="flex flex-col items-center gap-6">
@@ -79,9 +79,9 @@ export default function ChallengeContent() {
                             href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="challenge-btn inline-flex items-center gap-2 bg-[#25D366] text-white px-8 py-3 rounded-full text-sm font-semibold tracking-wide hover:brightness-110 transition-all shadow-md"
+                            className="challenge-btn inline-flex items-center gap-2 bg-[#25D366] text-white px-8 py-3 rounded-full text-sm font-semibold tracking-wide hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[#25D366]/50 transition-all shadow-md"
                         >
-                            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.78.943 3.185 1.448 4.615 1.449 5.408 0 9.811-4.403 9.813-9.812.001-2.618-1.02-5.08-2.876-6.937-1.856-1.856-4.318-2.877-6.935-2.877-5.41 0-9.813 4.403-9.813 9.813 0 1.848.511 3.141 1.482 4.814l-.982 3.586 3.696-.97zm11.233-8.084c-.3-.15-1.776-.877-2.051-.976-.275-.1-.475-.15-.675.15s-.775.976-.95 1.176-.35.225-.65.075-1.266-.467-2.411-1.485c-.893-.795-1.495-1.778-1.671-2.078s-.019-.463.131-.612c.135-.134.3-.35.45-.525s.2-.3.3-.5.05-.375-.025-.525-.775-1.875-1.063-2.564c-.28-.674-.56-.582-.768-.592-.19-.01-.41-.011-.629-.011s-.574.082-.874.407c-.3.325-1.15 1.125-1.15 2.74c0 1.615 1.175 3.177 1.338 3.397s2.31 3.527 5.594 4.945c.781.339 1.391.541 1.866.692.784.248 1.498.213 2.062.129.629-.094 1.776-.726 2.026-1.426.25-.7.25-1.3.175-1.426-.075-.125-.275-.2-.575-.35z" />
                             </svg>
                             Join WhatsApp Group
