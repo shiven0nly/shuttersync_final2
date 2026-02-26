@@ -1,0 +1,65 @@
+import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
+
+// Submit a new collaboration inquiry
+export const submitInquiry = mutation({
+  args: {
+    organizationType: v.string(),
+    organizationName: v.string(),
+    contactPersonName: v.string(),
+    email: v.string(),
+    phoneNumber: v.string(),
+    website: v.optional(v.string()),
+    collaborationType: v.string(),
+    projectDetails: v.string(),
+    budget: v.optional(v.string()),
+    timeline: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const inquiryId = await ctx.db.insert("collaboration_inquiries", {
+      ...args,
+      status: "pending",
+      submittedAt: Date.now(),
+    });
+    return inquiryId;
+  },
+});
+
+// Get all collaboration inquiries (admin only)
+export const getAllInquiries = query({
+  handler: async (ctx) => {
+    const inquiries = await ctx.db
+      .query("collaboration_inquiries")
+      .order("desc")
+      .collect();
+    return inquiries;
+  },
+});
+
+// Update inquiry status
+export const updateInquiryStatus = mutation({
+  args: {
+    inquiryId: v.id("collaboration_inquiries"),
+    status: v.string(),
+    adminEmail: v.string(),
+    notes: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.inquiryId, {
+      status: args.status,
+      reviewedBy: args.adminEmail,
+      reviewedAt: Date.now(),
+      notes: args.notes,
+    });
+  },
+});
+
+// Delete inquiry
+export const deleteInquiry = mutation({
+  args: {
+    inquiryId: v.id("collaboration_inquiries"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.inquiryId);
+  },
+});

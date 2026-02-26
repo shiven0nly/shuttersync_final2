@@ -110,4 +110,26 @@ export default defineSchema({
   })
     .index("by_certificate_id", ["certificateId"])
     .index("by_user", ["userId"]),
+
+  collaboration_inquiries: defineTable({
+    organizationType: v.string(), // "company", "organization", "professional"
+    organizationName: v.string(),
+    contactPersonName: v.string(),
+    email: v.string(),
+    phoneNumber: v.string(),
+    website: v.optional(v.string()),
+    collaborationType: v.string(), // "workshop", "event", "partnership", "sponsorship", "other"
+    projectDetails: v.string(),
+    budget: v.optional(v.string()),
+    timeline: v.optional(v.string()),
+    status: v.string(), // "pending", "reviewed", "contacted", "closed"
+    reviewedBy: v.optional(v.string()), // admin email who reviewed
+    reviewedAt: v.optional(v.number()), // timestamp
+    notes: v.optional(v.string()), // admin notes
+    submittedAt: v.number(), // timestamp
+  })
+    .index("by_email", ["email"])
+    .index("by_status", ["status"])
+    .index("by_submitted_at", ["submittedAt"])
+    .index("by_organization_type", ["organizationType"]),
 });

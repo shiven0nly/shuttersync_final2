@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useMutation } from 'convex/react';
+import { api } from 'convex/_generated/api';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -12,8 +14,20 @@ if (typeof window !== 'undefined') {
 const admins = [
     {
         id: 1,
+        name: 'Rajnish',
+        role: 'Founder (ShutterSync)',
+        badge: 'Founder (CEO)',
+        mobile: '9455955981',
+        email: 'rajnish@shuttersync.in',
+        instagram: 'quanta_01_',
+        bio: 'Ensuring smooth operations and strategic growth for the ShutterSync community behind the scenes.',
+        avatar: 'R',
+        photo: '/r_hs.jpeg',
+    },
+    {
+        id: 2,
         name: 'Aquib',
-        role: 'Community Lead',
+        role: 'Co-Founder',
         badge: '🏆 Community Lead',
         mobile: '8758675845',
         email: 'aquib@shuttersync.in',
@@ -21,18 +35,6 @@ const admins = [
         bio: 'Passionate about building creative communities and connecting photographers across all skill levels.',
         avatar: 'A',
         photo: '/logo.jpeg',
-    },
-    {
-        id: 2,
-        name: 'Rajnish',
-        role: 'Management',
-        badge: '📋 Management',
-        mobile: '9455955981',
-        email: 'rajnish@shuttersync.in',
-        instagram: 'quanta_01_',
-        bio: 'Ensuring smooth operations and strategic growth for the ShutterSync community behind the scenes.',
-        avatar: 'R',
-        photo: '/r_hs.jpeg',
     },
     {
         id: 3,
@@ -61,7 +63,7 @@ const admins = [
     {
         id: 5,
         name: 'Shiven',
-        role: 'Technical Lead',
+        role: 'CTO (ShutterSync)',
         badge: '⚙️ Technical Lead',
         mobile: '9460272387',
         email: 'shiven@shuttersync.in',
@@ -73,13 +75,27 @@ const admins = [
 ];
 
 export default function ContactContent() {
-    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+    const [formData, setFormData] = useState({
+        organizationType: '',
+        organizationName: '',
+        contactPersonName: '',
+        email: '',
+        phoneNumber: '',
+        website: '',
+        collaborationType: '',
+        projectDetails: '',
+        budget: '',
+        timeline: '',
+    });
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isHydrated, setIsHydrated] = useState(false);
     const heroRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLDivElement>(null);
+
+    const submitInquiry = useMutation(api.collaborationInquiries.submitInquiry);
 
     useEffect(() => { setIsHydrated(true); }, []);
 
@@ -134,24 +150,57 @@ export default function ContactContent() {
 
     const validate = () => {
         const errs: Record<string, string> = {};
-        if (!formData.name.trim()) errs.name = 'Name is required';
+        if (!formData.organizationType) errs.organizationType = 'Organization type is required';
+        if (!formData.organizationName.trim()) errs.organizationName = 'Organization name is required';
+        if (!formData.contactPersonName.trim()) errs.contactPersonName = 'Contact person name is required';
         if (!formData.email.trim()) errs.email = 'Email is required';
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errs.email = 'Enter a valid email';
-        if (!formData.subject.trim()) errs.subject = 'Subject is required';
-        if (!formData.message.trim()) errs.message = 'Message is required';
+        if (!formData.phoneNumber.trim()) errs.phoneNumber = 'Phone number is required';
+        if (!formData.collaborationType) errs.collaborationType = 'Collaboration type is required';
+        if (!formData.projectDetails.trim()) errs.projectDetails = 'Project details are required';
         setErrors(errs);
         return Object.keys(errs).length === 0;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validate()) {
-            setIsSubmitted(true);
-            setFormData({ name: '', email: '', subject: '', message: '' });
+            setIsSubmitting(true);
+            try {
+                await submitInquiry({
+                    organizationType: formData.organizationType,
+                    organizationName: formData.organizationName,
+                    contactPersonName: formData.contactPersonName,
+                    email: formData.email,
+                    phoneNumber: formData.phoneNumber,
+                    website: formData.website || undefined,
+                    collaborationType: formData.collaborationType,
+                    projectDetails: formData.projectDetails,
+                    budget: formData.budget || undefined,
+                    timeline: formData.timeline || undefined,
+                });
+                setIsSubmitted(true);
+                setFormData({
+                    organizationType: '',
+                    organizationName: '',
+                    contactPersonName: '',
+                    email: '',
+                    phoneNumber: '',
+                    website: '',
+                    collaborationType: '',
+                    projectDetails: '',
+                    budget: '',
+                    timeline: '',
+                });
+            } catch (error) {
+                alert('Failed to submit inquiry. Please try again.');
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
         if (errors[name]) setErrors({ ...errors, [name]: '' });
@@ -236,9 +285,9 @@ export default function ContactContent() {
                                     <circle cx="145" cy="75" r="5" stroke="currentColor" strokeWidth="1.5" />
                                 </svg>
 
-                                <h3 className="text-2xl font-serif text-foreground mb-4 text-center">Drop us a message</h3>
+                                <h3 className="text-2xl font-serif text-foreground mb-4 text-center">Let&apos;s Collaborate</h3>
                                 <p className="text-sm text-foreground/40 text-center leading-relaxed mb-8">
-                                    Have a question, suggestion, or just want to say hello? We&apos;d love to hear from you.
+                                    Partner with ShutterSync for workshops, events, sponsorships, and more.
                                 </p>
 
                                 <div className="space-y-4">
@@ -262,8 +311,8 @@ export default function ContactContent() {
                         <div className="lg:col-span-3">
                             {/* Mobile heading */}
                             <div className="text-center mb-10 lg:hidden">
-                                <h2 className="text-3xl font-serif text-foreground mb-3">Drop us a message</h2>
-                                <p className="text-foreground/50 text-sm">Have a question or suggestion? We&apos;d love to hear from you.</p>
+                                <h2 className="text-3xl font-serif text-foreground mb-3">Collaboration Inquiry</h2>
+                                <p className="text-foreground/50 text-sm">Partner with us for workshops, events, and creative projects.</p>
                             </div>
 
                             <div className="soft-card p-8 md:p-10 shadow-lg">
@@ -288,30 +337,76 @@ export default function ContactContent() {
                                     </div>
                                 ) : (
                                     <form onSubmit={handleSubmit} className="space-y-6">
+                                        {/* Organization Type */}
+                                        <div>
+                                            <label htmlFor="organization-type" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Organization Type</label>
+                                            <select
+                                                id="organization-type"
+                                                name="organizationType"
+                                                value={formData.organizationType}
+                                                onChange={handleChange}
+                                                required
+                                                aria-invalid={!!errors.organizationType}
+                                                aria-describedby={errors.organizationType ? 'org-type-err' : undefined}
+                                                className={`w-full px-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.organizationType ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                            >
+                                                <option value="">Select type</option>
+                                                <option value="company">Company</option>
+                                                <option value="organization">Organization</option>
+                                                <option value="professional">Working Professional</option>
+                                            </select>
+                                            {errors.organizationType && <p id="org-type-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.organizationType}</p>}
+                                        </div>
+
                                         <div className="grid md:grid-cols-2 gap-6">
-                                            {/* Name */}
+                                            {/* Organization Name */}
                                             <div>
-                                                <label htmlFor="contact-name" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Full Name</label>
+                                                <label htmlFor="organization-name" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Organization Name</label>
+                                                <div className="relative">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
+                                                        <Icon name="BuildingOfficeIcon" size={16} variant="outline" />
+                                                    </div>
+                                                    <input
+                                                        id="organization-name"
+                                                        type="text"
+                                                        name="organizationName"
+                                                        value={formData.organizationName}
+                                                        onChange={handleChange}
+                                                        required
+                                                        aria-invalid={!!errors.organizationName}
+                                                        aria-describedby={errors.organizationName ? 'org-name-err' : undefined}
+                                                        className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.organizationName ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                                        placeholder="Your company/organization"
+                                                    />
+                                                </div>
+                                                {errors.organizationName && <p id="org-name-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.organizationName}</p>}
+                                            </div>
+
+                                            {/* Contact Person Name */}
+                                            <div>
+                                                <label htmlFor="contact-person" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Contact Person</label>
                                                 <div className="relative">
                                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
                                                         <Icon name="UserIcon" size={16} variant="outline" />
                                                     </div>
                                                     <input
-                                                        id="contact-name"
+                                                        id="contact-person"
                                                         type="text"
-                                                        name="name"
-                                                        value={formData.name}
+                                                        name="contactPersonName"
+                                                        value={formData.contactPersonName}
                                                         onChange={handleChange}
                                                         required
-                                                        aria-invalid={!!errors.name}
-                                                        aria-describedby={errors.name ? 'name-err' : undefined}
-                                                        className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.name ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
-                                                        placeholder="John Doe"
+                                                        aria-invalid={!!errors.contactPersonName}
+                                                        aria-describedby={errors.contactPersonName ? 'contact-person-err' : undefined}
+                                                        className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.contactPersonName ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                                        placeholder="Your full name"
                                                     />
                                                 </div>
-                                                {errors.name && <p id="name-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.name}</p>}
+                                                {errors.contactPersonName && <p id="contact-person-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.contactPersonName}</p>}
                                             </div>
+                                        </div>
 
+                                        <div className="grid md:grid-cols-2 gap-6">
                                             {/* Email */}
                                             <div>
                                                 <label htmlFor="contact-email" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Email Address</label>
@@ -329,64 +424,149 @@ export default function ContactContent() {
                                                         aria-invalid={!!errors.email}
                                                         aria-describedby={errors.email ? 'email-err' : undefined}
                                                         className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.email ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
-                                                        placeholder="you@example.com"
+                                                        placeholder="you@company.com"
                                                     />
                                                 </div>
                                                 {errors.email && <p id="email-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.email}</p>}
                                             </div>
+
+                                            {/* Phone Number */}
+                                            <div>
+                                                <label htmlFor="phone-number" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Phone Number</label>
+                                                <div className="relative">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
+                                                        <Icon name="PhoneIcon" size={16} variant="outline" />
+                                                    </div>
+                                                    <input
+                                                        id="phone-number"
+                                                        type="tel"
+                                                        name="phoneNumber"
+                                                        value={formData.phoneNumber}
+                                                        onChange={handleChange}
+                                                        required
+                                                        aria-invalid={!!errors.phoneNumber}
+                                                        aria-describedby={errors.phoneNumber ? 'phone-err' : undefined}
+                                                        className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.phoneNumber ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                                        placeholder="+91 98765 43210"
+                                                    />
+                                                </div>
+                                                {errors.phoneNumber && <p id="phone-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.phoneNumber}</p>}
+                                            </div>
                                         </div>
 
-                                        {/* Subject */}
-                                        <div>
-                                            <label htmlFor="contact-subject" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Subject</label>
-                                            <div className="relative">
-                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
-                                                    <Icon name="TagIcon" size={16} variant="outline" />
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            {/* Website (Optional) */}
+                                            <div>
+                                                <label htmlFor="website" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Website <span className="text-foreground/25">(Optional)</span></label>
+                                                <div className="relative">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
+                                                        <Icon name="GlobeAltIcon" size={16} variant="outline" />
+                                                    </div>
+                                                    <input
+                                                        id="website"
+                                                        type="url"
+                                                        name="website"
+                                                        value={formData.website}
+                                                        onChange={handleChange}
+                                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-foreground/30 transition-colors"
+                                                        placeholder="https://yourcompany.com"
+                                                    />
                                                 </div>
-                                                <input
-                                                    id="contact-subject"
-                                                    type="text"
-                                                    name="subject"
-                                                    value={formData.subject}
+                                            </div>
+
+                                            {/* Collaboration Type */}
+                                            <div>
+                                                <label htmlFor="collaboration-type" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Collaboration Type</label>
+                                                <select
+                                                    id="collaboration-type"
+                                                    name="collaborationType"
+                                                    value={formData.collaborationType}
                                                     onChange={handleChange}
                                                     required
-                                                    aria-invalid={!!errors.subject}
-                                                    aria-describedby={errors.subject ? 'subject-err' : undefined}
-                                                    className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.subject ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
-                                                    placeholder="What's this about?"
-                                                />
+                                                    aria-invalid={!!errors.collaborationType}
+                                                    aria-describedby={errors.collaborationType ? 'collab-type-err' : undefined}
+                                                    className={`w-full px-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors ${errors.collaborationType ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                                >
+                                                    <option value="">Select type</option>
+                                                    <option value="workshop">Workshop</option>
+                                                    <option value="event">Event Partnership</option>
+                                                    <option value="partnership">Strategic Partnership</option>
+                                                    <option value="sponsorship">Sponsorship</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                                {errors.collaborationType && <p id="collab-type-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.collaborationType}</p>}
                                             </div>
-                                            {errors.subject && <p id="subject-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.subject}</p>}
                                         </div>
 
-                                        {/* Message */}
+                                        {/* Project Details */}
                                         <div>
-                                            <label htmlFor="contact-message" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Message</label>
+                                            <label htmlFor="project-details" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Project Details</label>
                                             <div className="relative">
                                                 <div className="absolute left-4 top-4 text-foreground/25">
                                                     <Icon name="ChatBubbleLeftIcon" size={16} variant="outline" />
                                                 </div>
                                                 <textarea
-                                                    id="contact-message"
-                                                    name="message"
-                                                    value={formData.message}
+                                                    id="project-details"
+                                                    name="projectDetails"
+                                                    value={formData.projectDetails}
                                                     onChange={handleChange}
                                                     required
                                                     rows={5}
-                                                    aria-invalid={!!errors.message}
-                                                    aria-describedby={errors.message ? 'msg-err' : undefined}
-                                                    className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors resize-none ${errors.message ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
-                                                    placeholder="Tell us what's on your mind..."
+                                                    aria-invalid={!!errors.projectDetails}
+                                                    aria-describedby={errors.projectDetails ? 'project-err' : undefined}
+                                                    className={`w-full pl-11 pr-4 py-3 rounded-xl border bg-white text-sm text-foreground focus:outline-none transition-colors resize-none ${errors.projectDetails ? 'border-red-400 focus:border-red-500' : 'border-foreground/10 focus:border-foreground/30'}`}
+                                                    placeholder="Tell us about your collaboration idea, goals, and what you're looking for..."
                                                 />
                                             </div>
-                                            {errors.message && <p id="msg-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.message}</p>}
+                                            {errors.projectDetails && <p id="project-err" className="text-xs text-red-500 mt-1.5" role="alert">{errors.projectDetails}</p>}
+                                        </div>
+
+                                        <div className="grid md:grid-cols-2 gap-6">
+                                            {/* Budget (Optional) */}
+                                            <div>
+                                                <label htmlFor="budget" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Budget Range <span className="text-foreground/25">(Optional)</span></label>
+                                                <div className="relative">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
+                                                        <Icon name="CurrencyRupeeIcon" size={16} variant="outline" />
+                                                    </div>
+                                                    <input
+                                                        id="budget"
+                                                        type="text"
+                                                        name="budget"
+                                                        value={formData.budget}
+                                                        onChange={handleChange}
+                                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-foreground/30 transition-colors"
+                                                        placeholder="e.g., ₹50,000 - ₹1,00,000"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* Timeline (Optional) */}
+                                            <div>
+                                                <label htmlFor="timeline" className="block text-[10px] uppercase tracking-[0.2em] text-foreground/40 mb-2">Timeline <span className="text-foreground/25">(Optional)</span></label>
+                                                <div className="relative">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/25">
+                                                        <Icon name="CalendarIcon" size={16} variant="outline" />
+                                                    </div>
+                                                    <input
+                                                        id="timeline"
+                                                        type="text"
+                                                        name="timeline"
+                                                        value={formData.timeline}
+                                                        onChange={handleChange}
+                                                        className="w-full pl-11 pr-4 py-3 rounded-xl border border-foreground/10 bg-white text-sm text-foreground focus:outline-none focus:border-foreground/30 transition-colors"
+                                                        placeholder="e.g., Next 3 months"
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <button
                                             type="submit"
-                                            className="w-full py-4 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center justify-center gap-3 group"
+                                            disabled={isSubmitting}
+                                            className="w-full py-4 bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            Send Message
+                                            {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
                                             <Icon name="PaperAirplaneIcon" size={16} variant="outline" className="group-hover:translate-x-1 transition-transform" />
                                         </button>
                                     </form>
