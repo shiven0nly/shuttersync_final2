@@ -169,6 +169,16 @@ const jsonLd = {
       "creator": {
         "@id": "https://shuttersync-photography.netlify.app/#organization"
       }
+    },
+    {
+      "@type": "Blog",
+      "name": "ShutterSync Photography Blog",
+      "url": "https://shuttersync-photography.netlify.app/blog",
+      "description": "Expert photography tips, tutorials, and insights covering composition, lighting, gear reviews, and creative inspiration.",
+      "publisher": {
+        "@id": "https://shuttersync-photography.netlify.app/#organization"
+      },
+      "inLanguage": "en-US"
     }
   ]
 };

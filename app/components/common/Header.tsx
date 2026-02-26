@@ -33,6 +33,7 @@ export default function Header() {
   const navLinks = [
     { id: 'nav_home', label: 'Home', href: '/' },
     { id: 'nav_gallery', label: 'Gallery', href: '/gallery' },
+    { id: 'nav_blog', label: 'Blog', href: '/blog' },
     { id: 'nav_challenge', label: 'Challenge', href: '/challenge' },
     { id: 'nav_events', label: 'Events', href: '/events' },
     { id: 'nav_contact', label: 'Contact', href: '/contact' },
