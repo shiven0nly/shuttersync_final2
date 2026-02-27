@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import AppImage from '@/components/ui/AppImage';
 import Icon from '@/components/ui/AppIcon';
 
 const categories = ['All', 'Street', 'Landscape', 'Portrait', 'Architecture', 'Wildlife', 'Abstract', 'Night', 'Food', 'Nature'];
@@ -86,9 +85,10 @@ export default function GalleryContent() {
                     {filteredPhotos.map((photo) => (
                         <div key={photo.id} className="break-inside-avoid group">
                             <div className="relative overflow-hidden rounded-2xl">
-                                <AppImage
+                                <img
                                     src={photo.image}
                                     alt={photo.title}
+                                    loading="lazy"
                                     className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
 
