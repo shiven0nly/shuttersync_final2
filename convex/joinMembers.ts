@@ -13,16 +13,14 @@ export const submitApplication = mutation({
   },
   handler: async (ctx, args) => {
     // Check if email already exists with pending or approved status
-    const existing = await ctx.db
+    const allApplications = await ctx.db
       .query("join_members")
       .withIndex("by_email", (q) => q.eq("email", args.email))
-      .filter((q) => 
-        q.or(
-          q.eq(q.field("status"), "pending"),
-          q.eq(q.field("status"), "approved")
-        )
-      )
-      .first();
+      .collect();
+
+    const existing = allApplications.find(
+      (app) => app.status === "pending" || app.status === "approved"
+    );
 
     if (existing) {
       throw new Error("An application with this email already exists.");
