@@ -34,7 +34,7 @@ const admins = [
         instagram: 'aakib11.3',
         bio: 'Passionate about building creative communities and connecting photographers across all skill levels.',
         avatar: 'A',
-        photo: '/logo.jpeg',
+        photo: '/aquib.jpeg',
     },
     {
         id: 3,
@@ -46,7 +46,7 @@ const admins = [
         instagram: 'maitri_.1203',
         bio: 'Curating visual experiences and ensuring every photo challenge sparks creativity and growth.',
         avatar: 'M',
-        photo: '/logo.jpeg',
+        photo: '/matri.jpeg',
     },
     {
         id: 4,
@@ -597,8 +597,9 @@ function AdminCard({ admin }: AdminCardProps) {
                     <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200">
                         <img
                             src={admin.photo}
-                            alt={admin.name}
-                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            alt={`${admin.name} - ${admin.role}`}
+                            className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                            style={{ objectPosition: 'center 30%' }}
                         />
                     </div>
                 ) : (
