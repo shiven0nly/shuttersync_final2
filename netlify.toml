@@ -1,7 +1,6 @@
 [build]
   command = "npm run build"
   publish = ".next"
-  functions = "netlify/functions"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -9,46 +8,3 @@
 [build.environment]
   NODE_VERSION = "20"
   NEXT_TELEMETRY_DISABLED = "1"
-
-# Redirects for Next.js
-[[redirects]]
-  from = "/_next/static/*"
-  to = "/_next/static/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/_next/*"
-  to = "/_next/:splat"
-  status = 200
-  force = true
-
-# Headers for proper MIME types and caching
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-XSS-Protection = "1; mode=block"
-
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/_next/static/chunks/*.js"
-  [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
-
-[[headers]]
-  for = "/_next/static/chunks/*.css"
-  [headers.values]
-    Content-Type = "text/css; charset=utf-8"
-
-[[headers]]
-  for = "/manifest.json"
-  [headers.values]
-    Content-Type = "application/manifest+json; charset=utf-8"
-    Cache-Control = "public, max-age=0, must-revalidate"

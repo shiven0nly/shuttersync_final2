@@ -32,8 +32,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['gsap', 'lucide-react', '@heroicons/react'],
   },
-  
-  distDir: '.next',
 };
 
 export default nextConfig;
