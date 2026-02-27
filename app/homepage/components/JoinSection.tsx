@@ -6,6 +6,8 @@ import { api } from 'convex/_generated/api';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { InteractiveHoverButton } from '@/components/ui/interactive-hover-button';
+import { SlideButton } from '@/components/ui/slide-button';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -96,6 +98,28 @@ export default function JoinSection() {
       setSubmitted(true);
     } catch (error: any) {
       setErrors({ submit: error.message || 'Failed to submit application. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSlideSubmit = async () => {
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      await submitApplication({
+        name: formData.name,
+        email: formData.email,
+        portfolio: formData.portfolio || undefined,
+        experience: formData.experience,
+        message: formData.message || undefined,
+        photoUrl: photoPreview || undefined,
+      });
+      setSubmitted(true);
+    } catch (error: any) {
+      setErrors({ submit: error.message || 'Failed to submit application. Please try again.' });
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -214,7 +238,7 @@ export default function JoinSection() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit}>
+              <form>
                 {step === 1 && (
                   <div className="space-y-8">
                     {/* Photo Upload */}
@@ -286,14 +310,13 @@ export default function JoinSection() {
                     </div>
 
                     <div className="flex justify-end pt-4">
-                      <button
+                      <InteractiveHoverButton
+                        text="Next Step"
+                        variant="filled"
                         type="button"
                         onClick={handleNext}
-                        className="px-10 py-4 bg-foreground text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center gap-3"
-                      >
-                        Next Step
-                        <Icon name="ArrowRightIcon" size={14} variant="outline" />
-                      </button>
+                        className="min-w-[180px] text-xs uppercase tracking-[0.2em]"
+                      />
                     </div>
                   </div>
                 )}
@@ -363,14 +386,14 @@ export default function JoinSection() {
                         <Icon name="ArrowLeftIcon" size={14} variant="outline" />
                         Back
                       </button>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full md:w-auto px-12 py-4 bg-foreground hover:bg-foreground/90 text-background rounded-full text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Submit Application'}
-                        <Icon name="ArrowRightIcon" size={16} variant="outline" className="group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      <div className="w-full md:w-auto flex justify-center md:justify-end">
+                        <SlideButton
+                          onSlideComplete={handleSlideSubmit}
+                          status={isSubmitting ? 'loading' : 'idle'}
+                          disabled={isSubmitting}
+                          className="bg-[#C4783E] hover:bg-[#C4783E]/90"
+                        />
+                      </div>
                     </div>
                   </div>
                 )}

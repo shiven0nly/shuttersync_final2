@@ -85,7 +85,7 @@ export default function GalleryContent() {
                 <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                     {filteredPhotos.map((photo) => (
                         <div key={photo.id} className="break-inside-avoid group">
-                            <div className="relative overflow-hidden rounded-2xl bg-white/5">
+                            <div className="relative overflow-hidden rounded-2xl">
                                 <AppImage
                                     src={photo.image}
                                     alt={photo.title}

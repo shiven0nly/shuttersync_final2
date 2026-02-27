@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import gsap from 'gsap';
+import { RippleButton } from '@/components/ui/ripple-button';
+import { RevealText } from '@/components/ui/reveal-text';
 
 const heroPhotos = [
   { src: '/scenery1.jpeg', alt: 'Mountain landscape' },
@@ -69,23 +71,6 @@ export default function HeroSection() {
         delay: 0.6,
         stagger: 0.15,
         ease: 'power3.out',
-      });
-
-      // Button hover animations
-      const buttons = document.querySelectorAll('.hero-btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-          gsap.to(btn, { scale: 1.05, y: -4, duration: 0.3, ease: 'power2.out' });
-        });
-        btn.addEventListener('mouseleave', () => {
-          gsap.to(btn, { scale: 1, y: 0, duration: 0.3, ease: 'power2.out' });
-        });
-        btn.addEventListener('mousedown', () => {
-          gsap.to(btn, { scale: 0.95, duration: 0.1 });
-        });
-        btn.addEventListener('mouseup', () => {
-          gsap.to(btn, { scale: 1.05, duration: 0.1 });
-        });
       });
     }, heroRef);
 
@@ -156,22 +141,42 @@ export default function HeroSection() {
           A Photography Community
         </p>
 
-        <h1 data-hero-content className="text-4xl md:text-6xl lg:text-7xl font-serif text-foreground leading-tight mb-6 text-balance">
-          Sync Your Vision
-          <span className="block italic text-foreground/50">with ShutterSync</span>
-        </h1>
+        <div data-hero-content className="mb-6">
+          <RevealText
+            text="SHUTTERSYNC"
+            textColor="text-foreground"
+            overlayColor="text-orange-500"
+            fontSize="text-[40px] sm:text-[60px] md:text-[80px] lg:text-[100px]"
+            letterDelay={0.08}
+            overlayDelay={0.05}
+            overlayDuration={0.4}
+            springDuration={600}
+            letterImages={[
+              '/scenery1.jpeg',
+              '/building_minimal.jpeg',
+              '/scenery2.jpeg',
+              '/girl_in_pool.jpeg',
+              '/building_bnw.jpeg',
+              '/swan.jpeg',
+              '/lightPhotography1.jpeg',
+              '/sunset.jpeg',
+              '/food.jpeg',
+              '/cloud1.jpeg',
+              '/nightsky1.jpeg',
+            ]}
+          />
+        </div>
 
         <p data-hero-content className="text-base md:text-lg text-foreground/50 font-light max-w-xl mx-auto mb-10 leading-relaxed text-pretty">
           Share your clicks, discuss techniques, participate in weekly challenges, and connect with passionate photographers.
         </p>
-          <div  data-hero-content className="flex flex-wrap items-center justify-center gap-4">
-         <Link
-            href="/signup"
-            className="hero-btn inline-flex items-center gap-2 bg-foreground text-background px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors shadow-lg"
-          >
-            Join the Community
+        <div data-hero-content className="flex flex-wrap items-center justify-center gap-4">
+          <Link href="/sign-up">
+            <RippleButton className="min-w-[200px] px-10 py-4 text-sm uppercase tracking-[0.15em] rounded-full text-black border-black hover:text-white">
+              Join Community
+            </RippleButton>
           </Link>
-          <button
+          <RippleButton
             onClick={() => {
               if (!isLoaded) return;
               if (!user) {
@@ -180,10 +185,10 @@ export default function HeroSection() {
                 router.push('/workshops/register');
               }
             }}
-            className="hero-btn inline-flex items-center gap-2 border-2 border-foreground/20 text-foreground px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:border-foreground/40 hover:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
+            className="min-w-[200px] px-10 py-4 text-sm uppercase tracking-[0.15em] rounded-full"
           >
             Join Workshop
-          </button>
+          </RippleButton>
         </div>
       </div>
 
