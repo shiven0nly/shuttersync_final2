@@ -33,7 +33,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['gsap', 'lucide-react', '@heroicons/react'],
   },
   
-  // Disable static optimization for Netlify
   distDir: '.next',
 };
 
