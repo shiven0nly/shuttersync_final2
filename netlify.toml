@@ -35,5 +35,5 @@
 [[headers]]
   for = "/manifest.json"
   [headers.values]
-    Content-Type : "application/manifest+json; charset=utf-8"
-    Cache-Control: "public, max-age=0, must-revalidate"
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
