@@ -57,7 +57,7 @@ export default function Footer() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/signup"
+              href="/sign-up"
               className="footer-btn inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-[0.15em] hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
             >
               Join ShutterSync
