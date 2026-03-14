@@ -41,13 +41,17 @@ export const updateInquiryStatus = mutation({
   args: {
     inquiryId: v.id("collaboration_inquiries"),
     status: v.string(),
-    adminEmail: v.string(),
     notes: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.inquiryId, {
       status: args.status,
-      reviewedBy: args.adminEmail,
+      reviewedBy: identity.email ?? "admin",
       reviewedAt: Date.now(),
       notes: args.notes,
     });

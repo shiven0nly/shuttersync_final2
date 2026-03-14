@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import Icon from '@/components/ui/AppIcon';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import gsap from 'gsap';
 
-export default function Footer() {
+const Footer = React.memo(function Footer() {
   const currentYear = 2026;
 
   const footerLinks = [
@@ -121,4 +121,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+export default Footer;

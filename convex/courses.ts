@@ -57,12 +57,16 @@ export const getAllRegistrations = query({
 export const cancelRegistration = mutation({
   args: {
     registrationId: v.id("course_registrations"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.registrationId, {
       status: "cancelled",
-      cancelledBy: args.adminEmail,
+      cancelledBy: identity.email ?? "admin",
       cancelledAt: Date.now(),
     });
     return { success: true };

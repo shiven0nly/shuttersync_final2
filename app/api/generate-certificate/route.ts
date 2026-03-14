@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { z } from 'zod';
+
+const certificateSchema = z.object({
+  fullName: z.string().min(1),
+  workshopTitle: z.string().min(1),
+  issueDate: z.string().or(z.number()),
+  certificateId: z.string().min(1),
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,7 +18,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { fullName, workshopTitle, issueDate, certificateId } = body;
+    const parsed = certificateSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid input', details: parsed.error.issues }, { status: 400 });
+    }
+    const { fullName, workshopTitle, issueDate, certificateId } = parsed.data;
 
     // For now, return a simple response
     // In production, you would use canvas or a PDF library to generate the certificate

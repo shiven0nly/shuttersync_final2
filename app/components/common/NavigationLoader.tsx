@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import LoadingScreen from './LoadingScreen';
 
-export default function NavigationLoader() {
+const NavigationLoader = React.memo(function NavigationLoader() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const [isVisible, setIsVisible] = useState(false);
@@ -56,4 +56,6 @@ export default function NavigationLoader() {
             onExited={() => setIsVisible(false)}
         />
     );
-}
+});
+
+export default NavigationLoader;

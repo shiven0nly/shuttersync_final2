@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
@@ -120,11 +121,12 @@ export default function HeroSection() {
             className="absolute w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 pointer-events-auto"
             style={getPhotoStyle(i, heroPhotos.length)}
           >
-            <img
+            <Image
               src={photo.src}
               alt={photo.alt}
-              loading="lazy"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 640px) 80px, (max-width: 768px) 100px, 120px"
+              className="object-cover"
             />
           </div>
         ))}
@@ -133,8 +135,8 @@ export default function HeroSection() {
       {/* Center Content */}
       <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
         {/* Logo Circle */}
-        <div data-hero-content className="mx-auto mb-8 w-24 h-24 rounded-full bg-orange-500 flex items-center justify-center shadow-xl">
-          <img src="/logo.jpeg" alt="ShutterSync Logo" className="w-full h-full object-cover rounded-full" />
+        <div data-hero-content className="mx-auto mb-8 w-24 h-24 relative rounded-full bg-orange-500 flex items-center justify-center shadow-xl overflow-hidden">
+          <Image src="/logo.jpeg" alt="ShutterSync Logo" fill sizes="96px" className="object-cover" />
         </div>
 
         <p data-hero-content className="text-[10px] tracking-[0.4em] uppercase text-foreground/40 mb-4">

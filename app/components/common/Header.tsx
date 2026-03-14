@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/ui/AppIcon';
 import { usePathname } from 'next/navigation';
-import { useUser, SignOutButton } from '@clerk/nextjs';
+import { useUser, UserButton } from '@clerk/nextjs';
 import { ParticleButton } from '@/components/ui/particle-button';
 
-export default function Header() {
+const Header = React.memo(function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,7 +38,6 @@ export default function Header() {
     { id: 'nav_challenge', label: 'Challenge', href: '/challenge' },
     { id: 'nav_events', label: 'Events', href: '/events' },
     { id: 'nav_contact', label: 'Contact', href: '/contact' },
-    { id: 'nav_admin', label: 'Admin', href: '/admin' },
   ];
 
   return (
@@ -94,11 +93,19 @@ export default function Header() {
 
             {/* CTA Button */}
             {isLoaded && user ? (
-              <SignOutButton redirectUrl="/">
-                <ParticleButton className="hidden lg:inline-flex text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background rounded-full">
-                  Logout
-                </ParticleButton>
-              </SignOutButton>
+              <div className="hidden lg:flex items-center gap-4">
+                <UserButton afterSignOutUrl="/">
+                  {(user?.publicMetadata as any)?.role === 'admin' && (
+                    <UserButton.MenuItems>
+                      <UserButton.Link
+                        label="Admin Panel"
+                        labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
+                        href="/admin/dashboard"
+                      />
+                    </UserButton.MenuItems>
+                  )}
+                </UserButton>
+              </div>
             ) : isLoaded ? (
               <Link href="/sign-in" className="hidden lg:inline-block">
                 <ParticleButton className="inline-flex text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background rounded-full">
@@ -158,15 +165,19 @@ export default function Header() {
 
               <div className="mt-12 pt-8 border-t border-black/10">
                 {isLoaded && user ? (
-                  <SignOutButton redirectUrl="/">
-                    <ParticleButton
-                      onClick={() => setIsMenuOpen(false)}
-                      className="w-full justify-center bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.2em]"
-                      size="lg"
-                    >
-                      Logout
-                    </ParticleButton>
-                  </SignOutButton>
+                  <div className="flex justify-center w-full">
+                    <UserButton afterSignOutUrl="/">
+                      {(user?.publicMetadata as any)?.role === 'admin' && (
+                        <UserButton.MenuItems>
+                          <UserButton.Link
+                            label="Admin Panel"
+                            labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
+                            href="/admin/dashboard"
+                          />
+                        </UserButton.MenuItems>
+                      )}
+                    </UserButton>
+                  </div>
                 ) : isLoaded ? (
                   <Link
                     href="/sign-in"
@@ -187,4 +198,6 @@ export default function Header() {
       )}
     </>
   );
-}
+});
+
+export default Header;

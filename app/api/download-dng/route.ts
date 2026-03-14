@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Validate filename to prevent directory traversal
-    if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
+    if (filename.includes('..')) {
       return NextResponse.json({ error: 'Invalid filename' }, { status: 400 });
     }
 

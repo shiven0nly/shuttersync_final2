@@ -20,14 +20,7 @@ import {
 import Link from 'next/link';
 import type { Id } from 'convex/_generated/dataModel';
 
-const ADMIN_EMAILS = [
-    'admin@shuttersync.com',
-    'rajnish@shuttersync.in',
-    'aquib@shuttersync.in',
-    'maitri@shuttersync.in',
-    'sampada@shuttersync.in',
-    'shiven@shuttersync.in'
-];
+
 
 type StatusType = 'pending' | 'reviewed' | 'contacted' | 'closed';
 
@@ -70,25 +63,7 @@ export default function CollaborationInquiriesPage() {
         );
     }
 
-    const isAdmin = user?.primaryEmailAddress?.emailAddress && 
-        ADMIN_EMAILS.includes(user.primaryEmailAddress.emailAddress);
-
-    if (!user || !isAdmin) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-background px-6">
-                <div className="text-center max-w-md">
-                    <h1 className="text-3xl font-serif text-foreground mb-4">Access Denied</h1>
-                    <p className="text-foreground/60 mb-8">You need admin privileges to view this page.</p>
-                    <Link 
-                        href="/"
-                        className="inline-block px-6 py-3 bg-foreground text-background rounded-full text-sm font-semibold hover:bg-foreground/90 transition-colors"
-                    >
-                        Go Home
-                    </Link>
-                </div>
-            </div>
-        );
-    }
+    // Admin role is enforced by middleware (proxy.ts)
 
     const filteredInquiries = inquiries?.filter(inq => inq.status === activeStatus) || [];
 
@@ -105,7 +80,6 @@ export default function CollaborationInquiriesPage() {
             await updateStatus({
                 inquiryId,
                 status: newStatus,
-                adminEmail: user.primaryEmailAddress?.emailAddress || '',
                 notes: notes || undefined,
             });
             setNotes('');
@@ -143,7 +117,7 @@ export default function CollaborationInquiriesPage() {
                             <p className="text-foreground/50 text-sm mt-2">Manage partnership and collaboration requests</p>
                         </div>
                         <div className="text-right">
-                            <p className="text-sm text-foreground/60">{user.primaryEmailAddress?.emailAddress}</p>
+                            <p className="text-sm text-foreground/60">{user?.primaryEmailAddress?.emailAddress}</p>
                         </div>
                     </div>
                 </div>

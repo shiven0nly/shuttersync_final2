@@ -14,6 +14,11 @@ export const submitAssignment = mutation({
     videoCompleted: v.boolean(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      throw new Error("Unauthorized");
+    }
+
     // Check if already submitted
     const existing = await ctx.db
       .query("workshop_submissions")
@@ -56,6 +61,11 @@ export const getUserSubmission = query({
     workshopId: v.number(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      throw new Error("Unauthorized");
+    }
+
     const submission = await ctx.db
       .query("workshop_submissions")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
@@ -69,6 +79,9 @@ export const getUserSubmission = query({
 // Get all submissions (admin only)
 export const getAllSubmissions = query({
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
     const submissions = await ctx.db
       .query("workshop_submissions")
       .order("desc")
@@ -82,9 +95,13 @@ export const getAllSubmissions = query({
 export const approveSubmission = mutation({
   args: {
     submissionId: v.id("workshop_submissions"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     const submission = await ctx.db.get(args.submissionId);
     if (!submission) throw new Error("Submission not found");
 
@@ -105,7 +122,7 @@ export const approveSubmission = mutation({
     // Update submission
     await ctx.db.patch(args.submissionId, {
       status: "approved",
-      reviewedBy: args.adminEmail,
+      reviewedBy: identity.email ?? "admin",
       reviewedAt: Date.now(),
       certificateIssued: true,
       certificateId,
@@ -119,12 +136,16 @@ export const approveSubmission = mutation({
 export const rejectSubmission = mutation({
   args: {
     submissionId: v.id("workshop_submissions"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.submissionId, {
       status: "rejected",
-      reviewedBy: args.adminEmail,
+      reviewedBy: identity.email ?? "admin",
       reviewedAt: Date.now(),
     });
 

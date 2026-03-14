@@ -5,6 +5,7 @@ import { api } from 'convex/_generated/api';
 import { useParams } from 'next/navigation';
 import { CheckCircleIcon, XCircleIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const printStyles = `
   @media print {
@@ -161,11 +162,15 @@ export default function CertificateVerificationPage() {
                 <div className="flex items-center justify-between mb-4 sm:mb-8 md:mb-12">
                   <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                     {/* Logo */}
-                    <img 
-                      src="/logo.jpeg" 
-                      alt="ShutterSync Logo" 
-                      className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-md md:rounded-lg object-cover shadow-md"
-                    />
+                    <div className="relative w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-md md:rounded-lg overflow-hidden shadow-md">
+                      <Image 
+                        src="/logo.jpeg" 
+                        alt="ShutterSync Logo" 
+                        fill
+                        sizes="(max-width: 640px) 40px, (max-width: 768px) 56px, (max-width: 1024px) 64px, 80px"
+                        className="object-cover"
+                      />
+                    </div>
                     <div>
                       <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-0.5 sm:mb-1" style={{ fontFamily: 'serif' }}>
                         SHUTTERSYNC

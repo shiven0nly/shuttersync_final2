@@ -66,7 +66,7 @@ const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
   )
 }
 
-export interface SlideButtonProps extends Omit<ButtonProps, 'onSubmit'> {
+interface SlideButtonProps extends Omit<ButtonProps, 'onSubmit'> {
   onSlideComplete?: () => void | Promise<void>
   status?: "idle" | "loading" | "success" | "error"
   resetOnSuccess?: boolean

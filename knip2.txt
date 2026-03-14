@@ -1,0 +1,28 @@
+﻿[93m[4mUnused files[24m[39m (15)
+app/components/sterling-gate-kinetic-navigation.tsx
+app/lib/firebase.ts                                
+app/styles/index.css                               
+app/components/common/NewHeader.tsx                
+app/components/common/TubelightHeader.tsx          
+app/components/ui/glowing-effect.tsx               
+app/components/ui/GsapFillButton.tsx               
+app/components/ui/interactive-hover-button-demo.tsx
+app/components/ui/kinetic-navigation-demo.tsx      
+app/components/ui/particle-button-demo.tsx         
+app/components/ui/ripple-button-demo.tsx           
+app/components/ui/slide-button-demo.tsx            
+app/components/ui/tubelight-navbar-demo.tsx        
+app/components/ui/tubelight-navbar.tsx             
+app/homepage/components/TestimonialSection.tsx     
+[93m[4mUnused dependencies[24m[39m (3)
+canvas    package.json:16:6
+firebase  package.json:21:6
+motion    package.json:26:6
+[93m[4mUnused devDependencies[24m[39m (1)
+@netlify/plugin-nextjs  package.json:35:6
+[93m[4mUnlisted dependencies[24m[39m (1)
+postcss  postcss.config.mjs
+[93m[4mUnused exports[24m[39m (1)
+Component  function  app/components/ui/ripple-button.tsx:116:17
+[93m[4mUnused exported types[24m[39m (1)
+SlideButtonProps  interface  app/components/ui/slide-button.tsx:69:18

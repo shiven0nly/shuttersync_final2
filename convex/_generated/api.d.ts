@@ -12,6 +12,7 @@ import type * as certificates from "../certificates.js";
 import type * as collaborationInquiries from "../collaborationInquiries.js";
 import type * as competitions from "../competitions.js";
 import type * as courses from "../courses.js";
+import type * as debug from "../debug.js";
 import type * as joinMembers from "../joinMembers.js";
 import type * as photowalks from "../photowalks.js";
 import type * as registrations from "../registrations.js";
@@ -28,6 +29,7 @@ declare const fullApi: ApiFromModules<{
   collaborationInquiries: typeof collaborationInquiries;
   competitions: typeof competitions;
   courses: typeof courses;
+  debug: typeof debug;
   joinMembers: typeof joinMembers;
   photowalks: typeof photowalks;
   registrations: typeof registrations;

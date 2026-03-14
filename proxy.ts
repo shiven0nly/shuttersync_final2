@@ -26,7 +26,7 @@ const isProtectedWorkshopRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
 
   // Protect workshop routes - require authentication
   if (isProtectedWorkshopRoute(request)) {
@@ -37,9 +37,16 @@ export default clerkMiddleware(async (auth, request) => {
     }
   }
 
-  // Protect specific routes that require authentication
+  // Protect Admin roots - explicitly verifies JWT claims have metadata.role === 'admin'
   if (isProtectedRoute(request)) {
     await auth.protect();
+    
+    // Check if user has an admin role
+    const role = (sessionClaims?.metadata as any)?.role;
+    if (role !== 'admin') {
+      const redirectUrl = new URL('/', request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
   }
 });
 

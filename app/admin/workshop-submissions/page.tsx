@@ -1,13 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { CheckCircleIcon, XCircleIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
-const ADMIN_EMAIL = 'admin@shuttersync.com';
 
 export default function WorkshopSubmissionsAdminPage() {
   const { user, isLoaded } = useUser();
@@ -17,15 +15,14 @@ export default function WorkshopSubmissionsAdminPage() {
   const approveSubmission = useMutation(api.workshopSubmissions.approveSubmission);
   const rejectSubmission = useMutation(api.workshopSubmissions.rejectSubmission);
 
-  const isAdmin = user?.primaryEmailAddress?.emailAddress === ADMIN_EMAIL;
+  // Admin role is enforced by middleware (proxy.ts)
 
   const handleApprove = async (submissionId: any) => {
     if (!confirm('Approve this submission and generate certificate?')) return;
 
     setActionLoading(submissionId);
     try {
-      const adminEmail = user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL;
-      const result = await approveSubmission({ submissionId, adminEmail });
+      const result = await approveSubmission({ submissionId });
       const certificateUrl = `${window.location.origin}/certificates/${result.certificateId}`;
       
       // Show success with shareable link
@@ -46,8 +43,7 @@ export default function WorkshopSubmissionsAdminPage() {
 
     setActionLoading(submissionId);
     try {
-      const adminEmail = user?.primaryEmailAddress?.emailAddress || ADMIN_EMAIL;
-      await rejectSubmission({ submissionId, adminEmail });
+      await rejectSubmission({ submissionId });
     } catch (error) {
       alert('Failed to reject submission');
     } finally {
@@ -59,36 +55,6 @@ export default function WorkshopSubmissionsAdminPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
         <div className="w-8 h-8 border-4 border-foreground border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-6 pt-32">
-        <div className="w-full max-w-md bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-xl">
-          <h1 className="text-3xl font-serif text-center text-foreground mb-2">Admin Access Required</h1>
-          <p className="text-center text-foreground/40 text-sm mb-10">Sign in to manage workshop submissions.</p>
-          <SignInButton mode="modal">
-            <button className="w-full py-4 bg-foreground text-background rounded-2xl text-sm font-semibold uppercase tracking-widest hover:opacity-90 transition-all">
-              Sign In as Admin
-            </button>
-          </SignInButton>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-6">
-        <div className="w-full max-w-md bg-white p-10 rounded-[2.5rem] border border-red-100 shadow-xl text-center">
-          <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-8 mx-auto">
-            <XCircleIcon className="w-8 h-8" />
-          </div>
-          <h1 className="text-2xl font-serif text-foreground mb-2">Access Denied</h1>
-          <p className="text-foreground/50 text-sm mb-8">You don't have permission to access this page.</p>
-        </div>
       </div>
     );
   }
@@ -109,13 +75,6 @@ export default function WorkshopSubmissionsAdminPage() {
             </Link>
             <h1 className="text-4xl md:text-5xl font-serif italic text-foreground">Workshop Submissions</h1>
             <p className="text-foreground/60 mt-2">Review and approve student work</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <SignOutButton redirectUrl="/">
-              <button className="px-6 py-3 bg-red-500 text-white rounded-full text-sm font-semibold uppercase tracking-wider hover:bg-red-600 transition-all">
-                Logout
-              </button>
-            </SignOutButton>
           </div>
         </div>
 

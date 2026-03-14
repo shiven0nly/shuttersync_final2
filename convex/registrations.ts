@@ -12,6 +12,11 @@ export const register = mutation({
     nextWorkshopInterest: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      throw new Error("Unauthorized");
+    }
+
     // Check if already registered
     const existing = await ctx.db
       .query("workshop_registrations")
@@ -44,6 +49,11 @@ export const getUserRegistration = query({
     workshopId: v.number(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      throw new Error("Unauthorized");
+    }
+
     const registration = await ctx.db
       .query("workshop_registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
@@ -57,6 +67,9 @@ export const getUserRegistration = query({
 // Get all registrations (admin only)
 export const getAllRegistrations = query({
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
     const registrations = await ctx.db
       .query("workshop_registrations")
       .order("desc")
@@ -70,12 +83,16 @@ export const getAllRegistrations = query({
 export const cancelRegistration = mutation({
   args: {
     registrationId: v.id("workshop_registrations"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.registrationId, {
       status: "cancelled",
-      cancelledBy: args.adminEmail,
+      cancelledBy: identity.email ?? "admin",
       cancelledAt: Date.now(),
     });
 
@@ -89,6 +106,9 @@ export const reactivateRegistration = mutation({
     registrationId: v.id("workshop_registrations"),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
     await ctx.db.patch(args.registrationId, {
       status: "active",
       cancelledBy: undefined,

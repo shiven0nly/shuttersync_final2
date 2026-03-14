@@ -69,12 +69,16 @@ export const getApplicationsByStatus = query({
 export const approveApplication = mutation({
   args: {
     applicationId: v.id("join_members"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.applicationId, {
       status: "approved",
-      reviewedBy: args.adminEmail,
+      reviewedBy: identity.email ?? "admin",
       reviewedAt: Date.now(),
     });
   },
@@ -84,12 +88,16 @@ export const approveApplication = mutation({
 export const rejectApplication = mutation({
   args: {
     applicationId: v.id("join_members"),
-    adminEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.applicationId, {
       status: "rejected",
-      reviewedBy: args.adminEmail,
+      reviewedBy: identity.email ?? "admin",
       reviewedAt: Date.now(),
     });
   },

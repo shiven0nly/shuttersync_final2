@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useMutation } from 'convex/react';
+import Image from 'next/image';
 import { api } from 'convex/_generated/api';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
@@ -250,7 +251,7 @@ export default function JoinSection() {
                         aria-label="Upload profile photo"
                       >
                         {photoPreview ? (
-                          <img src={photoPreview} alt="Profile preview" className="w-full h-full object-cover" />
+                          <Image src={photoPreview} alt="Profile preview" fill className="object-cover" />
                         ) : (
                           <div className="text-center">
                             <Icon name="CameraIcon" size={24} variant="outline" className="text-foreground/30 mx-auto group-hover:text-foreground/50 transition-colors" />

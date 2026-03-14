@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -594,11 +595,13 @@ function AdminCard({ admin }: AdminCardProps) {
             {/* Portrait */}
             <div className="relative mx-auto mb-5 w-24 h-24">
                 {hasHeadshot ? (
-                    <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200">
-                        <img
+                    <div className="w-24 h-24 relative rounded-full overflow-hidden shadow-lg ring-2 ring-foreground/5 group-hover:ring-foreground/10 transition-all duration-200">
+                        <Image
                             src={admin.photo}
                             alt={`${admin.name} - ${admin.role}`}
-                            className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                            fill
+                            sizes="96px"
+                            className="object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
                             style={{ objectPosition: 'center 30%' }}
                         />
                     </div>
