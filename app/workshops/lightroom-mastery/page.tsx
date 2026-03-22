@@ -347,29 +347,31 @@ export default function LightroomMasteryWorkshopPage() {
       </div>
 
       {/* Floating Interactive Stamp Toolbar */}
-      <div className="stamp-toolbar fixed bottom-8 left-1/2 -translate-x-1/2 bg-white border-4 border-black rounded-full px-4 py-3 shadow-[6px_6px_0_0_rgba(0,0,0,1)] flex items-center gap-2 z-50">
-        <div className="text-xs font-black uppercase tracking-wider text-gray-500 mr-2 border-r-2 border-gray-200 pr-4">
+      <div className="stamp-toolbar fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 bg-white border-[3px] sm:border-4 border-black rounded-full px-3 py-2 sm:px-4 sm:py-3 shadow-[4px_4px_0_0_rgba(0,0,0,1)] sm:shadow-[6px_6px_0_0_rgba(0,0,0,1)] flex items-center gap-1.5 sm:gap-2 z-50 max-w-[95vw] sm:max-w-none overflow-x-auto no-scrollbar">
+        <div className="hidden sm:block text-xs font-black uppercase tracking-wider text-gray-500 mr-2 border-r-2 border-gray-200 pr-4 whitespace-nowrap">
           Stamp Tool
         </div>
-        {STAMPS.map(stamp => (
-          <button
-            key={stamp}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedStamp(selectedStamp === stamp ? null : stamp);
-            }}
-            className={`w-12 h-12 rounded-full text-2xl flex items-center justify-center transition-all ${
-              selectedStamp === stamp 
-                ? 'bg-orange-400 scale-110 shadow-inner' 
-                : 'hover:bg-gray-100 hover:scale-105'
-            }`}
-          >
-            {stamp}
-          </button>
-        ))}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {STAMPS.map(stamp => (
+            <button
+              key={stamp}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedStamp(selectedStamp === stamp ? null : stamp);
+              }}
+              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full text-xl sm:text-2xl flex items-center justify-center transition-all shrink-0 ${
+                selectedStamp === stamp 
+                  ? 'bg-orange-400 scale-110 shadow-inner' 
+                  : 'hover:bg-gray-100 hover:scale-105'
+              }`}
+            >
+              {stamp}
+            </button>
+          ))}
+        </div>
         {selectedStamp && (
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap animate-in fade-in slide-in-from-bottom-2">
-            Click anywhere to stamp!
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-bold text-[10px] sm:text-sm whitespace-nowrap animate-in fade-in slide-in-from-bottom-2">
+            Click to stamp!
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-black rotate-45" />
           </div>
         )}
