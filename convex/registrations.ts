@@ -51,7 +51,7 @@ export const getUserRegistration = query({
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.subject !== args.userId) {
-      throw new Error("Unauthorized");
+      return null; // Return null instead of throwing to avoid crashing the frontend during auth loading
     }
 
     const registration = await ctx.db
