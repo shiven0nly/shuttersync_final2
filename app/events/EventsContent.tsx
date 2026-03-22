@@ -16,15 +16,6 @@ const upcomingFeatures = [
         color: 'from-blue-500/10 to-cyan-500/10',
     },
     {
-        id: 2,
-        icon: 'AcademicCapIcon',
-        title: 'Color Grading Workshop',
-        description: 'Master the art of color grading in DaVinci Resolve. Learn professional techniques to elevate your films and photos.',
-        status: 'Open Now',
-        color: 'from-purple-500/10 to-pink-500/10',
-        link: '/workshops/register',
-    },
-    {
         id: 5,
         icon: 'AcademicCapIcon',
         title: 'Lightroom Mastery Workshop',

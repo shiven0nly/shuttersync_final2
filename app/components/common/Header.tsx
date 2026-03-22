@@ -121,10 +121,10 @@ const Header = React.memo(function Header() {
             {isLoaded && user ? (
               <div className="hidden lg:flex items-center gap-4">
                 {dbUser && (
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 tokens for every friend who joins!">
-                    <span className="text-[12px]">🔥</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 S² Cash for every friend who joins!">
+                    <img src="/svgs/coins.png" className="w-5 h-5 object-contain" alt="S² Cash" />
                     <span className="text-[11px] font-bold text-orange-600 tracking-wider">
-                      {dbUser.totalTokens} Tokens
+                      {dbUser.totalTokens} S² Cash
                     </span>
                   </div>
                 )}
@@ -202,9 +202,9 @@ const Header = React.memo(function Header() {
                   <div className="flex flex-col items-center gap-6 w-full">
                     {dbUser && (
                       <div className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-orange-50 border border-orange-200 rounded-full">
-                        <span className="text-[14px]">🔥</span>
+                        <img src="/svgs/coins.png" className="w-6 h-6 object-contain" alt="S² Cash" />
                         <span className="text-[12px] font-bold text-orange-600 tracking-wider uppercase">
-                          {dbUser.totalTokens} Tokens
+                          {dbUser.totalTokens} S² Cash
                         </span>
                       </div>
                     )}

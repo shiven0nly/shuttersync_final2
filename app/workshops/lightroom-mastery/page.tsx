@@ -186,12 +186,12 @@ export default function LightroomMasteryWorkshopPage() {
                 onClick={() => {
                   const url = `${window.location.origin}/?ref=${dbUser.referralCode}`;
                   navigator.clipboard.writeText(url);
-                  alert('Referral link copied! Share it to earn tokens.');
+                  alert('Referral link copied! Share it to earn S² Cash.');
                 }}
                 className="flex items-center gap-3 px-6 py-4 bg-orange-400 text-white border-4 border-black font-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-transform hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
               >
                 <span className="text-2xl drop-shadow-sm">🔗</span> 
-                <span>Copy Referral Link<br /><span className="text-sm font-bold opacity-90 text-yellow-100">Earn 50 Tokens per friend!</span></span>
+                <span>Copy Referral Link<br /><span className="text-sm font-bold opacity-90 text-yellow-100">Earn 50 S² Cash per friend!</span></span>
               </button>
               <div className="absolute -bottom-6 left-12 w-8 h-8 border-l-4 border-b-4 border-black rounded-bl-xl pointer-events-none" />
             </div>
@@ -295,37 +295,48 @@ export default function LightroomMasteryWorkshopPage() {
               </div>
             )}
             
-            {/* Resources Sticky Note */}
+            {/* Resources Sticky Note - Free Goodies */}
             <div className="bg-[#1890ff] p-8 border-4 border-black rounded-lg shadow-[8px_8px_0_0_rgba(0,0,0,1)] -rotate-1 transform hover:-rotate-0 transition-transform w-[280px] sm:w-full text-white mt-10">
               <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-red-400 border-2 border-black" /> {/* Pin */}
               <h2 className="text-2xl font-black mb-6 flex items-center gap-2">
-                <span className="text-3xl">📦</span> Downloads
+                <span className="text-3xl">🎁</span> Free Goodies
               </h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-bold border-b-2 border-white/30 pb-2 mb-3">Presets</h3>
+                  <h3 className="font-bold border-b-2 border-white/30 pb-2 mb-3 tracking-widest uppercase text-[10px]">Presets (DNG)</h3>
                   <div className="space-y-2">
-                    {['Monochrome.dng', 'RetroWave.dng'].map((file, idx) => (
+                    {[
+                      { name: 'Monochrome Love', file: 'Monochrome Love.dng' },
+                      { name: 'Purple Fever', file: 'Purple Fever.dng' },
+                      { name: 'Retro Vapourwave', file: 'Retro Vapourwave .dng' }
+                    ].map((item, idx) => (
                       <button
                         key={idx}
-                        onClick={() => handleDownload(`presets/${file}`)}
-                        className="w-full flex items-center justify-between p-3 bg-white text-black border-2 border-black rounded font-bold hover:bg-gray-100 shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
+                        onClick={() => handleDownload(`presets/${item.file}`)}
+                        className="w-full flex items-center justify-between p-3 bg-white text-black border-2 border-black rounded font-bold hover:bg-gray-100 shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
                       >
-                        {file} <ArrowDownTrayIcon className="w-5 h-5 stroke-[3]" />
+                        <span className="text-xs truncate">{item.name}</span>
+                        <ArrowDownTrayIcon className="w-4 h-4 stroke-[3] shrink-0" />
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-bold border-b-2 border-white/30 pb-2 mb-3">RAW Files</h3>
-                  <button
-                     onClick={() => handleDownload(`raw_images/challenge.zip`)}
-                     className="w-full flex items-center justify-between p-3 bg-yellow-300 text-black border-2 border-black rounded font-bold hover:bg-yellow-400 shadow-[2px_2px_0_0_rgba(0,0,0,1)]"
-                  >
-                    Download RAWs <ArrowDownTrayIcon className="w-5 h-5 stroke-[3]" />
-                  </button>
+                  <h3 className="font-bold border-b-2 border-white/30 pb-2 mb-3 tracking-widest uppercase text-[10px]">Practice RAWs</h3>
+                  <div className="grid grid-cols-1 gap-2">
+                    {[1, 2, 3].map((num) => (
+                      <button
+                        key={num}
+                        onClick={() => handleDownload(`raw_images/image-${num}.dng`)}
+                        className="w-full flex items-center justify-between p-3 bg-yellow-300 text-black border-2 border-black rounded font-bold hover:bg-yellow-400 shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
+                      >
+                        <span className="text-xs">RAW Sample {num}</span>
+                        <ArrowDownTrayIcon className="w-4 h-4 stroke-[3]" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

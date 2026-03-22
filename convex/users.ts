@@ -44,12 +44,12 @@ export const createUser = mutation({
         .first();
 
       if (referrer && referrer.userId !== args.userId) {
-        // Award tokens to referrer
+        // Award 50 tokens to referrer
         await ctx.db.patch(referrer._id, {
           totalTokens: referrer.totalTokens + 50
         });
 
-        // Record token transaction
+        // Record token transaction for referrer
         await ctx.db.insert("tokens", {
           userId: referrer.userId,
           amount: 50,
@@ -58,11 +58,26 @@ export const createUser = mutation({
           createdAt: Date.now(),
         });
 
+        // Award 20 tokens to new user
+        userData.totalTokens = 20;
+
+        // Record token transaction for new user (will happens after insert)
         userData.referredBy = args.referredByCode;
       }
     }
 
     const newUserId = await ctx.db.insert("users", userData);
+
+    // Record the 20 token bonus for the new user if they were referred
+    if (userData.totalTokens === 20) {
+      await ctx.db.insert("tokens", {
+        userId: args.userId,
+        amount: 20,
+        reason: "referral_bonus",
+        createdAt: Date.now(),
+      });
+    }
+
     return await ctx.db.get(newUserId);
   },
 });
