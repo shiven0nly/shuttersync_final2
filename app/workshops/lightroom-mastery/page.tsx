@@ -168,7 +168,7 @@ export default function LightroomMasteryWorkshopPage() {
           </Link>
           
           <div className="relative inline-block">
-            <h1 className="text-6xl md:text-8xl font-black text-black tracking-tighter mb-4 relative z-10 mix-blend-multiply">
+            <h1 className="text-5xl md:text-8xl font-black text-black tracking-tight md:tracking-tighter mb-4 relative z-10 mix-blend-multiply">
               Lightroom<br />Mastery.
             </h1>
             {/* Highlighter effect */}

@@ -95,7 +95,7 @@ export default function WorkshopRegisterPage() {
             />
 
             {/* Neo-Brutalist Header */}
-            <header className="relative z-20 pt-8 px-10 flex items-center justify-between">
+            <header className="relative z-20 pt-8 px-6 md:px-10 flex items-center justify-between">
                 <div className="flex items-center gap-4 bg-white border-[3px] border-black p-2 px-4 shadow-[4px_4px_0_0_#000] rotate-[-1deg]">
                     {user?.imageUrl ? (
                         <img src={user.imageUrl} alt="User" className="w-8 h-8 border-2 border-black" />
@@ -114,18 +114,18 @@ export default function WorkshopRegisterPage() {
                 </Link>
             </header>
 
-            <main className="relative z-10 pt-16 lg:pt-24 px-10 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 min-h-[calc(100vh-100px)]">
+            <main className="relative z-10 pt-10 lg:pt-24 px-6 md:px-10 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 min-h-[calc(100vh-100px)]">
                 {/* Left Side: Content & Form */}
                 <div className="lg:col-span-12 xl:col-span-6 flex flex-col justify-center">
-                    <div className="mb-12">
-                        <div className="inline-block bg-blue-500 text-white px-4 py-1 mb-6 text-sm font-black uppercase tracking-widest border-[3px] border-black shadow-[4px_4px_0_0_#000] rotate-[-2deg]">
+                    <div className="mb-8 md:mb-12">
+                        <div className="inline-block bg-blue-500 text-white px-3 py-1 mb-4 md:mb-6 text-[10px] md:text-sm font-black uppercase tracking-widest border-[3px] border-black shadow-[4px_4px_0_0_#000] rotate-[-2deg]">
                             Photography Masterclass
                         </div>
-                        <h1 className="text-7xl lg:text-[120px] font-black tracking-tighter leading-[0.85] mb-8 uppercase italic selection:text-white">
+                        <h1 className="text-5xl md:text-7xl lg:text-[120px] font-black tracking-tight lg:tracking-tighter leading-[0.9] lg:leading-[0.85] mb-6 md:mb-8 uppercase italic selection:text-white">
                             Lightroom<br />
                             <span className="text-blue-500 drop-shadow-[4px_4px_0_#000]">Mastery</span>
                         </h1>
-                        <p className="text-xl lg:text-2xl font-bold max-w-lg leading-snug border-l-[6px] border-black pl-6 py-2">
+                        <p className="text-lg md:text-xl lg:text-2xl font-bold max-w-lg leading-snug border-l-[6px] border-black pl-6 py-2">
                             Master the art of post-processing. High-contrast workflows for the modern photographer.
                         </p>
                     </div>
@@ -193,7 +193,7 @@ export default function WorkshopRegisterPage() {
                                                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                                                 required
                                                 className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300"
-                                                placeholder="e.g. SHIVEN_CHAUDHARY"
+                                                placeholder="e.g. John Doe"
                                             />
                                         </div>
                                         <div className="space-y-3">
@@ -263,7 +263,7 @@ export default function WorkshopRegisterPage() {
                 </div>
 
                 {/* Right Side: Neo-Brutalist Line Art Illustration */}
-                <div className="lg:col-span-12 xl:col-span-6 relative flex items-center justify-center min-h-[600px]">
+                <div className="lg:col-span-12 xl:col-span-6 relative flex items-center justify-center min-h-[400px] lg:min-h-[600px]">
                     <div className="relative w-full h-full flex items-center justify-center">
                         {/* Neo-Brutalist Line Art Composition */}
                         <div className="relative w-full max-w-[550px] aspect-square animate-in slide-in-from-right duration-1000">
