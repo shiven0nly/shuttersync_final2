@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Icon from '@/components/ui/AppIcon';
 import { usePathname } from 'next/navigation';
 import { useUser, UserButton } from '@clerk/nextjs';
+import { useQuery, useMutation } from 'convex/react';
+import { api } from 'convex/_generated/api';
 import { ParticleButton } from '@/components/ui/particle-button';
 
 const Header = React.memo(function Header() {
@@ -13,10 +15,34 @@ const Header = React.memo(function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const { user, isLoaded } = useUser();
+  const createUser = useMutation(api.users.createUser);
+  const dbUser = useQuery(api.users.getUser, user ? { userId: user.id } : 'skip');
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoaded && user) {
+      const initUser = async () => {
+        try {
+          const storedRef = localStorage.getItem('referral_code') || undefined;
+          await createUser({
+            userId: user.id,
+            email: user.primaryEmailAddress?.emailAddress || '',
+            fullName: user.fullName || undefined,
+            referredByCode: storedRef,
+          });
+          if (storedRef) {
+            localStorage.removeItem('referral_code');
+          }
+        } catch (e) {
+          console.error("Failed to init user", e);
+        }
+      };
+      initUser();
+    }
+  }, [isLoaded, user, createUser]);
 
   useEffect(() => {
     if (!isHydrated) return;
@@ -94,6 +120,14 @@ const Header = React.memo(function Header() {
             {/* CTA Button */}
             {isLoaded && user ? (
               <div className="hidden lg:flex items-center gap-4">
+                {dbUser && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 tokens for every friend who joins!">
+                    <span className="text-[12px]">🔥</span>
+                    <span className="text-[11px] font-bold text-orange-600 tracking-wider">
+                      {dbUser.totalTokens} Tokens
+                    </span>
+                  </div>
+                )}
                 <UserButton afterSignOutUrl="/">
                   {(user?.publicMetadata as any)?.role === 'admin' && (
                     <UserButton.MenuItems>
@@ -165,18 +199,28 @@ const Header = React.memo(function Header() {
 
               <div className="mt-12 pt-8 border-t border-black/10">
                 {isLoaded && user ? (
-                  <div className="flex justify-center w-full">
-                    <UserButton afterSignOutUrl="/">
-                      {(user?.publicMetadata as any)?.role === 'admin' && (
-                        <UserButton.MenuItems>
-                          <UserButton.Link
-                            label="Admin Panel"
-                            labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
-                            href="/admin/dashboard"
-                          />
-                        </UserButton.MenuItems>
-                      )}
-                    </UserButton>
+                  <div className="flex flex-col items-center gap-6 w-full">
+                    {dbUser && (
+                      <div className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-orange-50 border border-orange-200 rounded-full">
+                        <span className="text-[14px]">🔥</span>
+                        <span className="text-[12px] font-bold text-orange-600 tracking-wider uppercase">
+                          {dbUser.totalTokens} Tokens
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-center w-full">
+                      <UserButton afterSignOutUrl="/">
+                        {(user?.publicMetadata as any)?.role === 'admin' && (
+                          <UserButton.MenuItems>
+                            <UserButton.Link
+                              label="Admin Panel"
+                              labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
+                              href="/admin/dashboard"
+                            />
+                          </UserButton.MenuItems>
+                        )}
+                      </UserButton>
+                    </div>
                   </div>
                 ) : isLoaded ? (
                   <Link

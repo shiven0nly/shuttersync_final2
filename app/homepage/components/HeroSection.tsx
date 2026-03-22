@@ -184,7 +184,7 @@ export default function HeroSection() {
               if (!user) {
                 setShowLoginDialog(true);
               } else {
-                router.push('/workshops/register');
+                router.push('/workshops/lightroom-mastery/register');
               }
             }}
             className="min-w-[200px] px-10 py-4 text-sm uppercase tracking-[0.15em] rounded-full"

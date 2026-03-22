@@ -18,10 +18,20 @@ const upcomingFeatures = [
     {
         id: 2,
         icon: 'AcademicCapIcon',
-        title: 'Workshops',
-        description: 'Hands-on workshops covering lighting, editing, composition, and specialized techniques taught by experienced photographers.',
+        title: 'Color Grading Workshop',
+        description: 'Master the art of color grading in DaVinci Resolve. Learn professional techniques to elevate your films and photos.',
         status: 'Open Now',
         color: 'from-purple-500/10 to-pink-500/10',
+        link: '/workshops/register',
+    },
+    {
+        id: 5,
+        icon: 'AcademicCapIcon',
+        title: 'Lightroom Mastery Workshop',
+        description: 'Master the industry standard photo editing software. Learn from basic adjustments to advanced professional workflows.',
+        status: 'Open Now',
+        color: 'from-orange-500/10 to-yellow-500/10',
+        link: '/workshops/lightroom-mastery/register',
     },
     {
         id: 3,
@@ -56,13 +66,13 @@ export default function EventsContent() {
         }
     };
 
-    const handleWorkshopClick = (e: React.MouseEvent) => {
+    const handleWorkshopClick = (e: React.MouseEvent, link?: string) => {
         e.preventDefault();
         if (!isLoaded) return;
         if (!user) {
             setShowLoginDialog(true);
-        } else {
-            router.push('/workshops/register');
+        } else if (link) {
+            router.push(link);
         }
     };
 
@@ -89,7 +99,7 @@ export default function EventsContent() {
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         {upcomingFeatures.map((feature, index) => {
-                            const isWorkshop = feature.id === 2;
+                            const isWorkshop = !!feature.link;
                             const status = isWorkshop ? 'Register Now' : feature.status;
                             const Content = (
                                 <div
@@ -122,7 +132,7 @@ export default function EventsContent() {
                             );
 
                             return isWorkshop ? (
-                                <div key={feature.id} onClick={handleWorkshopClick}>
+                                <div key={feature.id} onClick={(e) => handleWorkshopClick(e, feature.link)}>
                                     {Content}
                                 </div>
                             ) : (

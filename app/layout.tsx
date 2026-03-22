@@ -94,6 +94,7 @@ export const viewport = {
 }
 
 import NavigationLoader from "@/components/common/NavigationLoader";
+import ReferralTracker from "@/components/common/ReferralTracker";
 import { Suspense } from "react";
 
 const jsonLd = {
@@ -207,6 +208,7 @@ export default function RootLayout({
           <ConvexClientProvider>
             <Suspense fallback={null}>
               <NavigationLoader />
+              <ReferralTracker />
             </Suspense>
             {children}
           </ConvexClientProvider>

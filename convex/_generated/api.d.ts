@@ -16,6 +16,7 @@ import type * as debug from "../debug.js";
 import type * as joinMembers from "../joinMembers.js";
 import type * as photowalks from "../photowalks.js";
 import type * as registrations from "../registrations.js";
+import type * as users from "../users.js";
 import type * as workshopSubmissions from "../workshopSubmissions.js";
 
 import type {
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   joinMembers: typeof joinMembers;
   photowalks: typeof photowalks;
   registrations: typeof registrations;
+  users: typeof users;
   workshopSubmissions: typeof workshopSubmissions;
 }>;
 

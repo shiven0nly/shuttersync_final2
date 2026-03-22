@@ -132,4 +132,26 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_submitted_at", ["submittedAt"])
     .index("by_organization_type", ["organizationType"]),
+
+  users: defineTable({
+    userId: v.string(), // Clerk ID
+    email: v.string(),
+    fullName: v.optional(v.string()),
+    referralCode: v.string(),
+    referredBy: v.optional(v.string()), // referralcode of the person who referred them
+    totalTokens: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_referral_code", ["referralCode"])
+    .index("by_email", ["email"]),
+
+  tokens: defineTable({
+    userId: v.string(), // Clerk ID
+    amount: v.number(),
+    reason: v.string(), // e.g., "referral", "bonus"
+    referredUserEmail: v.optional(v.string()), // email of the user they referred
+    createdAt: v.number(),
+  })
+    .index("by_user", ["userId"]),
 });

@@ -296,11 +296,11 @@ export default function WorkshopRegisterPage() {
 
                             <div>
                                 <h1 className="text-5xl md:text-6xl font-serif italic text-foreground mb-4 leading-tight">
-                                    Color Grading<br />Workshop
+                                    Adobe Lightroom Pro<br />Mastery
                                 </h1>
                                 <div className="w-20 h-1 bg-orange-500 rounded-full mb-6" />
                                 <p className="text-lg text-foreground/70 leading-relaxed text-pretty">
-                                    Master the art of color grading in DaVinci Resolve. Learn professional techniques to elevate your films and photos.
+                                    Master the industry standard photo editing software. Learn everything from basic adjustments to advanced professional workflows, color grading, and organization.
                                 </p>
                             </div>
 
@@ -357,7 +357,7 @@ export default function WorkshopRegisterPage() {
                                         Share with friends
                                     </button>
                                     <Link
-                                        href="/workshops/color-grading"
+                                        href="/workshops/lightroom-mastery"
                                         className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full font-medium text-sm hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-foreground/50 transition-colors"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -402,7 +402,7 @@ export default function WorkshopRegisterPage() {
                                         <p className="text-sm text-foreground/50 mb-6 text-pretty">We'll send the workshop details to {formData.email} soon.</p>
                                         <div className="bg-orange-50 p-6 rounded-2xl text-left border border-orange-100">
                                             <p className="text-[10px] uppercase tracking-wider text-orange-600 mb-2">Workshop Details</p>
-                                            <p className="text-sm font-medium text-foreground">Color Grading Masterclass</p>
+                                            <p className="text-sm font-medium text-foreground">Adobe Lightroom Pro Mastery</p>
                                             <p className="text-sm text-foreground/60 mt-1">Status: Priority List</p>
                                             {formData.nextWorkshop && (
                                                 <p className="text-xs text-orange-600 mt-3">Next interest: {formData.nextWorkshop}</p>
@@ -426,7 +426,7 @@ export default function WorkshopRegisterPage() {
                                                 <WorkshopsIcon size={28} className="text-orange-500" />
                                             </div>
                                             <h2 className="text-2xl font-serif text-foreground mb-1">
-                                                {step === 1 ? 'Join Color Grading Masterclass' : "What's Next?"}
+                                                {step === 1 ? 'Join Lightroom Mastery' : "What's Next?"}
                                             </h2>
                                             <p className="text-sm text-foreground/50">
                                                 {step === 1 ? 'Step 1 of 2 — Registration' : 'Step 2 of 2 — Your Interests'}
