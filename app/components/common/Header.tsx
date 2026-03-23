@@ -9,6 +9,14 @@ import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { ParticleButton } from '@/components/ui/particle-button';
 import MyLearningButton from '@/components/ui/MyLearningButton';
+import { motion, AnimatePresence } from 'framer-motion';
+
+interface NavLink {
+  id: string;
+  label: string;
+  href?: string;
+  links?: { id: string; label: string; href: string }[];
+}
 
 const Header = React.memo(function Header() {
   const pathname = usePathname();
@@ -58,14 +66,38 @@ const Header = React.memo(function Header() {
     return () => { document.body.style.overflow = ''; };
   }, [isMenuOpen, isHydrated]);
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { id: 'nav_home', label: 'Home', href: '/' },
-    { id: 'nav_gallery', label: 'Gallery', href: '/gallery' },
-    { id: 'nav_blog', label: 'Blog', href: '/blog' },
-    { id: 'nav_challenge', label: 'Challenge', href: '/challenge' },
-    { id: 'nav_events', label: 'Events', href: '/events' },
+    { 
+      id: 'nav_explore', 
+      label: 'Explore', 
+      links: [
+        { id: 'sub_gallery', label: 'Gallery', href: '/gallery' },
+        { id: 'sub_blog', label: 'Blog', href: '/blog' },
+        { id: 'sub_podcasts', label: 'Podcasts', href: '/podcasts' },
+        { id: 'sub_courses', label: 'Courses', href: '/courses' },
+        { id: 'sub_workshops', label: 'Workshops', href: '/workshops' },
+      ]
+    },
+    { 
+      id: 'nav_community', 
+      label: 'Community', 
+      links: [
+        { id: 'sub_challenge', label: 'Challenge', href: '/challenge' },
+        { id: 'sub_events', label: 'Events', href: '/events' },
+      ]
+    },
     { id: 'nav_contact', label: 'Contact', href: '/contact' },
   ];
+
+  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
+
+  const toggleGroup = (id: string) => {
+    setExpandedGroups(prev => 
+      prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]
+    );
+  };
 
   return (
     <>
@@ -98,11 +130,72 @@ const Header = React.memo(function Header() {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-10">
               {navLinks.map((link) => {
+                if (link.links) {
+                  const isGroupActive = link.links.some(sub => pathname === sub.href);
+                  const isOpen = hoveredGroup === link.id;
+
+                  return (
+                    <div 
+                      key={link.id} 
+                      className="relative"
+                      onMouseEnter={() => setHoveredGroup(link.id)}
+                      onMouseLeave={() => setHoveredGroup(null)}
+                    >
+                      <button
+                        className={`text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 relative group flex items-center gap-1.5 focus:outline-none ${
+                          isGroupActive
+                            ? 'text-orange-500 font-bold'
+                            : (pathname === '/gallery' && !isScrolled ? 'text-white/60 hover:text-white' : 'text-foreground/60 hover:text-foreground')
+                        }`}
+                      >
+                        {link.label}
+                        <Icon 
+                          name="ChevronDownIcon" 
+                          size={12} 
+                          className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+                        />
+                        <span className={`absolute -bottom-1 left-0 h-[1px] bg-current transition-all duration-300 ${
+                          isGroupActive ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`} />
+                      </button>
+
+                      <AnimatePresence>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 bg-white/90 backdrop-blur-xl border border-black/5 shadow-2xl rounded-2xl overflow-hidden py-2"
+                          >
+                            {link.links.map((sub) => {
+                              const isSubActive = pathname === sub.href;
+                              return (
+                                <Link
+                                  key={sub.id}
+                                  href={sub.href}
+                                  className={`block px-5 py-3 text-[10px] uppercase tracking-widest transition-colors ${
+                                    isSubActive 
+                                      ? 'text-orange-500 bg-orange-50 font-bold' 
+                                      : 'text-foreground/70 hover:text-foreground hover:bg-black/5'
+                                  }`}
+                                >
+                                  {sub.label}
+                                </Link>
+                              );
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.id}
-                    href={link.href}
+                    href={link.href!}
                     className={`text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 relative group ${
                       isActive
                         ? 'text-orange-500 font-bold'
@@ -183,11 +276,61 @@ const Header = React.memo(function Header() {
             <nav className="flex-1">
               <div className="space-y-6">
                 {navLinks.map((link) => {
+                  if (link.links) {
+                    const isGroupActive = link.links.some(sub => pathname === sub.href);
+                    const isExpanded = expandedGroups.includes(link.id);
+
+                    return (
+                      <div key={link.id} className="space-y-4">
+                        <button
+                          onClick={() => toggleGroup(link.id)}
+                          className={`w-full flex items-center justify-between text-3xl font-serif transition-colors ${
+                            isGroupActive ? 'text-orange-500' : 'text-foreground/80'
+                          }`}
+                        >
+                          {link.label}
+                          <Icon 
+                            name="ChevronDownIcon" 
+                            size={24} 
+                            className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-orange-500' : 'text-foreground/40'}`} 
+                          />
+                        </button>
+                        
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="pl-4 space-y-4 overflow-hidden border-l border-black/5 ml-2"
+                            >
+                              {link.links.map((sub) => {
+                                const isActive = pathname === sub.href;
+                                return (
+                                  <Link
+                                    key={sub.id}
+                                    href={sub.href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={`block text-xl font-serif transition-colors ${
+                                      isActive ? 'text-orange-500' : 'text-foreground/60 hover:text-foreground'
+                                    }`}
+                                  >
+                                    {sub.label}
+                                  </Link>
+                                );
+                              })}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
+
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.id}
-                      href={link.href}
+                      href={link.href!}
                       onClick={() => setIsMenuOpen(false)}
                       className={`block text-3xl font-serif transition-colors ${
                         isActive ? 'text-orange-500' : 'text-foreground/80 hover:text-foreground'

@@ -65,10 +65,10 @@ export default function ChallengeContent() {
                         Challenge of the Week
                     </span>
                     <h1 className="text-5xl md:text-7xl font-serif italic text-foreground mb-4 text-balance">
-                        &ldquo;Abstract Photography&rdquo;
+                        &ldquo;Street Photography&rdquo;
                     </h1>
                     <p className="text-lg text-foreground/50 max-w-2xl mx-auto mb-8 text-pretty">
-                        what if a photograph didn't need to look real? Blur the lines. Break the forms.<br/><em>Play With Color, Light,Motion and perspective.</em>
+                        Capture the candid moments of everyday life.<br/><em>Storytelling moment that feels lively.</em>
                     </p>
                     <div className="flex flex-col items-center gap-6">
                         <div className="inline-flex items-center gap-2 bg-foreground/5 rounded-full px-6 py-3 text-sm text-foreground/60">
