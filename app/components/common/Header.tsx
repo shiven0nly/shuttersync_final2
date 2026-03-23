@@ -8,6 +8,7 @@ import { useUser, UserButton } from '@clerk/nextjs';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { ParticleButton } from '@/components/ui/particle-button';
+import MyLearningButton from '@/components/ui/MyLearningButton';
 
 const Header = React.memo(function Header() {
   const pathname = usePathname();
@@ -128,6 +129,7 @@ const Header = React.memo(function Header() {
                     </span>
                   </div>
                 )}
+                <MyLearningButton />
                 <UserButton afterSignOutUrl="/">
                   {(user?.publicMetadata as any)?.role === 'admin' && (
                     <UserButton.MenuItems>
@@ -208,6 +210,7 @@ const Header = React.memo(function Header() {
                         </span>
                       </div>
                     )}
+                    <MyLearningButton />
                     <div className="flex justify-center w-full">
                       <UserButton afterSignOutUrl="/">
                         {(user?.publicMetadata as any)?.role === 'admin' && (

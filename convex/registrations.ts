@@ -118,3 +118,40 @@ export const reactivateRegistration = mutation({
     return { success: true };
   },
 });
+// Get all registrations for current user
+export const getMyEnrollments = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      return null;
+    }
+
+    const workshops = await ctx.db
+      .query("workshop_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    const courses = await ctx.db
+      .query("course_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    const photowalks = await ctx.db
+      .query("photowalk_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    const competitions = await ctx.db
+      .query("competition_registrations")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    return {
+      workshops,
+      courses,
+      photowalks,
+      competitions,
+    };
+  },
+});

@@ -237,6 +237,42 @@ export default function ContactContent() {
                 </div>
             </section>
 
+            {/* ========== About ShutterSync Section ========== */}
+            <section className="py-24 px-6 lg:px-8 bg-white border-y border-foreground/[0.03]">
+                <div className="max-w-4xl mx-auto">
+                    <div className="flex flex-col md:flex-row gap-16 items-start">
+                        <div className="md:w-1/3">
+                            <h2 className="text-4xl md:text-5xl font-serif italic text-foreground leading-tight">
+                                About <br />
+                                <span style={{ color: '#C4783E' }}>ShutterSync</span>
+                            </h2>
+                            <div className="mt-6 w-12 h-1 bg-foreground/10" />
+                        </div>
+                        <div className="md:w-2/3 space-y-8">
+                            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
+                                ShutterSync, empowers photographers and videographers to connect, 
+                                create, and grow together. Our mission is to bring everything creators 
+                                need into one unified platform providing courses, workshops, events 
+                                and many more….
+                            </p>
+                            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
+                                In future we combine advanced hardware, intelligent 
+                                software, and AI to simplify workflows, spark creativity, and elevate 
+                                every project. Our aim to become hardware-enabled SaaS (for now its SaaS) 
+                                company building a seamless ecosystem where cameras, apps, and 
+                                editing tools work together effortlessly…telling powerful visual stories.
+                            </p>
+                            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
+                                Looking ahead, we aim to redefine visual creation through intelligent 
+                                collaboration between humans and technology. Whether you&apos;re a 
+                                beginner or a professional, ShutterSync provides the tools, innovation, 
+                                and community to help you create better and grow faster.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* ========== Admin Cards ========== */}
             <section ref={cardsRef} className="py-20 px-6 lg:px-8 bg-background">
                 <div className="max-w-6xl mx-auto">
