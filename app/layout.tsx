@@ -3,6 +3,8 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "./ConvexClientProvider";
+import Script from "next/script";
+
 
 const inter = Inter({
   variable: "--font-inter",
@@ -203,7 +205,21 @@ export default function RootLayout({
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
           />
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-YSXL7Q8132"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-YSXL7Q8132');
+            `}
+          </Script>
         </head>
+
         <body className={`${inter.variable} ${playfair.variable} antialiased`}>
           <ConvexClientProvider>
             <Suspense fallback={null}>
