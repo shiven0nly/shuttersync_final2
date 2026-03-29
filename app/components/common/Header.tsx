@@ -117,15 +117,17 @@ const Header = React.memo(function Header() {
         )}
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <span className={`text-2xl font-serif font-semibold tracking-tight group-hover:opacity-70 transition-opacity ${
-                pathname === '/gallery' && !isScrolled ? 'text-white' : 'text-foreground'
-              }`}>
-                ShutterSync
-              </span>
-            </Link>
+            <div className="flex-1 flex justify-start">
+              <Link href="/" className="flex items-center gap-3 group">
+                <span className={`text-2xl font-serif font-semibold tracking-tight group-hover:opacity-70 transition-opacity ${
+                  pathname === '/gallery' && !isScrolled ? 'text-white' : 'text-foreground'
+                }`}>
+                  ShutterSync
+                </span>
+              </Link>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-10">
@@ -211,56 +213,58 @@ const Header = React.memo(function Header() {
               })}
             </nav>
 
-            {/* CTA Button */}
-            {isLoaded && user ? (
-              <div className="hidden lg:flex items-center gap-4">
-                {dbUser && (
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 S² Cash for every friend who joins!">
-                    <img src="/svgs/coins.png" className="w-5 h-5 object-contain" alt="S² Cash" />
-                    <span className="text-[11px] font-bold text-orange-600 tracking-wider">
-                      {dbUser.totalTokens} S² Cash
-                    </span>
-                  </div>
-                )}
-                <MyLearningButton />
-                <UserButton afterSignOutUrl="/">
-                  {(user?.publicMetadata as any)?.role === 'admin' && (
-                    <UserButton.MenuItems>
-                      <UserButton.Link
-                        label="Admin Panel"
-                        labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
-                        href="/admin/dashboard"
-                      />
-                    </UserButton.MenuItems>
+            {/* CTA Button & Mobile Menu */}
+            <div className="flex-1 flex justify-end items-center gap-4">
+              {isLoaded && user ? (
+                <div className="hidden lg:flex items-center gap-4">
+                  {dbUser && (
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 S² Cash for every friend who joins!">
+                      <img src="/svgs/coins.png" className="w-5 h-5 object-contain" alt="S² Cash" />
+                      <span className="text-[11px] font-bold text-orange-600 tracking-wider">
+                        {dbUser.totalTokens} S² Cash
+                      </span>
+                    </div>
                   )}
-                </UserButton>
-              </div>
-            ) : isLoaded ? (
-              <Link href="/sign-in" className="hidden lg:inline-block">
-                <ParticleButton className="inline-flex text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background rounded-full">
-                  Sign In
-                </ParticleButton>
-              </Link>
-            ) : (
-              <div className="hidden lg:block w-24 h-10 bg-foreground/10 rounded-full animate-pulse" aria-label="Loading" />
-            )}
+                  <MyLearningButton />
+                  <UserButton afterSignOutUrl="/">
+                    {(user?.publicMetadata as any)?.role === 'admin' && (
+                      <UserButton.MenuItems>
+                        <UserButton.Link
+                          label="Admin Panel"
+                          labelIcon={<Icon name="Squares2X2Icon" size={16} variant="outline" />}
+                          href="/admin/dashboard"
+                        />
+                      </UserButton.MenuItems>
+                    )}
+                  </UserButton>
+                </div>
+              ) : isLoaded ? (
+                <Link href="/sign-in" className="hidden lg:inline-block">
+                  <ParticleButton className="inline-flex text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background rounded-full">
+                    Sign In
+                  </ParticleButton>
+                </Link>
+              ) : (
+                <div className="hidden lg:block w-24 h-10 bg-foreground/10 rounded-full animate-pulse" aria-label="Loading" />
+              )}
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 text-foreground hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-black/20 transition-colors"
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={isMenuOpen}
-            >
-              <Icon
-                name={isMenuOpen ? 'XMarkIcon' : 'Bars3Icon'}
-                size={20}
-                variant="outline"
-              />
-              <span className="text-xs uppercase tracking-wider">
-                {isMenuOpen ? 'Close' : 'Menu'}
-              </span>
-            </button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 text-foreground hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-black/20 transition-colors"
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMenuOpen}
+              >
+                <Icon
+                  name={isMenuOpen ? 'XMarkIcon' : 'Bars3Icon'}
+                  size={20}
+                  variant="outline"
+                />
+                <span className="text-xs uppercase tracking-wider">
+                  {isMenuOpen ? 'Close' : 'Menu'}
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </header>

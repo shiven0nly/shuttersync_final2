@@ -9,6 +9,7 @@ const Footer = React.memo(function Footer() {
   const currentYear = 2026;
 
   const footerLinks = [
+    { id: 'footer_about', label: 'About', href: '/about' },
     { id: 'footer_gallery', label: 'Gallery', href: '/gallery' },
     { id: 'footer_challenge', label: 'Challenge', href: '/challenge' },
     { id: 'footer_events', label: 'Events', href: '/events' },
@@ -112,9 +113,12 @@ const Footer = React.memo(function Footer() {
 
           <div className="mt-6 pt-6 border-t border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] text-zinc-600 uppercase tracking-widest">
             <span>© {currentYear} ShutterSync. All rights reserved.</span>
-            <div className="flex items-center gap-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
+              <Link href="/return-policy" className="hover:text-white transition-colors">Return Policy</Link>
+              <Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link>
             </div>
           </div>
         </div>

@@ -26,8 +26,8 @@ export default function MyLearningButton() {
           justify-content: center;
           position: relative;
           transition: all 0.3s ease;
-          min-width: 140px;
-          padding: 0 16px;
+          min-width: 120px;
+          padding: 0 12px;
           height: 38px;
           font-family: inherit;
           font-size: 11px;
