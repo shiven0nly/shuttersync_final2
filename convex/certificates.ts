@@ -25,7 +25,7 @@ export const getUserCertificates = query({
     const certificates = await ctx.db
       .query("certificates")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
-      .collect();
+      .take(100);
 
     return certificates;
   },

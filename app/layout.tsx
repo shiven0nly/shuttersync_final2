@@ -4,6 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "./ConvexClientProvider";
 import Script from "next/script";
+import { ModalProvider } from '@/store/modal-context';
+import { GlobalModal } from '@/components/ui/GlobalModal';
 
 
 const inter = Inter({
@@ -226,7 +228,10 @@ export default function RootLayout({
               <NavigationLoader />
               <ReferralTracker />
             </Suspense>
-            {children}
+            <ModalProvider>
+              {children}
+              <GlobalModal />
+            </ModalProvider>
           </ConvexClientProvider>
         </body>
       </html>

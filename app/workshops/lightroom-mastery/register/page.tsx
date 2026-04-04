@@ -6,11 +6,16 @@ import { useMutation, useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { ArrowRightIcon, UserCircleIcon, CameraIcon, BeakerIcon, AdjustmentsHorizontalIcon, RectangleGroupIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
+import { workshopRegistrationSchema, WorkshopRegistrationData } from '@/lib/schemas';
+import { useModals } from '@/store/modal-context';
+import { ZodError } from 'zod';
 
 export default function WorkshopRegisterPage() {
     const { user, isLoaded } = useUser();
+    const { dispatch } = useModals();
     const [step, setStep] = useState(1);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<WorkshopRegistrationData>({
         fullName: '',
         email: '',
         phone: '',
@@ -18,8 +23,7 @@ export default function WorkshopRegisterPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-    const [showLoginPopup, setShowLoginPopup] = useState(false);
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState<Partial<Record<keyof WorkshopRegistrationData, string>>>({});
 
     const register = useMutation(api.registrations.register);
     const userRegistration = useQuery(
@@ -41,39 +45,80 @@ export default function WorkshopRegisterPage() {
         }
     }, [userRegistration]);
 
+    const validateStep = (stepNumber: number) => {
+        try {
+            if (stepNumber === 1) {
+                // Manually validate Step 1 fields
+                workshopRegistrationSchema.pick({ fullName: true, email: true }).parse(formData);
+            } else {
+                // Full validation
+                workshopRegistrationSchema.parse(formData);
+            }
+            setErrors({});
+            return true;
+        } catch (error) {
+            if (error instanceof ZodError) {
+                const fieldErrors: Partial<Record<keyof WorkshopRegistrationData, string>> = {};
+                error.issues.forEach((issue) => {
+                    const field = issue.path[0] as keyof WorkshopRegistrationData;
+                    if (field) fieldErrors[field] = issue.message;
+                });
+                setErrors(fieldErrors);
+            }
+            return false;
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) {
-            setShowLoginPopup(true);
+            dispatch({ type: 'OPEN_MODAL', payload: { type: 'LOGIN' } });
             return;
         }
 
-        setIsSubmitting(true);
-        setError('');
-        try {
-            await register({
-                userId: user.id,
-                fullName: formData.fullName,
-                email: formData.email,
-                phoneNumber: formData.phone,
-                workshopId: 3,
-                nextWorkshopInterest: formData.nextWorkshop || undefined
-            });
-            setShowSuccess(true);
-        } catch (error: any) {
-            setError(error.message || 'Registration failed. Please try again.');
-        } finally {
-            setIsSubmitting(false);
+        if (validateStep(2)) {
+            setIsSubmitting(true);
+            try {
+                await register({
+                    userId: user.id,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    phoneNumber: formData.phone,
+                    workshopId: 3,
+                    nextWorkshopInterest: formData.nextWorkshop || undefined
+                });
+                setShowSuccess(true);
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: {
+                        type: 'SUCCESS',
+                        title: 'ENROLLMENT_SECURED',
+                        message: 'Welcome to Lightroom Mastery. Check your inbox for the kickoff guide.'
+                    }
+                });
+            } catch (error: any) {
+                dispatch({
+                    type: 'OPEN_MODAL',
+                    payload: {
+                        type: 'ERROR',
+                        message: error.message || 'Registration failed. Please try again.'
+                    }
+                });
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
     const handleNextStep = (e: React.FormEvent) => {
         e.preventDefault();
         if (!user) {
-            setShowLoginPopup(true);
+            dispatch({ type: 'OPEN_MODAL', payload: { type: 'LOGIN' } });
             return;
         }
-        setStep(2);
+        if (validateStep(1)) {
+            setStep(2);
+        }
     };
 
     if (!isLoaded) {
@@ -98,7 +143,7 @@ export default function WorkshopRegisterPage() {
             <header className="relative z-20 pt-8 px-6 md:px-10 flex items-center justify-between">
                 <div className="flex items-center gap-4 bg-white border-[3px] border-black p-2 px-4 shadow-[4px_4px_0_0_#000] rotate-[-1deg]">
                     {user?.imageUrl ? (
-                        <img src={user.imageUrl} alt="User" className="w-8 h-8 border-2 border-black" />
+                        <Image src={user.imageUrl} width={32} height={32} alt="User" className="w-8 h-8 border-2 border-black" />
                     ) : (
                         <div className="w-8 h-8 bg-blue-100 flex items-center justify-center border-2 border-black">
                             <UserCircleIcon className="w-5 h-5 text-black" />
@@ -177,9 +222,9 @@ export default function WorkshopRegisterPage() {
                                     </div>
                                 </header>
 
-                                {error && (
-                                    <div className="mb-8 p-4 bg-red-100 border-[3px] border-black shadow-[4px_4px_0_0_#000] text-sm font-black uppercase italic">
-                                        Error: {error}
+                                {Object.keys(errors).length > 0 && (
+                                    <div className="mb-8 p-4 bg-red-100 border-[3px] border-black shadow-[4px_4px_0_0_#000] text-[10px] font-black uppercase italic text-red-600">
+                                        Fix required errors to proceed
                                     </div>
                                 )}
 
@@ -191,10 +236,10 @@ export default function WorkshopRegisterPage() {
                                                 type="text"
                                                 value={formData.fullName}
                                                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                                required
-                                                className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300"
+                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.fullName ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
                                                 placeholder="e.g. John Doe"
                                             />
+                                            {errors.fullName && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.fullName}</p>}
                                         </div>
                                         <div className="space-y-3">
                                             <label className="text-[11px] font-black uppercase tracking-widest">Email_Address</label>
@@ -202,10 +247,10 @@ export default function WorkshopRegisterPage() {
                                                 type="email"
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                required
-                                                className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300"
+                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.email ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
                                                 placeholder="YOU@SHUTTERSYNC.COM"
                                             />
+                                            {errors.email && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.email}</p>}
                                         </div>
                                         <button
                                             type="submit"
@@ -223,10 +268,10 @@ export default function WorkshopRegisterPage() {
                                                 type="tel"
                                                 value={formData.phone}
                                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                required
-                                                className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300"
+                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.phone ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
                                                 placeholder="+91-XXXXX-XXXXX"
                                             />
+                                            {errors.phone && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.phone}</p>}
                                         </div>
                                         <div className="space-y-3">
                                             <label className="text-[11px] font-black uppercase tracking-widest">Workshop_Needs</label>
@@ -321,53 +366,6 @@ export default function WorkshopRegisterPage() {
                 </div>
             </main>
 
-            {/* Neo-Brutalist Login Popup */}
-            {showLoginPopup && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-blue-500/20 backdrop-blur-md">
-                    <div className="bg-white border-[4px] border-black p-10 max-w-sm w-full shadow-[16px_16px_0_0_#000] animate-in zoom-in-95 duration-300">
-                        <div className="w-16 h-16 bg-blue-500 text-white border-[3px] border-black flex items-center justify-center mb-8 shadow-[4px_4px_0_0_#000] rotate-6">
-                            <CameraIcon className="w-8 h-8 stroke-[3px]" />
-                        </div>
-                        <h3 className="text-3xl font-black uppercase italic mb-4">Auth_Required</h3>
-                        <p className="font-bold text-slate-500 mb-10 leading-relaxed uppercase tracking-widest text-xs">Sign in to claim your spot in the mastery workshop.</p>
-                        <div className="flex flex-col gap-4">
-                            <Link
-                                href="/sign-in"
-                                className="w-full py-4 bg-blue-500 border-[3px] border-black text-center text-white text-lg font-black uppercase tracking-wider hover:bg-black transition-all shadow-[6px_6px_0_0_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
-                            >
-                                Sign_In
-                            </Link>
-                            <button
-                                onClick={() => setShowLoginPopup(false)}
-                                className="w-full py-2 text-black text-[10px] font-black uppercase tracking-widest hover:underline"
-                            >
-                                CLOSE_DIALOG
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Neo-Brutalist Success Dialog */}
-            {showSuccess && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-md">
-                    <div className="bg-white border-[4px] border-black p-12 max-w-sm w-full shadow-[20px_20px_0_0_#3b82f6] animate-in zoom-in-95 duration-300 rotate-[-1deg]">
-                        <div className="w-20 h-20 bg-blue-500 text-white border-[4px] border-black flex items-center justify-center mb-8 shadow-[6px_6px_0_0_#000] rotate-12">
-                            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <h3 className="text-4xl font-black uppercase italic mb-4">SUCCESS!</h3>
-                        <p className="font-bold text-slate-500 mb-10 leading-relaxed uppercase tracking-tighter">Your registration is locked in. See you in the workshop.</p>
-                        <button
-                            onClick={() => setShowSuccess(false)}
-                            className="w-full py-5 bg-black text-white text-xl font-black uppercase tracking-widest border-[3px] border-black shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
-                        >
-                            AWESOME_
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

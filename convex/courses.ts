@@ -33,13 +33,16 @@ export const register = mutation({
 
 export const getUserRegistration = query({
   args: {
-    userId: v.string(),
+    userId: v.string(), // Kept in args for backwards-compatibility
     courseId: v.number(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return null;
+
     return await ctx.db
       .query("course_registrations")
-      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .withIndex("by_user", (q) => q.eq("userId", identity.subject))
       .filter((q) => q.eq(q.field("courseId"), args.courseId))
       .first();
   },
@@ -47,10 +50,15 @@ export const getUserRegistration = query({
 
 export const getAllRegistrations = query({
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     return await ctx.db
       .query("course_registrations")
       .order("desc")
-      .collect();
+      .take(100);
   },
 });
 
@@ -78,6 +86,11 @@ export const reactivateRegistration = mutation({
     registrationId: v.id("course_registrations"),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.patch(args.registrationId, {
       status: "active",
       cancelledBy: undefined,

@@ -8,6 +8,9 @@ import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import Image from 'next/image';
 import Icon from '@/components/ui/AppIcon';
+import { contactSchema, ContactFormData } from '@/lib/schemas';
+import { useModals } from '@/store/modal-context';
+import { ZodError } from 'zod';
 
 const journey = [
   {
@@ -45,7 +48,8 @@ const journey = [
 ];
 
 export default function ContactContent() {
-  const [formData, setFormData] = useState({
+  const { dispatch } = useModals();
+  const [formData, setFormData] = useState<ContactFormData>({
     organizationType: '',
     organizationName: '',
     contactPersonName: '',
@@ -57,24 +61,29 @@ export default function ContactContent() {
     budget: '',
     timeline: '',
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitInquiry = useMutation(api.collaborationInquiries.submitInquiry);
 
   const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!formData.organizationType) errs.organizationType = 'Required';
-    if (!formData.organizationName.trim()) errs.organizationName = 'Required';
-    if (!formData.contactPersonName.trim()) errs.contactPersonName = 'Required';
-    if (!formData.email.trim()) errs.email = 'Required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) errs.email = 'Invalid';
-    if (!formData.phoneNumber.trim()) errs.phoneNumber = 'Required';
-    if (!formData.collaborationType) errs.collaborationType = 'Required';
-    if (!formData.projectDetails.trim()) errs.projectDetails = 'Required';
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+    try {
+      contactSchema.parse(formData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const fieldErrors: Partial<Record<keyof ContactFormData, string>> = {};
+        error.issues.forEach((issue) => {
+          if (issue.path[0]) {
+            fieldErrors[issue.path[0] as keyof ContactFormData] = issue.message;
+          }
+        });
+        setErrors(fieldErrors);
+      }
+      return false;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,6 +93,14 @@ export default function ContactContent() {
       try {
         await submitInquiry(formData);
         setIsSubmitted(true);
+        dispatch({
+          type: 'OPEN_MODAL',
+          payload: {
+            type: 'SUCCESS',
+            title: 'Inquiry_Received',
+            message: 'Your collaboration request has been synced with our team.'
+          }
+        });
         setFormData({
           organizationType: '',
           organizationName: '',
@@ -97,7 +114,13 @@ export default function ContactContent() {
           timeline: '',
         });
       } catch (error) {
-        alert('Failed to submit. Please try again.');
+        dispatch({
+          type: 'OPEN_MODAL',
+          payload: {
+            type: 'ERROR',
+            message: 'Failed to submit inquiry. Please check your connection.'
+          }
+        });
       } finally {
         setIsSubmitting(false);
       }
@@ -107,7 +130,9 @@ export default function ContactContent() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    if (errors[name as keyof ContactFormData]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
   return (
     <main className="min-h-screen bg-white overflow-x-hidden selection:bg-orange-100 selection:text-orange-900">

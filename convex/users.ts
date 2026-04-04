@@ -9,6 +9,11 @@ export const createUser = mutation({
     referredByCode: v.optional(v.string()), // The referral code from the URL
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.subject !== args.userId) {
+      throw new Error("Unauthorized to create user profile");
+    }
+
     // Check if user already exists
     const existingUser = await ctx.db
       .query("users")

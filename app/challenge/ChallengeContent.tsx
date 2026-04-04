@@ -5,6 +5,8 @@ import AppImage from '@/components/ui/AppImage';
 import Icon from '@/components/ui/AppIcon';
 import gsap from 'gsap';
 import Link from 'next/link';
+import SSEmptyState from '@/components/ui/SSEmptyState';
+import { TrophyIcon, CameraIcon, SparklesIcon, Users } from 'lucide-react';
 
 // No longer using individual submissions for voting
 
@@ -134,15 +136,38 @@ export default function ChallengeContent() {
                     </div>
                 </div>
 
-                {/* Hall of Fame - Keep as requested */}
-                <div>
+                {/* Hall of Fame */}
+                <div className="mt-20">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-5xl font-serif italic text-foreground mb-4">Past Winners</h2>
-                        <p className="text-foreground/50">Celebrating those who captured the essence of previous themes.</p><br/>
-                         <p   className="challenge-btn inline-flex items-center bg-[#563454] text-white px-10 py-3 rounded-full text-base font-semibold font-serif tracking-wide hover:brightness-110 transition-all shadow-xl">
-                            <i>This Section Is Coming Soon</i>
-                         </p>
+                        <h2 className="text-3xl md:text-5xl font-serif italic text-foreground mb-4">Hall Of Fame</h2>
+                        <p className="text-foreground/50 max-w-xl mx-auto">Celebrating the absolute best captures from our weekly challenges.</p>
                     </div>
+                    
+                    <SSEmptyState 
+                        title="The Podium Awaits"
+                        description="The Hall of Fame is being digitized. The first batch of winners will be immortalized here soon."
+                        icon={TrophyIcon}
+                        steps={[
+                            {
+                                id: 1,
+                                title: "Join the Current Challenge",
+                                description: "The 'Street Photography' challenge is live. Submit your entry.",
+                                completed: false,
+                                link: "https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR",
+                                linkText: "View_Theme",
+                                icon: CameraIcon
+                            },
+                            {
+                                id: 2,
+                                title: "Join the Community",
+                                description: "Connect with 380+ creators and share your work.",
+                                completed: false,
+                                link: "https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR",
+                                linkText: "Join_Now",
+                                icon: Users
+                            }
+                        ]}
+                    />
                 </div>
             </div>
         </div>

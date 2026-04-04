@@ -16,7 +16,7 @@ export const submitApplication = mutation({
     const allApplications = await ctx.db
       .query("join_members")
       .withIndex("by_email", (q) => q.eq("email", args.email))
-      .collect();
+      .take(100);
 
     const existing = allApplications.find(
       (app) => app.status === "pending" || app.status === "approved"
@@ -44,11 +44,16 @@ export const submitApplication = mutation({
 // Get all join member applications (for admin)
 export const getAllApplications = query({
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     const applications = await ctx.db
       .query("join_members")
       .withIndex("by_submitted_at")
       .order("desc")
-      .collect();
+      .take(100);
     return applications;
   },
 });
@@ -57,10 +62,15 @@ export const getAllApplications = query({
 export const getApplicationsByStatus = query({
   args: { status: v.string() },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     const applications = await ctx.db
       .query("join_members")
       .withIndex("by_status", (q) => q.eq("status", args.status))
-      .collect();
+      .take(100);
     return applications;
   },
 });
@@ -109,6 +119,11 @@ export const deleteApplication = mutation({
     applicationId: v.id("join_members"),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     await ctx.db.delete(args.applicationId);
   },
 });

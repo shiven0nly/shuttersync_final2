@@ -4,12 +4,15 @@ import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { api } from 'convex/_generated/api';
+import Link from 'next/link';
+import SSEmptyState from '@/components/ui/SSEmptyState';
+import { TrophyIcon, Users, CameraIcon, SparklesIcon } from 'lucide-react';
+import Image from 'next/image';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import SSTokenBadge from '@/components/my-learning/SSTokenBadge';
 import SSFilterTabs from '@/components/my-learning/SSFilterTabs';
 import SSEnrollmentCard from '@/components/my-learning/SSEnrollmentCard';
-import SSEmptyState from '@/components/my-learning/SSEmptyState';
 import SSLoadingSkeleton from '@/components/my-learning/SSLoadingSkeleton';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 
@@ -114,7 +117,7 @@ export default function MyLearningDashboard() {
                         <SSTokenBadge tokens={userData?.totalTokens || 0} />
                         <div className="w-12 h-12 rounded-2xl border-2 border-indigo-100 bg-white p-1 shadow-sm">
                             {user?.imageUrl ? (
-                                <img src={user.imageUrl} alt="Profile" className="w-full h-full rounded-xl object-cover" />
+                                <Image src={user.imageUrl} width={48} height={48} alt="Profile" className="w-full h-full rounded-xl object-cover" />
                             ) : (
                                 <UserCircleIcon className="w-full h-full text-slate-300" />
                             )}
@@ -129,7 +132,31 @@ export default function MyLearningDashboard() {
 
                 {/* Content Grid */}
                 {!hasEnrollments ? (
-                    <SSEmptyState />
+                    <SSEmptyState 
+                        title="Your Creative Space"
+                        description="Enroll in workshops and courses to start seeing them here."
+                        icon={CameraIcon}
+                        steps={[
+                            { 
+                                id: 1, 
+                                title: "Explore Workshops", 
+                                description: "Enroll in your first photography workshop.", 
+                                completed: false,
+                                link: "/workshops/lightroom-mastery",
+                                linkText: "Explore",
+                                icon: CameraIcon
+                            },
+                            { 
+                                id: 2, 
+                                title: "Join the Community", 
+                                description: "Connect with fellow creators in our community.", 
+                                completed: false, 
+                                link: "https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR",
+                                linkText: "Join",
+                                icon: Users
+                            }
+                        ]}
+                    />
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredItems.map((item: any, idx: number) => (

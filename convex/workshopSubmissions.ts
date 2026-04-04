@@ -80,12 +80,14 @@ export const getUserSubmission = query({
 export const getAllSubmissions = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthorized");
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
 
     const submissions = await ctx.db
       .query("workshop_submissions")
       .order("desc")
-      .collect();
+      .take(100);
 
     return submissions;
   },

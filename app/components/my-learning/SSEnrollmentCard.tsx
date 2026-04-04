@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { CalendarIcon, UserIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface SSEnrollmentCardProps {
     title: string;
@@ -46,10 +47,11 @@ export default function SSEnrollmentCard({
         >
             {/* Thumbnail */}
             <div className="relative aspect-video rounded-2xl overflow-hidden mb-5 bg-slate-100 border border-black/5">
-                <img 
+                <Image
                     src={thumbnail} 
                     alt={title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105" 
                 />
                 <div className={cn(
                     "absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border",

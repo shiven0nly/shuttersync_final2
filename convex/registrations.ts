@@ -68,12 +68,14 @@ export const getUserRegistration = query({
 export const getAllRegistrations = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthorized");
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
 
     const registrations = await ctx.db
       .query("workshop_registrations")
       .order("desc")
-      .collect();
+      .take(100);
 
     return registrations;
   },
@@ -107,7 +109,9 @@ export const reactivateRegistration = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthorized");
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
 
     await ctx.db.patch(args.registrationId, {
       status: "active",
@@ -130,22 +134,22 @@ export const getMyEnrollments = query({
     const workshops = await ctx.db
       .query("workshop_registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
-      .collect();
+      .take(100);
 
     const courses = await ctx.db
       .query("course_registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
-      .collect();
+      .take(100);
 
     const photowalks = await ctx.db
       .query("photowalk_registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
-      .collect();
+      .take(100);
 
     const competitions = await ctx.db
       .query("competition_registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
-      .collect();
+      .take(100);
 
     return {
       workshops,

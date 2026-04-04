@@ -28,10 +28,15 @@ export const submitInquiry = mutation({
 // Get all collaboration inquiries (admin only)
 export const getAllInquiries = query({
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
+
     const inquiries = await ctx.db
       .query("collaboration_inquiries")
       .order("desc")
-      .collect();
+      .take(100);
     return inquiries;
   },
 });
@@ -64,6 +69,10 @@ export const deleteInquiry = mutation({
     inquiryId: v.id("collaboration_inquiries"),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || (identity as any).metadata?.role !== "admin") {
+      throw new Error("Unauthorized: Admin access required");
+    }
     await ctx.db.delete(args.inquiryId);
   },
 });

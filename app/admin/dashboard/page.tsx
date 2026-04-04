@@ -5,10 +5,23 @@ import { useUser } from '@clerk/nextjs';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from 'convex/_generated/api';
 import { EnvelopeIcon as MailIcon, PhoneIcon, ArrowDownTrayIcon, DocumentTextIcon as ScrollTextIcon } from '@heroicons/react/24/outline';
-import { exportToExcel, exportJoinMembersToExcel } from '@/lib/exportToExcel';
 import Link from 'next/link';
 
 type RegistrationType = 'workshop' | 'photowalk' | 'course' | 'competition' | 'joinMembers';
+
+// URL sanitizer to prevent XSS via javascript: URLs
+const sanitizeUrl = (url: string | undefined | null) => {
+  if (!url) return "#";
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.href;
+    }
+  } catch (e) {
+    return "#";
+  }
+  return "#";
+};
 
 export default function AdminPage() {
     const { user, isLoaded } = useUser();
@@ -138,10 +151,12 @@ export default function AdminPage() {
             };
             const filename = `${activeTab}_${activeTab === 'joinMembers' ? 'applications' : 'registrations'}_${new Date().toISOString().split('T')[0]}.xlsx`;
             
+            const excelModule = await import('@/lib/exportToExcel');
+            
             if (activeTab === 'joinMembers') {
-                await exportJoinMembersToExcel(data as any, filename, tabNames[activeTab]);
+                await excelModule.exportJoinMembersToExcel(data as any, filename, tabNames[activeTab]);
             } else {
-                await exportToExcel(data as any, filename, tabNames[activeTab]);
+                await excelModule.exportToExcel(data as any, filename, tabNames[activeTab]);
             }
         } catch (error) {
             alert('Failed to export data');
@@ -330,7 +345,7 @@ export default function AdminPage() {
                                                 </td>
                                                 <td className="px-8 py-6">
                                                     {app.portfolio ? (
-                                                        <a href={app.portfolio} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">
+                                                        <a href={sanitizeUrl(app.portfolio)} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">
                                                             View Portfolio
                                                         </a>
                                                     ) : (

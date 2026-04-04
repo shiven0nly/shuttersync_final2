@@ -3,6 +3,7 @@
 import React from 'react';
 import Header from '@/components/common/Header';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface ComingSoonProps {
   title: string;
@@ -15,10 +16,11 @@ const ComingSoon: React.FC<ComingSoonProps> = ({ title }) => {
       <main className="flex-1 relative flex items-center justify-center overflow-hidden">
         {/* Full Image Background */}
         <div className="absolute inset-0 z-0">
-          <img 
+          <Image 
             src="/backgrounds/comingsoonbg.png" 
             alt="Coming Soon Background" 
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
 

@@ -28,7 +28,6 @@ export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const photosRef = useRef<(HTMLDivElement | null)[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
-  const [showLoginDialog, setShowLoginDialog] = useState(false);
   const { user, isLoaded } = useUser();
   const router = useRouter();
 
@@ -174,59 +173,27 @@ export default function HeroSection() {
         </p>
         <div data-hero-content className="flex flex-wrap items-center justify-center gap-4">
           <Link href="/sign-up">
-            <RippleButton className="min-w-[200px] px-10 py-4 text-sm uppercase tracking-[0.15em] rounded-full text-black border-black hover:text-white">
-              Join Community
+            <RippleButton className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full text-white bg-orange-600 border-none hover:bg-orange-700 shadow-lg shadow-orange-600/30">
+              Start Exploring
             </RippleButton>
           </Link>
           <RippleButton
             onClick={() => {
               if (!isLoaded) return;
               if (!user) {
-                setShowLoginDialog(true);
+                router.push('/sign-in?redirect_url=/workshops/lightroom-mastery/register');
               } else {
                 router.push('/workshops/lightroom-mastery/register');
               }
             }}
-            className="min-w-[200px] px-10 py-4 text-sm uppercase tracking-[0.15em] rounded-full"
+            className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full bg-white text-black border border-black/5 shadow-sm hover:bg-black/5 hover:text-black transition-colors"
           >
             Join Workshop
           </RippleButton>
         </div>
       </div>
 
-      {/* Login Dialog */}
-      {showLoginDialog && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="login-dialog-title"
-        >
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-black/5">
-            <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
-            <h3 id="login-dialog-title" className="text-xl font-serif text-foreground mb-2">Login First</h3>
-            <p className="text-sm text-foreground/50 mb-8 leading-relaxed">Please login first, then register for the workshop.</p>
-            <div className="flex flex-col gap-3">
-              <Link
-                href="/sign-in"
-                className="w-full py-3 bg-orange-500 text-center text-white rounded-xl text-sm font-semibold uppercase tracking-wider hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-colors"
-              >
-                Sign In
-              </Link>
-              <button
-                onClick={() => setShowLoginDialog(false)}
-                className="w-full py-3 text-foreground/40 text-sm font-medium hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 rounded-xl transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
     </section>
   );
 }

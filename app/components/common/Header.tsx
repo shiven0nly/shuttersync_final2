@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Icon from '@/components/ui/AppIcon';
 import { usePathname } from 'next/navigation';
 import { useUser, UserButton } from '@clerk/nextjs';
@@ -102,10 +103,10 @@ const Header = React.memo(function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed z-50 transition-all duration-500 min-w-full ${
           isScrolled
-            ? 'bg-white/70 backdrop-blur-md shadow-sm border-b border-black/[0.04]'
-            : pathname === '/gallery' ? 'bg-black/20 backdrop-blur-sm' : 'bg-transparent'
+            ? 'bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_-4px_rgba(0,0,0,0.1)] border border-black/10'
+            : pathname === '/gallery' ? 'bg-black/20 backdrop-blur-md border border-white/10' : 'bg-white/30 backdrop-blur-md border border-black/5'
         }`}
       >
         {/* Patterned blur overlay */}
@@ -144,10 +145,10 @@ const Header = React.memo(function Header() {
                       onMouseLeave={() => setHoveredGroup(null)}
                     >
                       <button
-                        className={`text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 relative group flex items-center gap-1.5 focus:outline-none ${
+                        className={`text-[14px] font-medium transition-colors duration-300 relative group flex items-center gap-1.5 focus:outline-none ${
                           isGroupActive
-                            ? 'text-orange-500 font-bold'
-                            : (pathname === '/gallery' && !isScrolled ? 'text-white/60 hover:text-white' : 'text-foreground/60 hover:text-foreground')
+                            ? 'text-orange-600'
+                            : (pathname === '/gallery' && !isScrolled ? 'text-white/80 hover:text-white' : 'text-foreground/70 hover:text-foreground')
                         }`}
                       >
                         {link.label}
@@ -176,9 +177,9 @@ const Header = React.memo(function Header() {
                                 <Link
                                   key={sub.id}
                                   href={sub.href}
-                                  className={`block px-5 py-3 text-[10px] uppercase tracking-widest transition-colors ${
+                                  className={`block px-5 py-3 text-[14px] font-medium transition-colors ${
                                     isSubActive 
-                                      ? 'text-orange-500 bg-orange-50 font-bold' 
+                                      ? 'text-orange-600 bg-orange-50' 
                                       : 'text-foreground/70 hover:text-foreground hover:bg-black/5'
                                   }`}
                                 >
@@ -198,10 +199,10 @@ const Header = React.memo(function Header() {
                   <Link
                     key={link.id}
                     href={link.href!}
-                    className={`text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 relative group ${
+                    className={`text-[14px] font-medium transition-colors duration-300 relative group ${
                       isActive
-                        ? 'text-orange-500 font-bold'
-                        : (pathname === '/gallery' && !isScrolled ? 'text-white/60 hover:text-white' : 'text-foreground/60 hover:text-foreground')
+                        ? 'text-orange-600'
+                        : (pathname === '/gallery' && !isScrolled ? 'text-white/80 hover:text-white' : 'text-foreground/70 hover:text-foreground')
                     }`}
                   >
                     {link.label}
@@ -219,7 +220,7 @@ const Header = React.memo(function Header() {
                 <div className="hidden lg:flex items-center gap-4">
                   {dbUser && (
                     <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full" title="Earn 50 S² Cash for every friend who joins!">
-                      <img src="/svgs/coins.png" className="w-5 h-5 object-contain" alt="S² Cash" />
+                      <Image src="/svgs/coins.png" width={20} height={20} className="w-5 h-5 object-contain" alt="S² Cash" />
                       <span className="text-[11px] font-bold text-orange-600 tracking-wider">
                         {dbUser.totalTokens} S² Cash
                       </span>
@@ -240,7 +241,7 @@ const Header = React.memo(function Header() {
                 </div>
               ) : isLoaded ? (
                 <Link href="/sign-in" className="hidden lg:inline-block">
-                  <ParticleButton className="inline-flex text-[11px] font-semibold uppercase tracking-[0.2em] bg-foreground text-background rounded-full">
+                  <ParticleButton className="inline-flex text-[14px] font-medium bg-black text-white hover:bg-black/80 rounded-full px-6 py-2 transition-colors">
                     Sign In
                   </ParticleButton>
                 </Link>
@@ -351,7 +352,7 @@ const Header = React.memo(function Header() {
                   <div className="flex flex-col items-center gap-6 w-full">
                     {dbUser && (
                       <div className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-orange-50 border border-orange-200 rounded-full">
-                        <img src="/svgs/coins.png" className="w-6 h-6 object-contain" alt="S² Cash" />
+                        <Image src="/svgs/coins.png" width={24} height={24} className="w-6 h-6 object-contain" alt="S² Cash" />
                         <span className="text-[12px] font-bold text-orange-600 tracking-wider uppercase">
                           {dbUser.totalTokens} S² Cash
                         </span>

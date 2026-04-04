@@ -1,14 +1,13 @@
 'use client';
 
 import React from 'react';
-import * as HeroIcons from '@heroicons/react/24/outline';
-import * as HeroIconsSolid from '@heroicons/react/24/solid';
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowPathIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, ArrowUpRightIcon, Bars3Icon, BellIcon, BookOpenIcon, CalendarIcon, CameraIcon, ChatBubbleLeftRightIcon, CheckCircleIcon, CheckIcon, ChevronDownIcon, ClockIcon, EnvelopeIcon, EyeIcon, HomeIcon, MapPinIcon, QuestionMarkCircleIcon, SparklesIcon, Squares2X2Icon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon as ArrowLeftIconSolid, ArrowPathIcon as ArrowPathIconSolid, ArrowRightIcon as ArrowRightIconSolid, ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid, ArrowUpRightIcon as ArrowUpRightIconSolid, Bars3Icon as Bars3IconSolid, BellIcon as BellIconSolid, BookOpenIcon as BookOpenIconSolid, CalendarIcon as CalendarIconSolid, CameraIcon as CameraIconSolid, ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid, CheckCircleIcon as CheckCircleIconSolid, CheckIcon as CheckIconSolid, ChevronDownIcon as ChevronDownIconSolid, ClockIcon as ClockIconSolid, EnvelopeIcon as EnvelopeIconSolid, EyeIcon as EyeIconSolid, HomeIcon as HomeIconSolid, MapPinIcon as MapPinIconSolid, QuestionMarkCircleIcon as QuestionMarkCircleIconSolid, SparklesIcon as SparklesIconSolid, Squares2X2Icon as Squares2X2IconSolid, UserGroupIcon as UserGroupIconSolid } from '@heroicons/react/24/solid';
 
 type IconVariant = 'outline' | 'solid';
 
 interface IconProps {
-    name: string; // Changed to string to accept dynamic values
+    name: string;
     variant?: IconVariant;
     size?: number;
     className?: string;
@@ -16,6 +15,59 @@ interface IconProps {
     disabled?: boolean;
     [key: string]: any;
 }
+
+const outlineIcons: Record<string, React.ComponentType<any>> = {
+    'ArrowLeftIcon': ArrowLeftIcon,
+    'ArrowPathIcon': ArrowPathIcon,
+    'ArrowRightIcon': ArrowRightIcon,
+    'ArrowTopRightOnSquareIcon': ArrowTopRightOnSquareIcon,
+    'ArrowUpRightIcon': ArrowUpRightIcon,
+    'Bars3Icon': Bars3Icon,
+    'BellIcon': BellIcon,
+    'BookOpenIcon': BookOpenIcon,
+    'CalendarIcon': CalendarIcon,
+    'CameraIcon': CameraIcon,
+    'ChatBubbleLeftRightIcon': ChatBubbleLeftRightIcon,
+    'CheckCircleIcon': CheckCircleIcon,
+    'CheckIcon': CheckIcon,
+    'ChevronDownIcon': ChevronDownIcon,
+    'ClockIcon': ClockIcon,
+    'EnvelopeIcon': EnvelopeIcon,
+    'EyeIcon': EyeIcon,
+    'HomeIcon': HomeIcon,
+    'MapPinIcon': MapPinIcon,
+    'QuestionMarkCircleIcon': QuestionMarkCircleIcon,
+    'SparklesIcon': SparklesIcon,
+    'Squares2X2Icon': Squares2X2Icon,
+    'UserGroupIcon': UserGroupIcon,
+};
+
+const solidIcons: Record<string, React.ComponentType<any>> = {
+    'ArrowLeftIcon': ArrowLeftIconSolid,
+    'ArrowPathIcon': ArrowPathIconSolid,
+    'ArrowRightIcon': ArrowRightIconSolid,
+    'ArrowTopRightOnSquareIcon': ArrowTopRightOnSquareIconSolid,
+    'ArrowUpRightIcon': ArrowUpRightIconSolid,
+    'Bars3Icon': Bars3IconSolid,
+    'BellIcon': BellIconSolid,
+    'BookOpenIcon': BookOpenIconSolid,
+    'CalendarIcon': CalendarIconSolid,
+    'CameraIcon': CameraIconSolid,
+    'ChatBubbleLeftRightIcon': ChatBubbleLeftRightIconSolid,
+    'CheckCircleIcon': CheckCircleIconSolid,
+    'CheckIcon': CheckIconSolid,
+    'ChevronDownIcon': ChevronDownIconSolid,
+    'ClockIcon': ClockIconSolid,
+    'EnvelopeIcon': EnvelopeIconSolid,
+    'EyeIcon': EyeIconSolid,
+    'HomeIcon': HomeIconSolid,
+    'MapPinIcon': MapPinIconSolid,
+    'QuestionMarkCircleIcon': QuestionMarkCircleIconSolid,
+    'SparklesIcon': SparklesIconSolid,
+    'Squares2X2Icon': Squares2X2IconSolid,
+    'UserGroupIcon': UserGroupIconSolid,
+};
+
 
 function Icon({
     name,
@@ -26,8 +78,8 @@ function Icon({
     disabled = false,
     ...props
 }: IconProps) {
-    const iconSet = variant === 'solid' ? HeroIconsSolid : HeroIcons;
-    const IconComponent = iconSet[name as keyof typeof iconSet] as React.ComponentType<any>;
+    const iconSet = variant === 'solid' ? solidIcons : outlineIcons;
+    const IconComponent = iconSet[name];
 
     if (!IconComponent) {
         return (
@@ -52,4 +104,4 @@ function Icon({
     );
 }
 
-export default Icon; 
+export default Icon;

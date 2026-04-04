@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/common/Header';
 import Footer from '@/components/common/Footer';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import WorkshopButton from '@/components/ui/WorkshopButton';
 
 const workshops = [
@@ -66,10 +67,11 @@ export default function WorkshopsPage() {
               >
                 {/* Image Container */}
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img 
+                  <Image 
                     src={workshop.image} 
                     alt={workshop.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
                   
