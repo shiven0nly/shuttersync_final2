@@ -24,7 +24,7 @@ const workshops = [
     title: 'Lightroom Mastery Workshop',
     description: 'Transform your editing workflow with our comprehensive Lightroom masterclass. Coming soon to elevate your digital darkroom skills.',
     status: 'Coming Soon',
-    href: '/workshops/lightroom-mastery/register/',
+    href: '/workshops/lightroom-mastery',
     image: '/heroSectionbg.jpg',
     features: ['Workflow Optimization', 'Advanced Masks', 'Color Theory'],
     ctaLabel: 'Join Priority List To Register Now'

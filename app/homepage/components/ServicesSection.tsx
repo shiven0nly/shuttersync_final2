@@ -101,7 +101,7 @@ export default function ServicesSection() {
 
   const services = [
     { lineArt: <PhotoWalksIcon size={48} />, title: 'Photowalks', description: 'Explore hidden gems through our guided street photography walks across the city.', features: ['Urban Exploration', 'Guided Routes', 'Social Mixers'], href: '/events/photowalks' },
-    { lineArt: <WorkshopsIcon size={48} />, title: 'Workshops', description: 'Master your craft with peer-led technical workshops and hands-on sessions.', features: ['Lighting Masterclass', 'Post-processing', 'Gear Reviews'], href: '/workshops/register' },
+    { lineArt: <WorkshopsIcon size={48} />, title: 'Workshops', description: 'Master your craft with peer-led technical workshops and hands-on sessions.', features: ['Lighting Masterclass', 'Post-processing', 'Gear Reviews'], href: '/workshops' },
     { lineArt: <ChallengesIcon size={48} />, title: 'Challenges', description: 'Compete in weekly themed challenges and showcase your best work to the community.', features: ['Weekly Themes', 'Community Voting', 'Hall of Fame'], href: '/challenge' },
     { lineArt: <SkillLabsIcon size={48} />, title: 'Collaborations', description: 'Find partners for creative projects and experimental photography shoots.', features: ['Model Networking', 'Studio Access', 'Creative Swaps'], href: '/contact' },
     { lineArt: <CritiqueIcon size={48} />, title: 'Feedback', description: 'Grow through constructive peer reviews and expert portfolio critiques.', features: ['Portfolio Review', 'Editing Advice', 'Career Guidance'], href: 'https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR' },

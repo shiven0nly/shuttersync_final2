@@ -872,7 +872,7 @@ export default function LightroomMasteryWorkshopPage() {
       </div>
       
             {/* Custom Neo-Brutalist Footer */}
-            <footer className="w-full bg-[#000] border-t-[8px] border-black mt-20 relative overflow-hidden z-10">
+            <footer className="w-full bg-[#000] border-t-[8px] border-black mt-20 relative overflow-hidden z-10 rounded-lg">
                 {/* Visual strip at top */}
                 <div className="h-8 bg-[#FFE500] border-b-[4px] border-black flex items-center overflow-hidden pointer-events-none">
                     <div className="flex gap-16 font-black uppercase text-[11px] tracking-widest text-black whitespace-nowrap py-1 select-none animate-[marquee_20s_linear_infinite]">
