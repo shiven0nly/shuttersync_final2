@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { workshopRegistrationSchema, WorkshopRegistrationData } from '@/lib/schemas';
 import { useModals } from '@/store/modal-context';
 import { ZodError } from 'zod';
-import Footer from '@/components/common/Footer';
 
 export default function WorkshopRegisterPage() {
     const { user, isLoaded } = useUser();
@@ -136,11 +135,11 @@ export default function WorkshopRegisterPage() {
     return (
         <div className="min-h-screen relative overflow-hidden bg-[#f0f8ff] text-black font-sans selection:bg-blue-300">
             {/* Minimal Background Grid */}
-            <div className="absolute inset-0 z-0 opacity-[0.15]" 
-                style={{ 
-                    backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', 
-                    backgroundSize: '40px 40px' 
-                }} 
+            <div className="absolute inset-0 z-0 opacity-[0.15]"
+                style={{
+                    backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+                    backgroundSize: '40px 40px'
+                }}
             />
 
             {/* Neo-Brutalist Header */}
@@ -179,170 +178,211 @@ export default function WorkshopRegisterPage() {
                         </p>
                     </div>
 
-                    {/* Neo-Brutalist Registration Card */}
-                    <div className="bg-white p-10 border-[4px] border-black shadow-[12px_12px_0_0_#000] max-w-md relative overflow-hidden">
-                        {/* Decorative Stripe */}
-                        <div className="absolute top-0 left-0 w-full h-3 bg-blue-500 border-b-[3px] border-black" />
-                        
-                        {isCancelled ? (
-                            <div className="text-center py-6">
-                                <h3 className="text-3xl font-black uppercase mb-4">REJECTED</h3>
-                                <div className="bg-red-100 p-6 border-[3px] border-black shadow-[4px_4px_0_0_#000]">
-                                    <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-2">Status</p>
-                                    <p className="text-xl font-black">CANCELLED_BY_ADMIN</p>
+                    {/* Card Wrapper for Floating Urgency Elements */}
+                    <div className="relative max-w-md">
+                        {/* Floating "LIMITED SPOTS" Urgency Badge */}
+                        <div className="absolute -top-5 -left-4 bg-rose-500 text-white border-[3px] border-black px-4 py-2 font-black uppercase text-xs shadow-[4px_4px_0_0_#000] rotate-[-6deg] z-30 animate-pulse flex items-center gap-2 hover:scale-105 transition-all">
+                            <span>LIMITED_SPOTS!</span>
+                            <span className="font-bold">⚡</span>
+                        </div>
+
+                        {/* Neo-Brutalist Registration Card */}
+                        <div className="bg-white p-10 border-[4px] border-black shadow-[12px_12px_0_0_#000] relative overflow-hidden">
+                            {/* Decorative Stripe */}
+                            <div className="absolute top-0 left-0 w-full h-3 bg-blue-500 border-b-[3px] border-black" />
+
+                            {isCancelled ? (
+                                <div className="text-center py-6">
+                                    <h3 className="text-3xl font-black uppercase mb-4">REJECTED</h3>
+                                    <div className="bg-red-100 p-6 border-[3px] border-black shadow-[4px_4px_0_0_#000]">
+                                        <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-2">Status</p>
+                                        <p className="text-xl font-black">CANCELLED_BY_ADMIN</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ) : isRegistered && !showSuccess ? (
-                            <div className="text-center py-6">
-                                <div className="w-20 h-20 bg-blue-500 text-white border-[3px] border-black flex items-center justify-center mx-auto mb-8 shadow-[6px_6px_0_0_#000] rotate-3">
-                                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
-                                    </svg>
+                            ) : isRegistered && !showSuccess ? (
+                                <div className="text-center py-6">
+                                    <div className="w-20 h-20 bg-blue-500 text-white border-[3px] border-black flex items-center justify-center mx-auto mb-8 shadow-[6px_6px_0_0_#000] rotate-3">
+                                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-3xl font-black mb-4 uppercase italic">YouAre_In</h3>
+                                    <p className="font-bold text-slate-500 mb-10 leading-relaxed uppercase tracking-tighter">Check your mail for the full setup guide.</p>
+                                    <Link
+                                        href="/workshops/lightroom-mastery"
+                                        className="inline-flex w-full items-center justify-center gap-2 py-5 bg-black text-white text-lg font-black uppercase tracking-widest hover:bg-blue-500 transition-colors border-[3px] border-black shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+                                    >
+                                        Access_Workshop
+                                        <ArrowRightIcon className="w-6 h-6 border-[2px] border-white" />
+                                    </Link>
                                 </div>
-                                <h3 className="text-3xl font-black mb-4 uppercase italic">YouAre_In</h3>
-                                <p className="font-bold text-slate-500 mb-10 leading-relaxed uppercase tracking-tighter">Check your mail for the full setup guide.</p>
-                                <Link
-                                    href="/workshops/lightroom-mastery"
-                                    className="inline-flex w-full items-center justify-center gap-2 py-5 bg-black text-white text-lg font-black uppercase tracking-widest hover:bg-blue-500 transition-colors border-[3px] border-black shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
-                                >
-                                    Access_Workshop
-                                    <ArrowRightIcon className="w-6 h-6 border-[2px] border-white" />
-                                </Link>
-                            </div>
-                        ) : (
-                            <>
-                                <header className="mb-10 flex items-end justify-between border-b-[3px] border-black pb-6">
-                                    <div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-1">
-                                            Stage_{step}_of_2
-                                        </p>
-                                        <h2 className="text-3xl font-black uppercase italic tracking-tighter">
-                                            {step === 1 ? 'Join_Now' : 'The_Finish'}
-                                        </h2>
-                                    </div>
-                                    <div className="flex gap-2 mb-1">
-                                        <div className={`w-10 h-3 border-[2px] border-black ${step === 1 ? 'bg-blue-500' : 'bg-white'}`} />
-                                        <div className={`w-10 h-3 border-[2px] border-black ${step === 2 ? 'bg-blue-500' : 'bg-white'}`} />
-                                    </div>
-                                </header>
-
-                                {Object.keys(errors).length > 0 && (
-                                    <div className="mb-8 p-4 bg-red-100 border-[3px] border-black shadow-[4px_4px_0_0_#000] text-[10px] font-black uppercase italic text-red-600">
-                                        Fix required errors to proceed
-                                    </div>
-                                )}
-
-                                {step === 1 ? (
-                                    <form onSubmit={handleNextStep} className="space-y-6">
-                                        <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-widest">Photographer_Name</label>
-                                            <input
-                                                type="text"
-                                                value={formData.fullName}
-                                                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.fullName ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
-                                                placeholder="e.g. John Doe"
-                                            />
-                                            {errors.fullName && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.fullName}</p>}
+                            ) : (
+                                <>
+                                    <header className="mb-10 flex items-end justify-between border-b-[3px] border-black pb-6">
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 mb-1">
+                                                Stage_{step}_of_2
+                                            </p>
+                                            <h2 className="text-3xl font-black uppercase italic tracking-tighter">
+                                                {step === 1 ? 'Join_Now' : 'The_Finish'}
+                                            </h2>
                                         </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-widest">Email_Address</label>
-                                            <input
-                                                type="email"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.email ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
-                                                placeholder="YOU@SHUTTERSYNC.COM"
-                                            />
-                                            {errors.email && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.email}</p>}
+                                        <div className="flex gap-2 mb-1">
+                                            <div className={`w-10 h-3 border-[2px] border-black ${step === 1 ? 'bg-blue-500' : 'bg-white'}`} />
+                                            <div className={`w-10 h-3 border-[2px] border-black ${step === 2 ? 'bg-blue-500' : 'bg-white'}`} />
                                         </div>
-                                        <button
-                                            type="submit"
-                                            className="w-full py-5 bg-black text-white text-lg font-black uppercase tracking-widest hover:bg-blue-500 hover:shadow-none transition-all flex items-center justify-center gap-3 border-[3px] border-black shadow-[8px_8px_0_0_#3b82f6] hover:translate-x-1 hover:translate-y-1"
-                                        >
-                                            Next_Step
-                                            <ArrowRightIcon className="w-6 h-6 border-[2px] border-white" />
-                                        </button>
-                                    </form>
-                                ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-6">
-                                        <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-widest">Contact_No</label>
-                                            <input
-                                                type="tel"
-                                                value={formData.phone}
-                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.phone ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
-                                                placeholder="+91-XXXXX-XXXXX"
-                                            />
-                                            {errors.phone && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.phone}</p>}
-                                        </div>
+                                    </header>
 
-                                        {/* Neo-Brutalist UPI QR Code Payment Section */}
-                                        <div className="space-y-4 border-[3px] border-black p-4 bg-yellow-100 shadow-[4px_4px_0_0_#000]">
-                                            <p className="text-[11px] font-black uppercase tracking-widest text-black">Scan to Pay (INR 99)</p>
-                                            <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                                <div className="relative w-36 h-36 bg-white border-[3px] border-black p-1 shadow-[2px_2px_0_0_#000] shrink-0 rounded-lg">
-                                                    <Image 
-                                                        src="/qrcode/qrcode.png" 
-                                                        alt="UPI Payment QR Code" 
-                                                        fill
-                                                        className="object-contain rounded"
-                                                    />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <ol className="text-[10px] font-bold uppercase leading-relaxed text-slate-800 list-decimal pl-4">
-                                                        <li>Scan the QR code with any UPI app (GPay, PhonePe, Paytm).</li>
-                                                        <li>Pay the registration fee of ₹99.</li>
-                                                        <li>Copy the 12-digit UPI Transaction ID.</li>
-                                                    </ol>
-                                                </div>
+                                    {Object.keys(errors).length > 0 && (
+                                        <div className="mb-8 p-4 bg-red-100 border-[3px] border-black shadow-[4px_4px_0_0_#000] text-[10px] font-black uppercase italic text-red-600">
+                                            Fix required errors to proceed
+                                        </div>
+                                    )}
+
+                                    {step === 1 ? (
+                                        <form onSubmit={handleNextStep} className="space-y-6">
+                                            <div className="space-y-3">
+                                                <label className="text-[11px] font-black uppercase tracking-widest">Photographer_Name</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.fullName}
+                                                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                                                    className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.fullName ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
+                                                    placeholder="e.g. John Doe"
+                                                />
+                                                {errors.fullName && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.fullName}</p>}
                                             </div>
-                                        </div>
-
-                                        <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-widest">UPI Transaction ID</label>
-                                            <input
-                                                type="text"
-                                                value={formData.transactionId}
-                                                onChange={(e) => setFormData({ ...formData, transactionId: e.target.value })}
-                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.transactionId ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
-                                                placeholder="ENTER 12-DIGIT TRANSACTION ID"
-                                            />
-                                            {errors.transactionId && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.transactionId}</p>}
-                                        </div>
-
-                                        <div className="space-y-3">
-                                            <label className="text-[11px] font-black uppercase tracking-widest">Workshop_Needs</label>
-                                            <textarea
-                                                value={formData.nextWorkshop}
-                                                onChange={(e) => setFormData({ ...formData, nextWorkshop: e.target.value })}
-                                                rows={3}
-                                                className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300 resize-none"
-                                                placeholder="TELL US YOUR GOALS..."
-                                            />
-                                        </div>
-                                        <div className="flex gap-4">
-                                            <button
-                                                type="button"
-                                                onClick={() => setStep(1)}
-                                                className="px-6 py-5 bg-white border-[3px] border-black font-black uppercase text-xs hover:bg-slate-100 transition-all shadow-[4px_4px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
-                                            >
-                                                Back
-                                            </button>
+                                            <div className="space-y-3">
+                                                <label className="text-[11px] font-black uppercase tracking-widest">Email_Address</label>
+                                                <input
+                                                    type="email"
+                                                    value={formData.email}
+                                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                    className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.email ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
+                                                    placeholder="YOU@SHUTTERSYNC.COM"
+                                                />
+                                                {errors.email && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.email}</p>}
+                                            </div>
                                             <button
                                                 type="submit"
-                                                disabled={isSubmitting}
-                                                className="flex-1 py-5 bg-blue-500 text-white text-lg font-black uppercase tracking-widest hover:bg-black border-[3px] border-black shadow-[8px_8px_0_0_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
+                                                className="w-full py-5 bg-black text-white text-lg font-black uppercase tracking-widest hover:bg-blue-500 hover:shadow-none transition-all flex items-center justify-center gap-3 border-[3px] border-black shadow-[8px_8px_0_0_#3b82f6] hover:translate-x-1 hover:translate-y-1"
                                             >
-                                                {isSubmitting ? 'BUSY...' : 'ENROLL'}
+                                                Next_Step
                                                 <ArrowRightIcon className="w-6 h-6 border-[2px] border-white" />
                                             </button>
+                                        </form>
+                                    ) : (
+                                        <form onSubmit={handleSubmit} className="space-y-6">
+                                            <div className="space-y-3">
+                                                <label className="text-[11px] font-black uppercase tracking-widest">Contact_No</label>
+                                                <input
+                                                    type="tel"
+                                                    value={formData.phone}
+                                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                    className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.phone ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
+                                                    placeholder="+91-XXXXX-XXXXX"
+                                                />
+                                                {errors.phone && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.phone}</p>}
+                                            </div>
+
+                                            {/* Neo-Brutalist UPI QR Code Payment Section */}
+                                            <div className="space-y-4 border-[3px] border-black p-4 bg-yellow-100 shadow-[4px_4px_0_0_#000]">
+                                                <p className="text-[11px] font-black uppercase tracking-widest text-black">Scan to Pay (INR 99)</p>
+                                                <div className="flex flex-col sm:flex-row gap-4 items-center">
+                                                    <div className="relative w-36 h-36 bg-white border-[3px] border-black p-1 shadow-[2px_2px_0_0_#000] shrink-0 rounded-lg">
+                                                        <Image
+                                                            src="/qrcode/qrcode.png"
+                                                            alt="UPI Payment QR Code"
+                                                            fill
+                                                            className="object-contain rounded"
+                                                        />
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <ol className="text-[10px] font-bold uppercase leading-relaxed text-slate-800 list-decimal pl-4">
+                                                            <li>Scan the QR code with any UPI app (GPay, PhonePe, Paytm).</li>
+                                                            <li>Pay the registration fee of ₹99.</li>
+                                                            <li>Copy the 12-digit UPI Transaction ID.</li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                <label className="text-[11px] font-black uppercase tracking-widest">UPI Transaction ID</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.transactionId}
+                                                    onChange={(e) => setFormData({ ...formData, transactionId: e.target.value })}
+                                                    className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.transactionId ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
+                                                    placeholder="ENTER 12-DIGIT TRANSACTION ID"
+                                                />
+                                                {errors.transactionId && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.transactionId}</p>}
+                                            </div>
+
+                                            <div className="space-y-3">
+                                                <label className="text-[11px] font-black uppercase tracking-widest">Workshop_Needs</label>
+                                                <textarea
+                                                    value={formData.nextWorkshop}
+                                                    onChange={(e) => setFormData({ ...formData, nextWorkshop: e.target.value })}
+                                                    rows={3}
+                                                    className="w-full px-5 py-4 bg-white border-[3px] border-black text-sm font-black uppercase tracking-tight focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6] outline-none transition-all placeholder:text-slate-300 resize-none"
+                                                    placeholder="TELL US YOUR GOALS..."
+                                                />
+                                            </div>
+                                            <div className="flex gap-4">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setStep(1)}
+                                                    className="px-6 py-5 bg-white border-[3px] border-black font-black uppercase text-xs hover:bg-slate-100 transition-all shadow-[4px_4px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                                                >
+                                                    Back
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                    className="flex-1 py-5 bg-blue-500 text-white text-lg font-black uppercase tracking-widest hover:bg-black border-[3px] border-black shadow-[8px_8px_0_0_#000] hover:shadow-none hover:translate-x-1 hover:translate-y-1 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
+                                                >
+                                                    {isSubmitting ? 'BUSY...' : 'ENROLL'}
+                                                    <ArrowRightIcon className="w-6 h-6 border-[2px] border-white" />
+                                                </button>
+                                            </div>
+                                        </form>
+                                    )}
+
+                                    {/* Facing Difficulties Support Section */}
+                                    <div className="mt-8 bg-[#FFE500] border-[4px] border-black p-6 shadow-[8px_8px_0_0_#000] relative overflow-hidden group hover:shadow-[12px_12px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300">
+                                        {/* Decorative stripe */}
+                                        <div className="absolute top-0 left-0 w-full h-2 bg-black" />
+
+                                        <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2 mb-2 italic">
+                                            ⚡ Facing Difficulties Filling Form?
+                                        </h3>
+                                        <p className="text-[10px] font-black uppercase text-slate-800 tracking-tight mb-4 leading-relaxed">
+                                            NO WORRIES! CONTACT OUR SUPPORT TEAM DIRECTLY FOR INSTANT HELP WITH REGISTRATION AND PAYMENTS:
+                                        </p>
+
+                                        <div className="flex flex-col sm:flex-row gap-4">
+                                            <a
+                                                href="https://wa.me/919460272387?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-1 px-4 py-3 bg-white hover:bg-slate-100 border-[3px] border-black text-xs font-black uppercase text-center shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                                            >
+                                                <span>💬</span> +91 9460272387
+                                            </a>
+                                            <a
+                                                href="https://wa.me/919455955981?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex-1 px-4 py-3 bg-white hover:bg-slate-100 border-[3px] border-black text-xs font-black uppercase text-center shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                                            >
+                                                <span>💬</span> +91 9455955981
+                                            </a>
                                         </div>
-                                    </form>
-                                )}
-                            </>
-                        )}
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -360,7 +400,7 @@ export default function WorkshopRegisterPage() {
                                 {/* Massive Lens Ring */}
                                 <div className="w-40 h-40 rounded-full border-[8px] border-black bg-blue-50 flex items-center justify-center shadow-[inset_4px_4px_0_0_#000]">
                                     <div className="w-24 h-24 rounded-full border-[6px] border-black bg-black flex items-center justify-center">
-                                         <div className="w-8 h-8 rounded-full bg-blue-500 border-4 border-black animate-pulse" />
+                                        <div className="w-8 h-8 rounded-full bg-blue-500 border-4 border-black animate-pulse" />
                                     </div>
                                 </div>
                             </div>
@@ -399,15 +439,112 @@ export default function WorkshopRegisterPage() {
 
                         {/* Brutalist "Join" Floating Badge */}
                         <div className="absolute top-[25%] left-[-20px] bg-white border-[3px] border-black px-4 py-2 font-black uppercase text-xs shadow-[4px_4px_0_0_#000] rotate-[-15deg] z-40">
-                            LIMITED_SPOTS
+                            CLAIM_SPOT
                         </div>
                     </div>
                 </div>
             </main>
-            <div className="container mt-20 ">
-                <Footer />
-            </div>
 
+            {/* Custom Neo-Brutalist Footer */}
+            <footer className="w-full bg-[#000] border-t-[8px] border-black mt-20 relative overflow-hidden z-10">
+                {/* Visual strip at top */}
+                <div className="h-8 bg-[#FFE500] border-b-[4px] border-black flex items-center overflow-hidden pointer-events-none">
+                    <div className="flex gap-16 font-black uppercase text-[11px] tracking-widest text-black whitespace-nowrap py-1 select-none animate-[marquee_20s_linear_infinite]">
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                    </div>
+                </div>
+
+                <style>{`
+                    @keyframes marquee {
+                        0% { transform: translateX(0%); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .animate-marquee {
+                        display: flex;
+                        animation: marquee 20s linear infinite;
+                    }
+                `}</style>
+
+                <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-4 flex flex-col justify-between items-start">
+                        <div>
+                            <Link href="/" className="inline-block bg-[#FFE500] border-[4px] border-black p-4 px-6 shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mb-6">
+                                <span className="text-3xl font-black uppercase italic tracking-tighter text-black">ShutterSync</span>
+                            </Link>
+                            <p className="text-xs font-bold uppercase tracking-wide text-slate-400 max-w-sm leading-relaxed mt-2">
+                                A high-octane community of passionate creators, visual storytellers, and masterclass photographers. Join us and shape your perspective.
+                            </p>
+                        </div>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR" target="_blank" rel="noopener noreferrer" className="bg-[#FFE500] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                WHATSAPP
+                            </a>
+                            <a href="https://www.instagram.com/shuttersync_official/" target="_blank" rel="noopener noreferrer" className="bg-[#3b82f6] text-white border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                INSTAGRAM
+                            </a>
+                            <a href="http://www.facebook.com/share/1EjenyXb1s" target="_blank" rel="noopener noreferrer" className="bg-[#fff] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#3b82f6] font-black uppercase text-xs">
+                                FACEBOOK
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Quick Links */}
+                    <div className="lg:col-span-4">
+                        <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-[#3b82f6] text-white border-[3px] border-black px-4 py-2 inline-block rotate-[-2deg] shadow-[4px_4px_0_0_#000]">
+                            Quick_Navigation
+                        </h4>
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { label: 'About', href: '/about' },
+                                { label: 'Gallery', href: '/gallery' },
+                                { label: 'Challenge', href: '/challenge' },
+                                { label: 'Events', href: '/events' },
+                                { label: 'Contact', href: '/contact' }
+                            ].map((link, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={link.href}
+                                    className="bg-white hover:bg-slate-100 border-[3px] border-black p-3 text-xs font-black uppercase tracking-wider text-center hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[4px_4px_0_0_#FFE500]"
+                                >
+                                    {link.label}_
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Legal Links */}
+                    <div className="lg:col-span-4 flex flex-col justify-between">
+                        <div>
+                            <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-rose-500 text-white border-[3px] border-black px-4 py-2 inline-block rotate-[1deg] shadow-[4px_4px_0_0_#000]">
+                                Legal_Stuff
+                            </h4>
+                            <div className="flex flex-wrap gap-3">
+                                {[
+                                    { label: 'Privacy Policy', href: '/privacy-policy' },
+                                    { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+                                    { label: 'Refund Policy', href: '/refund-policy' },
+                                    { label: 'Return Policy', href: '/return-policy' },
+                                    { label: 'Disclaimer', href: '/disclaimer' }
+                                ].map((link, idx) => (
+                                    <Link
+                                        key={idx}
+                                        href={link.href}
+                                        className="bg-white hover:bg-slate-100 border-[2px] border-black px-3 py-1.5 text-[9px] font-black uppercase tracking-wider hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[3px_3px_0_0_#3b82f6]"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mt-8 pt-6 border-t-[3px] border-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-500 flex justify-between items-center">
+                            <span>© 2026 SHUTTERSYNC. ALL RIGHTS RESERVED.</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 }

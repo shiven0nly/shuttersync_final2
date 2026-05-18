@@ -99,6 +99,7 @@ export const viewport = {
 
 import NavigationLoader from "@/components/common/NavigationLoader";
 import ReferralTracker from "@/components/common/ReferralTracker";
+import ScrollToTop from "@/components/common/ScrollToTop";
 import { Suspense } from "react";
 
 const jsonLd = {
@@ -225,6 +226,7 @@ export default function RootLayout({
         <body className={`${inter.variable} ${playfair.variable} antialiased`}>
           <ConvexClientProvider>
             <Suspense fallback={null}>
+              <ScrollToTop />
               <NavigationLoader />
               <ReferralTracker />
             </Suspense>
