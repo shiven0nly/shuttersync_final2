@@ -144,17 +144,17 @@ export default function ContactContent() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-[120px] lg:text-[160px] font-serif uppercase leading-none tracking-tighter"
+            className="text-5xl sm:text-[120px] lg:text-[160px] font-serif uppercase leading-none tracking-tighter text-balance"
           >
-            Sync With Us
+            Sync <br className="sm:hidden" /> With Us
           </motion.h1>
           <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-medium text-foreground/40">
               ShutterSync — Photography Unified
             </span>
             <div className="h-[1px] flex-1 bg-black/10 hidden md:block mx-12" />
-            <span className="text-xl md:text-2xl font-serif italic italic text-orange-600">
-              Transforming your vision, one frame at a time.
+            <span className="text-xl md:text-2xl font-serif italic text-orange-600 text-balance block">
+              Transforming <br className="sm:hidden" /> your vision, one <br className="sm:hidden" /> frame at a time.
             </span>
           </div>
         </div>
@@ -225,7 +225,9 @@ export default function ContactContent() {
       {/* The Journey Section - Bento Style */}
       <section className="bg-white border-b border-black">
         <div className="p-10 md:p-16 border-b border-black text-center">
-          <h2 className="text-6xl md:text-8xl font-serif uppercase tracking-tight">Our Photography Journey</h2>
+          <h2 className="text-3xl sm:text-5xl md:text-8xl font-serif uppercase tracking-tight text-balance">
+            Our <br className="sm:hidden" /> Photography <br className="sm:hidden" /> Journey
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 min-h-[800px]">
@@ -322,7 +324,7 @@ export default function ContactContent() {
             </motion.div>
             
             <h2 className="text-5xl md:text-7xl font-serif uppercase tracking-tight mb-6">Let's <br/> Collaborate</h2>
-            <p className="text-lg md:text-xl font-light text-black/60 max-w-sm mb-12">
+            <p className="text-lg md:text-xl font-light text-black/60 max-w-sm mb-12 text-balance">
               Partner with ShutterSync for workshops, events, sponsorships, and large-scale photography campaigns.
             </p>
 

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { CheckCircleIcon, ArrowDownTrayIcon, PlayCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Footer from '@/components/common/Footer';
+import Header from '@/components/common/Header';
 
 const WORKSHOP_ID = 3;
 const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/1dDCiNyplLq9H955MU-ob4SjjCsWGRbgS';
@@ -42,18 +43,6 @@ export default function LightroomMasteryWorkshopPage() {
   const dbUser = useQuery(api.users.getUser, user ? { userId: user.id } : 'skip');
 
   const submitAssignment = useMutation(api.workshopSubmissions.submitAssignment);
-
-  useEffect(() => {
-    if (isLoaded && !user) {
-      router.push('/sign-in');
-    }
-  }, [isLoaded, user, router]);
-
-  useEffect(() => {
-    if (isLoaded && user && registration === null) {
-      router.push('/workshops/lightroom-mastery/register');
-    }
-  }, [isLoaded, user, registration, router]);
 
   useEffect(() => {
     if (submission) {
@@ -117,10 +106,463 @@ export default function LightroomMasteryWorkshopPage() {
     setSelectedStamp(null); // Optional: deselect after one use
   };
 
-  if (!isLoaded || !user || !registration) {
+  const isLoading = !isLoaded || (!!user && registration === undefined);
+  const hasAccess = !!(user && registration && registration.status === 'active');
+
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
         <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Curriculum modules for the landing page
+  const modules = [
+    {
+      num: "01",
+      title: "The Digital Darkroom Foundation",
+      description: "Conquer the Lightroom interface, master catalog organization, and understand RAW vs JPEG dynamics for non-destructive, lightning-fast workflows.",
+      bg: "bg-[#FFE500]",
+      textColor: "text-black",
+      details: ["Importing & Cataloging", "Smart Previews Workflow", "Global Adjustments", "Histogram Interpretation"]
+    },
+    {
+      num: "02",
+      title: "Advanced Masking & Local Adjustments",
+      description: "Dive deep into AI-powered masking. Master subject and sky selections, luminance/color range masks, and brush refinement techniques.",
+      bg: "bg-[#3b82f6]",
+      textColor: "text-white",
+      details: ["AI Subject & Sky Selection", "Linear & Radial Gradients", "Luminance & Color Ranges", "Intersecting Masking Workflows"]
+    },
+    {
+      num: "03",
+      title: "Cinematic Color Theory & Grading",
+      description: "Learn how to use color wheels, HSL panels, and tone curves to create signature color grades that set your work apart in a crowded market.",
+      bg: "bg-[#ec4899]",
+      textColor: "text-white",
+      details: ["Complementary Color Grading", "Mastering Tone Curves", "HSL & Color Mixer Panels", "Creating Moody Cinematic Vibes"]
+    },
+    {
+      num: "04",
+      title: "Signature Presets & High-Res Export",
+      description: "Build reusable preset packs, master sharpening & noise reduction algorithms, and configure bulletproof export templates for print and socials.",
+      bg: "bg-[#f97316]",
+      textColor: "text-white",
+      details: ["Creating Professional Presets", "Advanced Sharpening", "Noise Reduction (AI-Powered)", "Print & Web Export Settings"]
+    }
+  ];
+
+  if (!hasAccess) {
+    return (
+      <div 
+        className="min-h-screen bg-[#f8f9fa] pt-32 pb-20 relative overflow-hidden font-sans flex flex-col justify-between"
+        style={{
+          backgroundImage: 'radial-gradient(#d1d5db 2px, transparent 2px)',
+          backgroundSize: '30px 30px'
+        }}
+      >
+        <Header />
+        
+        {/* Style block for animations */}
+        <style>{`
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            display: flex;
+            animation: marquee 25s linear infinite;
+          }
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+          }
+          .animate-float {
+            animation: float 6s ease-in-out infinite;
+          }
+          @keyframes pulse-slow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+          }
+          .animate-pulse-slow {
+            animation: pulse-slow 3s ease-in-out infinite;
+          }
+        `}</style>
+
+        {/* Floating background shapes */}
+        <div className="absolute top-40 right-10 w-72 h-72 bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-40 left-10 w-96 h-96 bg-pink-300/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 relative z-10 w-full flex-1">
+          
+          {/* Back button */}
+          <Link href="/workshops" className="inline-flex items-center gap-2 text-black hover:text-gray-600 font-bold mb-8 text-sm group">
+            <span className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center group-hover:-translate-x-1 transition-transform bg-white shadow-[2px_2px_0_0_rgba(0,0,0,1)]">
+              ←
+            </span>
+            Back to Workshops
+          </Link>
+
+          {/* Hero Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-block bg-[#FFE500] text-black border-3 border-black px-4 py-1.5 text-xs font-black uppercase tracking-widest shadow-[3px_3px_0_0_#000] rotate-[-1.5deg]">
+                ⚡ LIVE & HANDS-ON WORKSHOP
+              </div>
+              
+              <div className="relative">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-black tracking-tight leading-[0.95] uppercase italic text-left">
+                  Lightroom<br />
+                  <span className="text-blue-500 drop-shadow-[4px_4px_0_#000]">Mastery_</span>
+                </h1>
+                {/* Highlighter accents */}
+                <div className="absolute bottom-2 left-0 w-4/5 h-4 bg-yellow-300 -z-10 -rotate-1" />
+              </div>
+
+              <p className="text-xl md:text-2xl font-bold text-gray-800 leading-snug border-l-6 border-black pl-6 py-2 text-left">
+                Ditch the guesswork. Master professional post-processing workflows, advanced AI masking, and cinematic color grading.
+              </p>
+
+              <div className="flex flex-wrap gap-3 pt-2">
+                {["100% Hands-on", "Premium Presets Included", "Verifiable Certificate", "Lifetime Access"].map((tag, idx) => (
+                  <span key={idx} className="bg-white border-2 border-black px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0_0_rgba(0,0,0,1)]">
+                    ✦ {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-6">
+                <Link
+                  href="/workshops/lightroom-mastery/register"
+                  className="flex items-center justify-center gap-3 px-8 py-5 bg-black text-white border-4 border-black font-black rounded-xl shadow-[8px_8px_0_0_rgba(59,130,246,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(59,130,246,1)] transition-all uppercase tracking-wider text-base text-center group"
+                >
+                  <span>Register Now for ₹99</span>
+                  <span className="group-hover:translate-x-1 transition-transform">⚡</span>
+                </Link>
+                <div className="flex flex-col justify-center text-center sm:text-left bg-white border-3 border-black p-4 shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-[1deg]">
+                  <span className="text-sm font-black text-slate-500 line-through">Valued at ₹499</span>
+                  <span className="text-2xl font-black text-rose-500">₹99 ONLY (Save 80%)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 relative flex items-center justify-center">
+              {/* Premium Neo-Brutalist Frame with Course Preview */}
+              <div className="w-full max-w-[420px] bg-white border-4 border-black p-4 rounded-[2rem] shadow-[12px_12px_0_0_rgba(0,0,0,1)] rotate-[2deg] hover:rotate-0 transition-transform duration-500 relative group overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-3 bg-blue-500 border-b-3 border-black" />
+                
+                {/* Course Thumbnail image with overlay */}
+                <div className="aspect-[4/3] bg-zinc-900 rounded-2xl border-3 border-black overflow-hidden relative mb-6">
+                  {/* We can use a premium illustration or background */}
+                  <div className="absolute inset-0 bg-[url('/heroSectionbg.jpg')] bg-cover bg-center opacity-85 group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
+                  
+
+                  <span className="absolute bottom-4 left-4 bg-black text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 border-2 border-white rounded-md">
+                    COURSE PREVIEW BELOW
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-black uppercase tracking-widest text-blue-600">Curriculum Agenda</span>
+                    <span className="bg-purple-100 border-2 border-black text-[10px] font-black uppercase px-2 py-0.5 rounded-full">4 MODULES</span>
+                  </div>
+                  <h3 className="text-2xl font-black text-black leading-tight uppercase italic text-left">The Digital Lightroom Mastery</h3>
+                  <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase text-left">
+                    Comprehensive training built to save you thousands of editing hours and unlock true creative potential.
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating Star Badges */}
+              <div className="absolute -top-6 -right-4 bg-rose-500 text-white border-3 border-black px-4 py-2 font-black uppercase text-[10px] shadow-[4px_4px_0_0_#000] rotate-[8deg] z-20 animate-bounce">
+                SEATS FILLING FAST! ⚡
+              </div>
+            </div>
+          </div>
+
+          {/* Marquee Banner */}
+          <div className="w-full bg-[#FFE500] border-4 border-black rounded-xl overflow-hidden mb-24 shadow-[6px_6px_0_0_rgba(0,0,0,1)]">
+            <div className="animate-marquee py-3 flex items-center">
+              <span className="text-sm font-black uppercase tracking-widest text-black flex shrink-0 items-center gap-4">
+                <span>⚡ MASTER MASKS & RANGE CONTROLS</span> <span className="text-lg">✦</span>
+                <span>⚡ CINEMATIC COLOR WHEELS</span> <span className="text-lg">✦</span>
+                <span>⚡ WORKFLOW COMPRESSION</span> <span className="text-lg">✦</span>
+                <span>⚡ ONE-CLICK PRESET CREATION</span> <span className="text-lg">✦</span>
+              </span>
+              <span className="text-sm font-black uppercase tracking-widest text-black flex shrink-0 items-center gap-4">
+                <span>⚡ MASTER MASKS & RANGE CONTROLS</span> <span className="text-lg">✦</span>
+                <span>⚡ CINEMATIC COLOR WHEELS</span> <span className="text-lg">✦</span>
+                <span>⚡ WORKFLOW COMPRESSION</span> <span className="text-lg">✦</span>
+                <span>⚡ ONE-CLICK PRESET CREATION</span> <span className="text-lg">✦</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Masterclass Agenda / Curriculum Section */}
+          <div className="space-y-12 mb-24">
+            <div className="text-center space-y-4 max-w-2xl mx-auto">
+              <span className="text-orange-500 font-black text-xs uppercase tracking-[0.3em] block">CURRICULUM AGENDA</span>
+              <h2 className="text-4xl md:text-6xl font-black text-black tracking-tight uppercase italic leading-none">
+                What You Will Learn_
+              </h2>
+              <div className="w-24 h-2 bg-black mx-auto rounded-full" />
+              <p className="text-base font-bold text-slate-500 uppercase tracking-tighter max-w-lg mx-auto">
+                No fluff. Just highly actionable editing workflows built specifically for modern storytellers and creative photographers.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {modules.map((m, idx) => (
+                <div 
+                  key={idx} 
+                  className="bg-white border-4 border-black rounded-[2rem] p-8 shadow-[8px_8px_0_0_rgba(0,0,0,1)] relative overflow-hidden group hover:translate-x-1 hover:translate-y-1 hover:shadow-[6px_6px_0_0_rgba(0,0,0,1)] transition-all flex flex-col"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-5xl font-black italic tracking-tighter text-slate-200 group-hover:text-blue-500/20 transition-colors">
+                      {m.num}
+                    </span>
+                    <div className={`px-4 py-1.5 border-2 border-black rounded-full font-black text-xs uppercase tracking-widest ${m.bg} ${m.textColor} rotate-[-2deg]`}>
+                      MODULE {m.num}
+                    </div>
+                  </div>
+
+                  <h3 className="text-2xl font-black text-black mb-4 uppercase italic tracking-tight text-left">
+                    {m.title}
+                  </h3>
+                  <p className="text-sm font-bold text-slate-600 mb-8 leading-relaxed uppercase text-left">
+                    {m.description}
+                  </p>
+
+                  <div className="mt-auto space-y-3 pt-6 border-t-2 border-dashed border-slate-200">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block text-left">KEY TAKEAWAYS:</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {m.details.map((detail, dIdx) => (
+                        <div key={dIdx} className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 bg-green-400 border-2 border-black rounded-full shrink-0" />
+                          <span className="text-xs font-black uppercase tracking-tight text-slate-700">{detail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Masterclass Bonuses / Goodies */}
+          <div className="bg-[#1890ff] text-white border-4 border-black rounded-[2.5rem] p-8 md:p-12 shadow-[12px_12px_0_0_rgba(0,0,0,1)] relative overflow-hidden mb-24 rotate-[-0.5deg]">
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 2px, transparent 2px)', backgroundSize: '24px 24px' }} />
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-7 space-y-6">
+                <span className="bg-[#FFE500] text-black border-2 border-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest inline-block rotate-[2deg]">
+                  🔥 EXCLUSIVE SIGNUP BONUSES (WORTH ₹999+)
+                </span>
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight uppercase italic leading-none text-left">
+                  Unbelievable Bonuses Included For Free!
+                </h2>
+                <p className="text-base md:text-lg font-bold text-blue-100 uppercase tracking-tighter text-left">
+                  We don't want anything holding you back from mastering Lightroom. That's why we're giving you everything you need to start editing immediately.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
+                  {[
+                    { title: "3 Premium DNG Presets", desc: "Monochrome Love, Purple Fever, and Retro Vapourwave signature looks." },
+                    { title: "Sample RAW Images", desc: "High-resolution raw files to follow along with the instructor step-by-step." },
+                    { title: "Verifiable Certificate", desc: "Earn a high-contrast verifiable certificate on course completion." },
+                    { title: "WhatsApp Community Access", desc: "Ongoing peer support, challenges, weekly reviews, and priority updates." }
+                  ].map((b, bIdx) => (
+                    <div key={bIdx} className="bg-white/10 border-2 border-white/20 p-4 rounded-2xl relative">
+                      <span className="absolute -top-3 -left-3 w-8 h-8 bg-[#FFE500] border-2 border-black text-black rounded-full flex items-center justify-center text-sm font-black rotate-[-10deg]">
+                        🎁
+                      </span>
+                      <h4 className="font-black text-base uppercase tracking-tight text-white pl-4 mb-1 text-left">{b.title}</h4>
+                      <p className="text-xs font-medium text-blue-100 uppercase pl-4 text-left">{b.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 flex flex-col items-center justify-center bg-white border-4 border-black p-8 rounded-[2rem] shadow-[8px_8px_0_0_#000] rotate-[1.5deg] text-black">
+                <span className="text-5xl mb-4 animate-bounce">🎁</span>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-center italic mb-2">Claim All Bonuses Now</h3>
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest text-center mb-6">
+                  Included free when you register for the Lightroom Masterclass today!
+                </p>
+                <div className="w-full text-center border-t-2 border-dashed border-slate-200 pt-6">
+                  <span className="text-sm font-black text-slate-400 line-through block uppercase">TOTAL VALUE: ₹999</span>
+                  <span className="text-4xl font-black text-[#52c41a] block uppercase mt-1 drop-shadow-[1px_1px_0_#000]">₹99 ONLY</span>
+                </div>
+                
+                <Link
+                  href="/workshops/lightroom-mastery/register"
+                  className="w-full mt-6 py-4 bg-[#FFE500] hover:bg-yellow-400 text-black border-3 border-black font-black uppercase text-xs tracking-wider rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0_0_rgba(0,0,0,1)] transition-all flex items-center justify-center gap-2"
+                >
+                  <span>SECURE YOUR SPOT NOW</span>
+                  <span>⚡</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Pricing FAQ section / Final Urgency Callout */}
+          <div className="bg-white border-4 border-black rounded-[2.5rem] p-8 md:p-12 shadow-[8px_8px_0_0_rgba(0,0,0,1)] text-center relative overflow-hidden mb-12">
+            <div className="absolute top-0 left-0 w-full h-3 bg-rose-500 border-b-3 border-black" />
+            <h2 className="text-3xl md:text-5xl font-black text-black mb-4 uppercase italic">Ready To Elevate Your Edit?</h2>
+            <p className="text-lg font-bold text-slate-500 uppercase tracking-widest max-w-2xl mx-auto mb-8">
+              Join hundreds of passionate photographers refining their digital darkroom techniques. Instant access upon secure UPI registration.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link
+                href="/workshops/lightroom-mastery/register"
+                className="w-full sm:w-auto px-10 py-5 bg-black hover:bg-slate-900 text-white border-4 border-black font-black uppercase text-lg rounded-xl shadow-[6px_6px_0_0_rgba(59,130,246,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_0_rgba(59,130,246,1)] transition-all flex items-center justify-center gap-3 group"
+              >
+                <span>Unlock Lightroom Mastery</span>
+                <span className="group-hover:translate-x-1 transition-transform">⚡</span>
+              </Link>
+
+              <Link
+                href="/workshops"
+                className="w-full sm:w-auto px-10 py-5 bg-white hover:bg-slate-50 text-black border-4 border-black font-black uppercase text-lg rounded-xl shadow-[6px_6px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_0_rgba(0,0,0,1)] transition-all text-center"
+              >
+                Explore Other Workshops
+              </Link>
+            </div>
+
+            {/* Support footer section */}
+            <div className="mt-12 pt-8 border-t-2 border-dashed border-slate-200">
+              <p className="text-xs font-black uppercase text-slate-400 tracking-wider">
+                ⚡ QUESTIONS? CONCERNS? GET INSTANT HELP OVER WHATSAPP:
+              </p>
+              <div className="mt-4 flex flex-wrap gap-4 justify-center">
+                <a
+                  href="https://wa.me/919460272387?text=Hi! I have questions regarding the Lightroom Mastery Masterclass."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-[#25D366] text-white border-2 border-black text-xs font-black uppercase rounded-lg shadow-[3px_3px_0_0_#000] hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_#000] transition-all"
+                >
+                  💬 Support Line 1
+                </a>
+                <a
+                  href="https://wa.me/919455955981?text=Hi! I have questions regarding the Lightroom Mastery Masterclass."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-[#25D366] text-white border-2 border-black text-xs font-black uppercase rounded-lg shadow-[3px_3px_0_0_#000] hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_#000] transition-all"
+                >
+                  💬 Support Line 2
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+        
+            {/* Custom Neo-Brutalist Footer */}
+            <footer className="w-full bg-[#000]  border-t-[8px] border-black mt-20 relative overflow-hidden z-10">
+                {/* Visual strip at top */}
+                <div className="h-8 bg-[#FFE500] border-b-[4px] border-black flex items-center overflow-hidden pointer-events-none">
+                    <div className="flex gap-16 font-black uppercase text-[11px] tracking-widest text-black whitespace-nowrap py-1 select-none animate-[marquee_20s_linear_infinite]">
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                    </div>
+                </div>
+
+                <style>{`
+                    @keyframes marquee {
+                        0% { transform: translateX(0%); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .animate-marquee {
+                        display: flex;
+                        animation: marquee 20s linear infinite;
+                    }
+                `}</style>
+
+                <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-4 flex flex-col justify-between items-start">
+                        <div>
+                            <Link href="/" className="inline-block bg-[#FFE500] border-[4px] border-black p-4 px-6 shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mb-6">
+                                <span className="text-3xl font-black uppercase italic tracking-tighter text-black">ShutterSync</span>
+                            </Link>
+                            <p className="text-xs font-bold uppercase tracking-wide text-slate-400 max-w-sm leading-relaxed mt-2">
+                                A high-octane community of passionate creators, visual storytellers, and masterclass photographers. Join us and shape your perspective.
+                            </p>
+                        </div>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR" target="_blank" rel="noopener noreferrer" className="bg-[#FFE500] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                WHATSAPP
+                            </a>
+                            <a href="https://www.instagram.com/shuttersync_official/" target="_blank" rel="noopener noreferrer" className="bg-[#3b82f6] text-white border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                INSTAGRAM
+                            </a>
+                            <a href="http://www.facebook.com/share/1EjenyXb1s" target="_blank" rel="noopener noreferrer" className="bg-[#fff] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#3b82f6] font-black uppercase text-xs">
+                                FACEBOOK
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Quick Links */}
+                    <div className="lg:col-span-4">
+                        <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-[#3b82f6] text-white border-[3px] border-black px-4 py-2 inline-block rotate-[-2deg] shadow-[4px_4px_0_0_#000]">
+                            Quick_Navigation
+                        </h4>
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { label: 'About', href: '/about' },
+                                { label: 'Gallery', href: '/gallery' },
+                                { label: 'Challenge', href: '/challenge' },
+                                { label: 'Events', href: '/events' },
+                                { label: 'Contact', href: '/contact' }
+                            ].map((link, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={link.href}
+                                    className="bg-white hover:bg-slate-100 border-[3px] border-black p-3 text-xs font-black uppercase tracking-wider text-center hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[4px_4px_0_0_#FFE500]"
+                                >
+                                    {link.label}_
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Legal Links */}
+                    <div className="lg:col-span-4 flex flex-col justify-between">
+                        <div>
+                            <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-rose-500 text-white border-[3px] border-black px-4 py-2 inline-block rotate-[1deg] shadow-[4px_4px_0_0_#000]">
+                                Legal_Stuff
+                            </h4>
+                            <div className="flex flex-wrap gap-3">
+                                {[
+                                    { label: 'Privacy Policy', href: '/privacy-policy' },
+                                    { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+                                    { label: 'Refund Policy', href: '/refund-policy' },
+                                    { label: 'Return Policy', href: '/return-policy' },
+                                    { label: 'Disclaimer', href: '/disclaimer' }
+                                ].map((link, idx) => (
+                                    <Link
+                                        key={idx}
+                                        href={link.href}
+                                        className="bg-white hover:bg-slate-100 border-[2px] border-black px-3 py-1.5 text-[9px] font-black uppercase tracking-wider hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[3px_3px_0_0_#3b82f6]"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mt-8 pt-6 border-t-[3px] border-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-500 flex justify-between items-center">
+                            <span>© 2026 SHUTTERSYNC. ALL RIGHTS RESERVED.</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
       </div>
     );
   }
@@ -428,9 +870,107 @@ export default function LightroomMasteryWorkshopPage() {
           </div>
         )}
       </div>
-      <div className='mt-20'>
-      <Footer />
-      </div>
+      
+            {/* Custom Neo-Brutalist Footer */}
+            <footer className="w-full bg-[#000] border-t-[8px] border-black mt-20 relative overflow-hidden z-10">
+                {/* Visual strip at top */}
+                <div className="h-8 bg-[#FFE500] border-b-[4px] border-black flex items-center overflow-hidden pointer-events-none">
+                    <div className="flex gap-16 font-black uppercase text-[11px] tracking-widest text-black whitespace-nowrap py-1 select-none animate-[marquee_20s_linear_infinite]">
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                        <span>SHUTTERSYNC WORKSHOPS ✦ CREATIVE COMMUNITY ✦ DEVELOP YOUR EYE ✦ UNLOCK CREATIVITY ✦ JOIN TODAY ✦</span>
+                    </div>
+                </div>
+
+                <style>{`
+                    @keyframes marquee {
+                        0% { transform: translateX(0%); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .animate-marquee {
+                        display: flex;
+                        animation: marquee 20s linear infinite;
+                    }
+                `}</style>
+
+                <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-4 flex flex-col justify-between items-start">
+                        <div>
+                            <Link href="/" className="inline-block bg-[#FFE500] border-[4px] border-black p-4 px-6 shadow-[8px_8px_0_0_#3b82f6] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all mb-6">
+                                <span className="text-3xl font-black uppercase italic tracking-tighter text-black">ShutterSync</span>
+                            </Link>
+                            <p className="text-xs font-bold uppercase tracking-wide text-slate-400 max-w-sm leading-relaxed mt-2">
+                                A high-octane community of passionate creators, visual storytellers, and masterclass photographers. Join us and shape your perspective.
+                            </p>
+                        </div>
+                        <div className="mt-8 flex flex-wrap gap-3">
+                            <a href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR" target="_blank" rel="noopener noreferrer" className="bg-[#FFE500] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                WHATSAPP
+                            </a>
+                            <a href="https://www.instagram.com/shuttersync_official/" target="_blank" rel="noopener noreferrer" className="bg-[#3b82f6] text-white border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#fff] font-black uppercase text-xs">
+                                INSTAGRAM
+                            </a>
+                            <a href="http://www.facebook.com/share/1EjenyXb1s" target="_blank" rel="noopener noreferrer" className="bg-[#fff] text-black border-[3px] border-black p-3 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all shadow-[4px_4px_0_0_#3b82f6] font-black uppercase text-xs">
+                                FACEBOOK
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Quick Links */}
+                    <div className="lg:col-span-4">
+                        <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-[#3b82f6] text-white border-[3px] border-black px-4 py-2 inline-block rotate-[-2deg] shadow-[4px_4px_0_0_#000]">
+                            Quick_Navigation
+                        </h4>
+                        <div className="grid grid-cols-2 gap-4">
+                            {[
+                                { label: 'About', href: '/about' },
+                                { label: 'Gallery', href: '/gallery' },
+                                { label: 'Challenge', href: '/challenge' },
+                                { label: 'Events', href: '/events' },
+                                { label: 'Contact', href: '/contact' }
+                            ].map((link, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={link.href}
+                                    className="bg-white hover:bg-slate-100 border-[3px] border-black p-3 text-xs font-black uppercase tracking-wider text-center hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[4px_4px_0_0_#FFE500]"
+                                >
+                                    {link.label}_
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Legal Links */}
+                    <div className="lg:col-span-4 flex flex-col justify-between">
+                        <div>
+                            <h4 className="text-sm font-black uppercase italic tracking-widest text-black mb-6 bg-rose-500 text-white border-[3px] border-black px-4 py-2 inline-block rotate-[1deg] shadow-[4px_4px_0_0_#000]">
+                                Legal_Stuff
+                            </h4>
+                            <div className="flex flex-wrap gap-3">
+                                {[
+                                    { label: 'Privacy Policy', href: '/privacy-policy' },
+                                    { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+                                    { label: 'Refund Policy', href: '/refund-policy' },
+                                    { label: 'Return Policy', href: '/return-policy' },
+                                    { label: 'Disclaimer', href: '/disclaimer' }
+                                ].map((link, idx) => (
+                                    <Link
+                                        key={idx}
+                                        href={link.href}
+                                        className="bg-white hover:bg-slate-100 border-[2px] border-black px-3 py-1.5 text-[9px] font-black uppercase tracking-wider hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all shadow-[3px_3px_0_0_#3b82f6]"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mt-8 pt-6 border-t-[3px] border-slate-800 text-[9px] font-black uppercase tracking-widest text-slate-500 flex justify-between items-center">
+                            <span>© 2026 SHUTTERSYNC. ALL RIGHTS RESERVED.</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
     </div>
   );
 }

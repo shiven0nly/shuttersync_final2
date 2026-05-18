@@ -94,7 +94,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#dfdaeb"
+  themeColor: "#ec8d52ff"
 }
 
 import NavigationLoader from "@/components/common/NavigationLoader";

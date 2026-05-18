@@ -217,7 +217,7 @@ export default function BlogContent() {
         {/* Filter Bar */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-12 pb-6 border-b border-black/10">
           {/* Categories */}
-          <nav className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 w-full lg:w-auto" aria-label="Blog categories">
+          <nav className="flex flex-wrap items-center gap-2 md:gap-3 w-full lg:w-auto" aria-label="Blog categories">
             {categories.map((category) => (
               <button
                 key={category.id}

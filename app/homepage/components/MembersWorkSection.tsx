@@ -6,6 +6,12 @@ import Icon from '@/components/ui/AppIcon';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards, Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -59,16 +65,15 @@ export default function MembersWorkSection() {
   useEffect(() => {
     if (!isHydrated || !sectionRef.current) return;
     const ctx = gsap.context(() => {
-      gsap.from('.project-card', {
+      gsap.from('.swiper-cards', {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 60%',
+          start: 'top 75%',
           toggleActions: 'play none none reverse',
         },
-        y: 80,
+        y: 60,
         opacity: 0,
-        stagger: 0.12,
-        duration: 1,
+        duration: 1.2,
         ease: 'power3.out',
       });
     }, sectionRef);
@@ -106,18 +111,98 @@ export default function MembersWorkSection() {
           </p>
         </div>
 
-        {/* Masonry Grid */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {projects.map((project, index) => (
-            <div key={project.id} className="project-card break-inside-avoid">
-              <ProjectCard {...project} />
-            </div>
-          ))}
-          {moreProjects.map((project) => (
-            <div key={project.id} className="project-card break-inside-avoid">
-              <ProjectCard {...project} />
-            </div>
-          ))}
+        {/* Swiper Stacking Cards Carousel */}
+        <div className="relative w-full flex justify-center items-center py-12 select-none overflow-visible">
+          {/* Custom styles for Swiper card stacking visual adjustments */}
+          <style dangerouslySetInnerHTML={{ __html: `
+            .swiper-cards {
+              overflow: visible !important;
+            }
+            .swiper-slide {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 1.5rem;
+              box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+              transition: transform 0.4s ease, filter 0.4s ease;
+            }
+            .swiper-slide-shadow {
+              border-radius: 1.5rem;
+            }
+            /* Blur and dim stacked/inactive cards to create professional visual depth */
+            .swiper-slide:not(.swiper-slide-active) {
+              filter: blur(1.5px) brightness(0.65);
+            }
+            .swiper-pagination-bullet {
+              background: var(--foreground, #000) !important;
+              opacity: 0.25;
+              transition: all 0.3s ease;
+            }
+            .swiper-pagination-bullet-active {
+              opacity: 0.9 !important;
+              background: var(--foreground, #000) !important;
+              width: 1.5rem !important;
+              border-radius: 4px !important;
+            }
+            .swiper-pagination-bullets.swiper-pagination-horizontal {
+              bottom: -40px !important;
+            }
+          `}} />
+
+          {/* Cards Carousel Stack Wrapper */}
+          <div className="relative w-[280px] h-[350px] md:w-[360px] md:h-[450px]">
+            <Swiper
+              effect="cards"
+              grabCursor={true}
+              loop={true}
+              autoplay={{
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{
+                clickable: true,
+                dynamicBullets: false,
+              }}
+              navigation={{
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
+              }}
+              className="swiper-cards w-full h-full"
+              modules={[EffectCards, Autoplay, Pagination, Navigation]}
+            >
+              {[...projects, ...moreProjects].map((project, index) => (
+                <SwiperSlide key={`${project.id}-${index}`} className="rounded-3xl bg-black">
+                  <div className="w-full h-full relative group overflow-hidden rounded-3xl cursor-pointer">
+                    {/* High quality image rendering */}
+                    <AppImage
+                      src={project.image}
+                      alt={project.alt}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+
+                    {/* Dark gradient vignette overlay for content readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent transition-opacity duration-300 group-hover:from-black/90" />
+
+                    {/* Elegant category overlay */}
+                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex flex-col justify-end text-white text-center">
+                      <h3 className="text-2xl md:text-3xl font-serif uppercase tracking-widest text-white/95 drop-shadow-md">
+                        {project.category}
+                      </h3>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Custom Premium Desktop Navigation Arrows */}
+            <button className="swiper-button-prev-custom hidden md:flex absolute top-1/2 -translate-y-1/2 -left-20 z-20 items-center justify-center w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 text-foreground hover:bg-white/[0.08] hover:border-white/20 active:scale-95 transition-all duration-300 cursor-pointer">
+              <Icon name="ArrowLeftIcon" size={20} variant="outline" />
+            </button>
+            <button className="swiper-button-next-custom hidden md:flex absolute top-1/2 -translate-y-1/2 -right-20 z-20 items-center justify-center w-12 h-12 rounded-full bg-white/[0.03] border border-white/10 text-foreground hover:bg-white/[0.08] hover:border-white/20 active:scale-95 transition-all duration-300 cursor-pointer">
+              <Icon name="ArrowRightIcon" size={20} variant="outline" />
+            </button>
+          </div>
         </div>
 
         {/* View More */}

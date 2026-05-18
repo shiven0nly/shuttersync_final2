@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeftIcon, ArrowPathIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, ArrowUpRightIcon, Bars3Icon, BellIcon, BookOpenIcon, CalendarIcon, CameraIcon, ChatBubbleLeftRightIcon, CheckCircleIcon, CheckIcon, ChevronDownIcon, ClockIcon, EnvelopeIcon, EyeIcon, HomeIcon, MapPinIcon, QuestionMarkCircleIcon, SparklesIcon, Squares2X2Icon, UserGroupIcon } from '@heroicons/react/24/outline';
-import { ArrowLeftIcon as ArrowLeftIconSolid, ArrowPathIcon as ArrowPathIconSolid, ArrowRightIcon as ArrowRightIconSolid, ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid, ArrowUpRightIcon as ArrowUpRightIconSolid, Bars3Icon as Bars3IconSolid, BellIcon as BellIconSolid, BookOpenIcon as BookOpenIconSolid, CalendarIcon as CalendarIconSolid, CameraIcon as CameraIconSolid, ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid, CheckCircleIcon as CheckCircleIconSolid, CheckIcon as CheckIconSolid, ChevronDownIcon as ChevronDownIconSolid, ClockIcon as ClockIconSolid, EnvelopeIcon as EnvelopeIconSolid, EyeIcon as EyeIconSolid, HomeIcon as HomeIconSolid, MapPinIcon as MapPinIconSolid, QuestionMarkCircleIcon as QuestionMarkCircleIconSolid, SparklesIcon as SparklesIconSolid, Squares2X2Icon as Squares2X2IconSolid, UserGroupIcon as UserGroupIconSolid } from '@heroicons/react/24/solid';
+import { ArrowLeftIcon, ArrowPathIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, ArrowUpRightIcon, Bars3Icon, BellIcon, BookOpenIcon, CalendarIcon, CameraIcon, ChatBubbleLeftRightIcon, CheckCircleIcon, CheckIcon, ChevronDownIcon, ClockIcon, EnvelopeIcon, EyeIcon, HomeIcon, MapPinIcon, QuestionMarkCircleIcon, SparklesIcon, Squares2X2Icon, UserGroupIcon, XMarkIcon, GlobeAltIcon, AcademicCapIcon, TrophyIcon, MapIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon as ArrowLeftIconSolid, ArrowPathIcon as ArrowPathIconSolid, ArrowRightIcon as ArrowRightIconSolid, ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid, ArrowUpRightIcon as ArrowUpRightIconSolid, Bars3Icon as Bars3IconSolid, BellIcon as BellIconSolid, BookOpenIcon as BookOpenIconSolid, CalendarIcon as CalendarIconSolid, CameraIcon as CameraIconSolid, ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid, CheckCircleIcon as CheckCircleIconSolid, CheckIcon as CheckIconSolid, ChevronDownIcon as ChevronDownIconSolid, ClockIcon as ClockIconSolid, EnvelopeIcon as EnvelopeIconSolid, EyeIcon as EyeIconSolid, HomeIcon as HomeIconSolid, MapPinIcon as MapPinIconSolid, QuestionMarkCircleIcon as QuestionMarkCircleIconSolid, SparklesIcon as SparklesIconSolid, Squares2X2Icon as Squares2X2IconSolid, UserGroupIcon as UserGroupIconSolid, XMarkIcon as XMarkIconSolid, GlobeAltIcon as GlobeAltIconSolid, AcademicCapIcon as AcademicCapIconSolid, TrophyIcon as TrophyIconSolid, MapIcon as MapIconSolid } from '@heroicons/react/24/solid';
 
 type IconVariant = 'outline' | 'solid';
 
@@ -40,6 +40,11 @@ const outlineIcons: Record<string, React.ComponentType<any>> = {
     'SparklesIcon': SparklesIcon,
     'Squares2X2Icon': Squares2X2Icon,
     'UserGroupIcon': UserGroupIcon,
+    'XMarkIcon': XMarkIcon,
+    'GlobeAltIcon': GlobeAltIcon,
+    'AcademicCapIcon': AcademicCapIcon,
+    'TrophyIcon': TrophyIcon,
+    'MapIcon': MapIcon,
 };
 
 const solidIcons: Record<string, React.ComponentType<any>> = {
@@ -66,6 +71,11 @@ const solidIcons: Record<string, React.ComponentType<any>> = {
     'SparklesIcon': SparklesIconSolid,
     'Squares2X2Icon': Squares2X2IconSolid,
     'UserGroupIcon': UserGroupIconSolid,
+    'XMarkIcon': XMarkIconSolid,
+    'GlobeAltIcon': GlobeAltIconSolid,
+    'AcademicCapIcon': AcademicCapIconSolid,
+    'TrophyIcon': TrophyIconSolid,
+    'MapIcon': MapIconSolid,
 };
 
 

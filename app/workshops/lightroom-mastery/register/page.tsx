@@ -350,35 +350,25 @@ export default function WorkshopRegisterPage() {
                                     )}
 
                                     {/* Facing Difficulties Support Section */}
-                                    <div className="mt-8 bg-[#FFE500] border-[4px] border-black p-6 shadow-[8px_8px_0_0_#000] relative overflow-hidden group hover:shadow-[12px_12px_0_0_#000] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-300">
-                                        {/* Decorative stripe */}
-                                        <div className="absolute top-0 left-0 w-full h-2 bg-black" />
-
-                                        <h3 className="text-base font-black uppercase tracking-wider text-black flex items-center gap-2 mb-2 italic">
-                                            ⚡ Facing Difficulties Filling Form?
-                                        </h3>
-                                        <p className="text-[10px] font-black uppercase text-slate-800 tracking-tight mb-4 leading-relaxed">
-                                            NO WORRIES! CONTACT OUR SUPPORT TEAM DIRECTLY FOR INSTANT HELP WITH REGISTRATION AND PAYMENTS:
-                                        </p>
-
-                                        <div className="flex flex-col sm:flex-row gap-4">
-                                            <a
-                                                href="https://wa.me/919460272387?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex-1 px-4 py-3 bg-white hover:bg-slate-100 border-[3px] border-black text-xs font-black uppercase text-center shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                                            >
-                                                <span>💬</span> +91 9460272387
-                                            </a>
-                                            <a
-                                                href="https://wa.me/919455955981?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex-1 px-4 py-3 bg-white hover:bg-slate-100 border-[3px] border-black text-xs font-black uppercase text-center shadow-[4px_4px_0_0_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                                            >
-                                                <span>💬</span> +91 9455955981
-                                            </a>
-                                        </div>
+                                    <div className="mt-8 text-center text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                        Facing difficulties? Support:{" "}
+                                        <a
+                                            href="https://wa.me/919460272387?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-black hover:underline inline-flex items-center gap-1 transition-colors"
+                                        >
+                                            +91 9460272387
+                                        </a>{" "}
+                                        |{" "}
+                                        <a
+                                            href="https://wa.me/919455955981?text=Hi! I am facing difficulty registering for the Lightroom Mastery Workshop."
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-black hover:underline inline-flex items-center gap-1 transition-colors"
+                                        >
+                                            +91 9455955981
+                                        </a>
                                     </div>
                                 </>
                             )}

@@ -172,24 +172,16 @@ export default function HeroSection() {
           Share your clicks, discuss techniques, participate in weekly challenges, and connect with passionate photographers.
         </p>
         <div data-hero-content className="flex flex-wrap items-center justify-center gap-4">
-          <Link href="/sign-up">
+          <Link href="/gallery">
             <RippleButton className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full text-white bg-orange-600 border-none hover:bg-orange-700 shadow-lg shadow-orange-600/30">
               Start Exploring
             </RippleButton>
           </Link>
-          <RippleButton
-            onClick={() => {
-              if (!isLoaded) return;
-              if (!user) {
-                router.push('/sign-in?redirect_url=/workshops/lightroom-mastery/register');
-              } else {
-                router.push('/workshops/lightroom-mastery/register');
-              }
-            }}
-            className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full bg-white text-black border border-black/5 shadow-sm hover:bg-black/5 hover:text-black transition-colors"
-          >
-            Join Workshop
-          </RippleButton>
+          <Link href="/workshops/lightroom-mastery">
+            <RippleButton className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full bg-white text-black border border-black/5 shadow-sm hover:bg-black/5 hover:text-black transition-colors">
+              Join Workshop
+            </RippleButton>
+          </Link>
         </div>
       </div>
 

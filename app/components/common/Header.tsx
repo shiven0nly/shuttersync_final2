@@ -103,7 +103,7 @@ const Header = React.memo(function Header() {
   return (
     <>
       <header
-        className={`fixed z-50 transition-all duration-500 min-w-full ${
+        className={`fixed top-0 left-0 z-50 transition-all duration-500 min-w-full ${
           isScrolled
             ? 'bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_-4px_rgba(0,0,0,0.1)] border border-black/10'
             : pathname === '/gallery' ? 'bg-black/20 backdrop-blur-md border border-white/10' : 'bg-white/30 backdrop-blur-md border border-black/5'
@@ -242,7 +242,7 @@ const Header = React.memo(function Header() {
               ) : isLoaded ? (
                 <Link href="/sign-in" className="hidden lg:inline-block">
                   <ParticleButton className="inline-flex text-[14px] font-medium bg-black text-white hover:bg-black/80 rounded-full px-6 py-2 transition-colors">
-                    Sign In
+                    Sign Up
                   </ParticleButton>
                 </Link>
               ) : (
@@ -252,7 +252,11 @@ const Header = React.memo(function Header() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 text-foreground hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-black/20 transition-colors"
+                className={`lg:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full focus:outline-none focus:ring-2 transition-all duration-300 ${
+                  pathname === '/gallery' && !isScrolled && !isMenuOpen
+                    ? 'border border-white/25 text-white hover:bg-white/10 focus:ring-white/20'
+                    : 'border border-black/10 text-foreground hover:bg-black/5 focus:ring-black/20'
+                }`}
                 aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMenuOpen}
               >
@@ -380,7 +384,7 @@ const Header = React.memo(function Header() {
                     className="block w-full"
                   >
                     <ParticleButton className="w-full justify-center bg-foreground text-background rounded-full text-sm font-semibold uppercase tracking-[0.2em]" size="lg">
-                      Sign In
+                      Sign Up
                     </ParticleButton>
                   </Link>
                 ) : (
