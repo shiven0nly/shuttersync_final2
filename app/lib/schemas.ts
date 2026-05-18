@@ -24,6 +24,7 @@ export const workshopRegistrationSchema = z.object({
   email: z.string().trim().email('Invalid email address'),
   phone: z.string().trim().min(10, 'Invalid phone number (min 10 digits)'),
   nextWorkshop: z.string().trim().optional(),
+  transactionId: z.string().trim().min(6, 'UPI Transaction ID is required (min 6 chars)'),
 });
 
 export type ContactFormData = z.infer<typeof contactSchema>;

@@ -303,7 +303,12 @@ export default function AdminPage() {
                                                 <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Portfolio</th>
                                             </>
                                         ) : (
-                                            <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Phone</th>
+                                            <>
+                                                <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">Phone</th>
+                                                {activeTab === 'workshop' && (
+                                                    <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">UPI Transaction ID</th>
+                                                )}
+                                            </>
                                         )}
                                         <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold text-right">Actions</th>
                                     </tr>
@@ -395,6 +400,17 @@ export default function AdminPage() {
                                                         {reg.phoneNumber}
                                                     </div>
                                                 </td>
+                                                {activeTab === 'workshop' && (
+                                                    <td className="px-8 py-6">
+                                                        {reg.transactionId ? (
+                                                            <span className="font-mono text-xs px-2.5 py-1 bg-gray-100 text-gray-800 rounded-md border border-gray-200">
+                                                                {reg.transactionId}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-xs text-foreground/30 italic">None</span>
+                                                        )}
+                                                    </td>
+                                                )}
                                                 <td className="px-8 py-6 text-right">
                                                     <button
                                                         onClick={() => handleCancel(reg._id)}
@@ -429,6 +445,9 @@ export default function AdminPage() {
                                             <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">
                                                 {activeTab === 'joinMembers' ? 'Rejected By' : 'Cancelled By'}
                                             </th>
+                                            {activeTab === 'workshop' && (
+                                                <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold">UPI Transaction ID</th>
+                                            )}
                                             <th className="px-8 py-6 text-[10px] uppercase tracking-widest text-foreground/40 font-bold text-right">Actions</th>
                                         </tr>
                                     </thead>
@@ -453,6 +472,17 @@ export default function AdminPage() {
                                                         {activeTab === 'joinMembers' ? (reg.reviewedBy || 'Unknown') : (reg.cancelledBy || 'Unknown')}
                                                     </span>
                                                 </td>
+                                                {activeTab === 'workshop' && (
+                                                    <td className="px-8 py-6">
+                                                        {reg.transactionId ? (
+                                                            <span className="font-mono text-xs px-2.5 py-1 bg-gray-100 text-gray-800 rounded-md border border-gray-200">
+                                                                {reg.transactionId}
+                                                            </span>
+                                                        ) : (
+                                                            <span className="text-xs text-foreground/30 italic">None</span>
+                                                        )}
+                                                    </td>
+                                                )}
                                                 <td className="px-8 py-6 text-right">
                                                     {activeTab === 'joinMembers' ? (
                                                         <button

@@ -10,6 +10,7 @@ export const register = mutation({
     phoneNumber: v.string(),
     workshopId: v.number(),
     nextWorkshopInterest: v.optional(v.string()),
+    transactionId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -36,6 +37,7 @@ export const register = mutation({
       workshopId: args.workshopId,
       nextWorkshopInterest: args.nextWorkshopInterest,
       status: "active",
+      transactionId: args.transactionId,
     });
 
     return registrationId;

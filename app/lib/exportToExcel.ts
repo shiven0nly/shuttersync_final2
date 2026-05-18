@@ -9,6 +9,7 @@ interface RegistrationData {
   status: string;
   cancelledBy?: string;
   cancelledAt?: number;
+  transactionId?: string;
 }
 
 interface JoinMemberData {
@@ -38,6 +39,7 @@ export async function exportToExcel(
     { header: 'Full Name', key: 'fullName', width: 25 },
     { header: 'Email', key: 'email', width: 30 },
     { header: 'Phone Number', key: 'phoneNumber', width: 20 },
+    { header: 'UPI Transaction ID', key: 'transactionId', width: 25 },
     { header: 'Status', key: 'status', width: 15 },
     { header: 'Registration Date', key: 'registrationDate', width: 20 },
     { header: 'Cancelled By', key: 'cancelledBy', width: 25 },
@@ -61,6 +63,7 @@ export async function exportToExcel(
       fullName: item.fullName,
       email: item.email,
       phoneNumber: item.phoneNumber,
+      transactionId: item.transactionId || '-',
       status: item.status.toUpperCase(),
       registrationDate: new Date(item._creationTime).toLocaleString(),
       cancelledBy: item.cancelledBy || '-',

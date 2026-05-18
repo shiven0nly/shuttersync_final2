@@ -7,6 +7,7 @@ import { api } from 'convex/_generated/api';
 import { useRouter } from 'next/navigation';
 import { CheckCircleIcon, ArrowDownTrayIcon, PlayCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Footer from '@/components/common/Footer';
 
 const WORKSHOP_ID = 3;
 const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/1dDCiNyplLq9H955MU-ob4SjjCsWGRbgS';
@@ -198,6 +199,57 @@ export default function LightroomMasteryWorkshopPage() {
           )}
         </div>
 
+        {/* WhatsApp Group Links Neo-Brutalist Box */}
+        <div className="mb-12 bg-white border-4 border-black rounded-[2rem] p-6 md:p-8 shadow-[8px_8px_0_0_rgba(0,0,0,1)] relative overflow-hidden group hover:translate-x-[2px] hover:translate-y-[2px] transition-transform hover:shadow-[6px_6px_0_0_rgba(0,0,0,1)]">
+          {/* Header Accent Bar */}
+          <div className="absolute top-0 left-0 w-full h-3 bg-[#25D366] border-b-[3px] border-black" />
+          
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#25D366]/20 border-[3px] border-black flex items-center justify-center rotate-3 shrink-0">
+                  <span className="text-xl">💬</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black text-black tracking-tight uppercase italic">
+                  Join_The_Groups
+                </h2>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-bold text-slate-800 uppercase tracking-tight">
+                  Follow this link to join Workshop WhatsApp group for updates:
+                </p>
+                <p className="text-xs font-semibold text-slate-500">
+                  Connect with fellow Lightroom Masterclass attendees and mentors.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+              {/* Workshop Group Link Button */}
+              <Link
+                href="https://chat.whatsapp.com/CW5iLBntSka5PqP37L3F3j"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-[#25D366] text-white border-[3px] border-black font-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all uppercase text-xs tracking-wider"
+              >
+                <span>Workshop Group</span>
+                <span className="text-lg">⚡</span>
+              </Link>
+
+              {/* General Group Link Button */}
+              <Link
+                href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 px-6 py-4 bg-white text-black border-[3px] border-black font-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] hover:bg-slate-50 transition-all uppercase text-xs tracking-wider"
+              >
+                <span>General Group</span>
+                <span className="text-lg">🌐</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-8">
@@ -376,7 +428,9 @@ export default function LightroomMasteryWorkshopPage() {
           </div>
         )}
       </div>
-
+      <div className='mt-20'>
+      <Footer />
+      </div>
     </div>
   );
 }

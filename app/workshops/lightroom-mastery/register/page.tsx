@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { workshopRegistrationSchema, WorkshopRegistrationData } from '@/lib/schemas';
 import { useModals } from '@/store/modal-context';
 import { ZodError } from 'zod';
+import Footer from '@/components/common/Footer';
 
 export default function WorkshopRegisterPage() {
     const { user, isLoaded } = useUser();
@@ -19,7 +20,8 @@ export default function WorkshopRegisterPage() {
         fullName: '',
         email: '',
         phone: '',
-        nextWorkshop: ''
+        nextWorkshop: '',
+        transactionId: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -40,7 +42,8 @@ export default function WorkshopRegisterPage() {
                 fullName: userRegistration.fullName,
                 email: userRegistration.email,
                 phone: userRegistration.phoneNumber,
-                nextWorkshop: userRegistration.nextWorkshopInterest || ''
+                nextWorkshop: userRegistration.nextWorkshopInterest || '',
+                transactionId: userRegistration.transactionId || ''
             });
         }
     }, [userRegistration]);
@@ -85,7 +88,8 @@ export default function WorkshopRegisterPage() {
                     email: formData.email,
                     phoneNumber: formData.phone,
                     workshopId: 3,
-                    nextWorkshopInterest: formData.nextWorkshop || undefined
+                    nextWorkshopInterest: formData.nextWorkshop || undefined,
+                    transactionId: formData.transactionId
                 });
                 setShowSuccess(true);
                 dispatch({
@@ -273,6 +277,41 @@ export default function WorkshopRegisterPage() {
                                             />
                                             {errors.phone && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.phone}</p>}
                                         </div>
+
+                                        {/* Neo-Brutalist UPI QR Code Payment Section */}
+                                        <div className="space-y-4 border-[3px] border-black p-4 bg-yellow-100 shadow-[4px_4px_0_0_#000]">
+                                            <p className="text-[11px] font-black uppercase tracking-widest text-black">Scan to Pay (INR 149)</p>
+                                            <div className="flex flex-col sm:flex-row gap-4 items-center">
+                                                <div className="relative w-36 h-36 bg-white border-[3px] border-black p-1 shadow-[2px_2px_0_0_#000] shrink-0 rounded-lg">
+                                                    <Image 
+                                                        src="/qrcode/qrcode_ss.png" 
+                                                        alt="UPI Payment QR Code" 
+                                                        fill
+                                                        className="object-contain rounded"
+                                                    />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <ol className="text-[10px] font-bold uppercase leading-relaxed text-slate-800 list-decimal pl-4">
+                                                        <li>Scan the QR code with any UPI app (GPay, PhonePe, Paytm).</li>
+                                                        <li>Pay the registration fee of ₹149.</li>
+                                                        <li>Copy the 12-digit UPI Transaction ID.</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="text-[11px] font-black uppercase tracking-widest">UPI Transaction ID</label>
+                                            <input
+                                                type="text"
+                                                value={formData.transactionId}
+                                                onChange={(e) => setFormData({ ...formData, transactionId: e.target.value })}
+                                                className={`w-full px-5 py-4 bg-white border-[3px] outline-none transition-all placeholder:text-slate-300 text-sm font-black uppercase tracking-tight ${errors.transactionId ? 'border-red-500 bg-red-50' : 'border-black focus:bg-blue-50 focus:shadow-[4px_4px_0_0_#3b82f6]'}`}
+                                                placeholder="ENTER 12-DIGIT TRANSACTION ID"
+                                            />
+                                            {errors.transactionId && <p className="text-[9px] font-black uppercase text-red-500 mt-1">{errors.transactionId}</p>}
+                                        </div>
+
                                         <div className="space-y-3">
                                             <label className="text-[11px] font-black uppercase tracking-widest">Workshop_Needs</label>
                                             <textarea
@@ -365,6 +404,9 @@ export default function WorkshopRegisterPage() {
                     </div>
                 </div>
             </main>
+            <div className="container mt-20 ">
+                <Footer />
+            </div>
 
         </div>
     );
