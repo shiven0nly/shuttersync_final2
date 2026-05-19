@@ -20,6 +20,7 @@ export default function WorkshopRegisterPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isLocallyRegistered, setIsLocallyRegistered] = useState(false);
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const [error, setError] = useState('');
 
@@ -29,7 +30,7 @@ export default function WorkshopRegisterPage() {
         user ? { userId: user.id, workshopId: 2 } : 'skip'
     );
 
-    const isRegistered = userRegistration?.status === 'active';
+    const isRegistered = userRegistration?.status === 'active' || isLocallyRegistered;
     const isCancelled = userRegistration?.status === 'cancelled';
 
     useEffect(() => {
@@ -61,6 +62,7 @@ export default function WorkshopRegisterPage() {
                 workshopId: 2,
                 nextWorkshopInterest: formData.nextWorkshop || undefined
             });
+            setIsLocallyRegistered(true);
             setShowSuccess(true);
         } catch (error: any) {
             setError(error.message || 'Registration failed. Please try again.');

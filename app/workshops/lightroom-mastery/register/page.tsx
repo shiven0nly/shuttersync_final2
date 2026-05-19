@@ -369,6 +369,7 @@ export default function WorkshopRegisterPage() {
                                         >
                                             +91 9455955981
                                         </a>
+                                        <p className='text-center text-[10px] font-black uppercase tracking-widest text-slate-500'>After Submitting if 'Access Workshop' not appear than kindly refresh the site..</p>
                                     </div>
                                 </>
                             )}
