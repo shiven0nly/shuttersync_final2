@@ -208,7 +208,7 @@ export default function LightroomMasteryWorkshopPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-block bg-[#FFE500] text-black border-3 border-black px-4 py-1.5 text-xs font-black uppercase tracking-widest shadow-[3px_3px_0_0_#000] rotate-[-1.5deg]">
-                ⚡ LIVE & HANDS-ON WORKSHOP
+                ⚡ LIVE & HANDS-ON WORKSHOP • 23 MAY
               </div>
               
               <div className="relative">
@@ -225,8 +225,8 @@ export default function LightroomMasteryWorkshopPage() {
               </p>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                {["100% Hands-on", "Premium Presets Included", "Verifiable Certificate", "Lifetime Access"].map((tag, idx) => (
-                  <span key={idx} className="bg-white border-2 border-black px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0_0_rgba(0,0,0,1)]">
+                {["Live on 23 May", "100% Hands-on", "Premium Presets Included", "Verifiable Certificate", "Lifetime Access"].map((tag, idx) => (
+                  <span key={idx} className={`bg-white border-2 border-black px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0_0_rgba(0,0,0,1)] ${tag.includes('23 May') ? 'bg-yellow-300 border-rose-500 text-rose-600' : ''}`}>
                     ✦ {tag}
                   </span>
                 ))}
@@ -298,6 +298,31 @@ export default function LightroomMasteryWorkshopPage() {
                 <span>⚡ WORKFLOW COMPRESSION</span> <span className="text-lg">✦</span>
                 <span>⚡ ONE-CLICK PRESET CREATION</span> <span className="text-lg">✦</span>
               </span>
+            </div>
+          </div>
+
+          {/* Competition Promo Banner */}
+          <div className="w-full bg-[#f43f5e] border-4 border-black rounded-xl p-6 mb-24 shadow-[6px_6px_0_0_rgba(0,0,0,1)] text-white relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+              <div className="space-y-2 text-left w-full md:w-auto">
+                <span className="inline-block bg-[#FFE500] text-black border-2 border-black px-3 py-1 text-[10px] font-black uppercase tracking-widest rotate-[-1deg]">
+                  🔥 LIMITED TIME SPECIAL OFFER
+                </span>
+                <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white drop-shadow-[2px_2px_0_#000]">
+                  Register Now & Get 2 Free Photo Submissions!
+                </h3>
+                <p className="text-sm font-bold text-rose-100 uppercase tracking-tight max-w-2xl">
+                  If you register for the workshop now, then you will get two photo submissions free in the competition.
+                </p>
+              </div>
+              <Link 
+                href="/events/competitions" 
+                className="w-full md:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black border-3 border-black font-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all uppercase text-xs tracking-wider"
+              >
+                <span>View Competition</span>
+                <span>🏆</span>
+              </Link>
             </div>
           </div>
 
@@ -641,6 +666,31 @@ export default function LightroomMasteryWorkshopPage() {
           )}
         </div>
 
+        {/* Competition Promo Banner */}
+        <div className="mb-12 bg-[#f43f5e] border-4 border-black rounded-[2rem] p-6 md:p-8 shadow-[8px_8px_0_0_rgba(0,0,0,1)] text-white relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-2 text-left w-full md:w-auto">
+              <span className="inline-block bg-[#FFE500] text-black border-2 border-black px-3 py-1 text-[10px] font-black uppercase tracking-widest rotate-[-1deg]">
+                🔥 EXCLUSIVE REGISTERED BENEFIT
+              </span>
+              <h3 className="text-2xl md:text-3xl font-black uppercase italic tracking-tight text-white drop-shadow-[2px_2px_0_#000]">
+                Get 2 Free Photo Submissions!
+              </h3>
+              <p className="text-sm font-bold text-rose-100 uppercase tracking-tight max-w-2xl">
+                If you register for the workshop now, then you will get two photo submissions free in the competition.
+              </p>
+            </div>
+            <Link 
+              href="/events/competitions" 
+              className="w-full md:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-4 bg-white text-black border-3 border-black font-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] transition-all uppercase text-xs tracking-wider"
+            >
+              <span>Go to Competition</span>
+              <span>🏆</span>
+            </Link>
+          </div>
+        </div>
+
         {/* WhatsApp Group Links Neo-Brutalist Box */}
         <div className="mb-12 bg-white border-4 border-black rounded-[2rem] p-6 md:p-8 shadow-[8px_8px_0_0_rgba(0,0,0,1)] relative overflow-hidden group hover:translate-x-[2px] hover:translate-y-[2px] transition-transform hover:shadow-[6px_6px_0_0_rgba(0,0,0,1)]">
           {/* Header Accent Bar */}
@@ -699,8 +749,8 @@ export default function LightroomMasteryWorkshopPage() {
             {/* Coming Soon Notice */}
             <div className="bg-white border-4 border-black rounded-[2rem] p-10 shadow-[8px_8px_0_0_rgba(0,0,0,1)] text-center relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-2 bg-blue-500 border-b-2 border-black" />
-              <h2 className="text-4xl md:text-5xl font-black text-black mb-4 uppercase italic">Workshop will be available soon</h2>
-              <p className="text-xl font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">we will let u soon</p>
+              <h2 className="text-4xl md:text-5xl font-black text-black mb-4 uppercase italic">Live session on May 23, 2026</h2>
+              <p className="text-xl font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">Check your group chats for the link!</p>
               <div className="mt-8 flex justify-center gap-4">
                 <div className="w-12 h-12 bg-blue-100 border-2 border-black flex items-center justify-center rotate-3">
                   <span className="text-2xl animate-pulse">⏳</span>

@@ -340,7 +340,7 @@ export default function WorkshopRegisterPage() {
                                 <div className="bg-white p-6 rounded-2xl border border-black/5 shadow-sm inline-block">
                                     <p className="text-xs text-foreground/40 uppercase tracking-wider mb-3 text-center">Share Workshop</p>
                                     <QRCodeSVG 
-                                        value="https://shuttersync-photography.netlify.app/workshops/register"
+                                        value="https://shuttersync-photography.vercel.app/workshops/register"
                                         size={160}
                                         level="H"
                                         includeMargin={true}

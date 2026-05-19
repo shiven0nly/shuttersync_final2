@@ -39,6 +39,7 @@ const upcomingFeatures = [
         description: 'Themed photo competitions with prizes, judging by industry professionals, and opportunities for portfolio exposure.',
         status: 'Coming Soon',
         color: 'from-emerald-500/10 to-teal-500/10',
+        link: '/events/competitions',
     },
 ];
 
@@ -59,11 +60,16 @@ export default function EventsContent() {
 
     const handleWorkshopClick = (e: React.MouseEvent, link?: string) => {
         e.preventDefault();
-        if (!isLoaded) return;
-        if (!user) {
-            setShowLoginDialog(true);
-        } else if (link) {
+        if (!link) return;
+        if (link.includes('competitions')) {
             router.push(link);
+        } else {
+            if (!isLoaded) return;
+            if (!user) {
+                setShowLoginDialog(true);
+            } else {
+                router.push(link);
+            }
         }
     };
 
