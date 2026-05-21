@@ -287,7 +287,7 @@ export default function WorkshopRegisterPage() {
 
                                             {/* Neo-Brutalist UPI QR Code Payment Section */}
                                             <div className="space-y-4 border-[3px] border-black p-4 bg-yellow-100 shadow-[4px_4px_0_0_#000]">
-                                                <p className="text-[11px] font-black uppercase tracking-widest text-black">Scan to Pay (INR 99)</p>
+                                                <p className="text-[11px] font-black uppercase tracking-widest text-black">Scan to Pay (INR 49)</p>
                                                 <div className="flex flex-col sm:flex-row gap-4 items-center">
                                                     <div className="relative w-36 h-36 bg-white border-[3px] border-black p-1 shadow-[2px_2px_0_0_#000] shrink-0 rounded-lg">
                                                         <Image
@@ -300,7 +300,7 @@ export default function WorkshopRegisterPage() {
                                                     <div className="flex-1">
                                                         <ol className="text-[10px] font-bold uppercase leading-relaxed text-slate-800 list-decimal pl-4">
                                                             <li>Scan the QR code with any UPI app (GPay, PhonePe, Paytm).</li>
-                                                            <li>Pay the registration fee of ₹99.</li>
+                                                            <li>Pay the registration fee of ₹49.</li>
                                                             <li>Copy the 12-digit UPI Transaction ID.</li>
                                                         </ol>
                                                     </div>

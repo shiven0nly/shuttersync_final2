@@ -237,12 +237,12 @@ export default function LightroomMasteryWorkshopPage() {
                   href="/workshops/lightroom-mastery/register"
                   className="flex items-center justify-center gap-3 px-8 py-5 bg-black text-white border-4 border-black font-black rounded-xl shadow-[8px_8px_0_0_rgba(59,130,246,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[6px_6px_0_0_rgba(59,130,246,1)] transition-all uppercase tracking-wider text-base text-center group"
                 >
-                  <span>Register Now for ₹99</span>
+                  <span>Register Now for ₹49</span>
                   <span className="group-hover:translate-x-1 transition-transform">⚡</span>
                 </Link>
                 <div className="flex flex-col justify-center text-center sm:text-left bg-white border-3 border-black p-4 shadow-[4px_4px_0_0_rgba(0,0,0,1)] rotate-[1deg]">
                   <span className="text-sm font-black text-slate-500 line-through">Valued at ₹499</span>
-                  <span className="text-2xl font-black text-rose-500">₹99 ONLY (Save 80%)</span>
+                  <span className="text-2xl font-black text-rose-500">₹49 ONLY (Save 90%)</span>
                 </div>
               </div>
             </div>
@@ -420,7 +420,7 @@ export default function LightroomMasteryWorkshopPage() {
                 </p>
                 <div className="w-full text-center border-t-2 border-dashed border-slate-200 pt-6">
                   <span className="text-sm font-black text-slate-400 line-through block uppercase">TOTAL VALUE: ₹999</span>
-                  <span className="text-4xl font-black text-[#52c41a] block uppercase mt-1 drop-shadow-[1px_1px_0_#000]">₹99 ONLY</span>
+                  <span className="text-4xl font-black text-[#52c41a] block uppercase mt-1 drop-shadow-[1px_1px_0_#000]">₹49 ONLY</span>
                 </div>
                 
                 <Link
