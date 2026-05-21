@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from 'next-view-transitions';
 import Image from 'next/image';
 import Icon from '@/components/ui/AppIcon';
 import { usePathname } from 'next/navigation';

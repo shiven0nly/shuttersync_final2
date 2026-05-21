@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/instant-seamless-demo
 
 # testing
 /coverage

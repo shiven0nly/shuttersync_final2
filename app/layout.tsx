@@ -101,6 +101,7 @@ import NavigationLoader from "@/components/common/NavigationLoader";
 import ReferralTracker from "@/components/common/ReferralTracker";
 import ScrollToTop from "@/components/common/ScrollToTop";
 import { Suspense } from "react";
+import { ViewTransitions } from 'next-view-transitions';
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -219,13 +220,27 @@ export default function RootLayout({
               gtag('js', new Date());
 
               gtag('config', 'G-YSXL7Q8132');
+
+              const sendEvent = (type = 'pageview') => {
+                if (document.prerendering) return;
+                gtag('event', type, {
+                  page_path: window.location.pathname,
+                });
+              };
+              
+              window.addEventListener('pagehide', () => sendEvent('leave'));
+              window.addEventListener('pageshow', (e) => {
+                if (e.persisted) sendEvent('pageview');
+              });
+              document.addEventListener('prerenderingchange', () => sendEvent('pageview'));
             `}
           </Script>
         </head>
 
         <body className={`${inter.variable} ${playfair.variable} antialiased`}>
-          <ConvexClientProvider>
-            <Suspense fallback={null}>
+          <ViewTransitions>
+            <ConvexClientProvider>
+              <Suspense fallback={null}>
               <ScrollToTop />
               <NavigationLoader />
               <ReferralTracker />
@@ -235,6 +250,7 @@ export default function RootLayout({
               <GlobalModal />
             </ModalProvider>
           </ConvexClientProvider>
+          </ViewTransitions>
         </body>
       </html>
     </ClerkProvider>
