@@ -39,7 +39,7 @@ const upcomingFeatures = [
         description: 'Themed photo competitions with prizes, judging by industry professionals, and opportunities for portfolio exposure.',
         status: 'Coming Soon',
         color: 'from-emerald-500/10 to-teal-500/10',
-        link: '/events/competitions',
+        link: '/events/competition',
     },
 ];
 

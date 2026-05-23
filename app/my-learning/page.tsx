@@ -45,6 +45,13 @@ const EVENT_METADATA: Record<number, any> = {
         instructor: "Local Chapter",
         thumbnail: "https://images.unsplash.com/photo-1570160897042-bc420f8660a1?auto=format&fit=crop&q=80&w=1000",
         href: "/events/mumbai-photowalk"
+    },
+    2: {
+        title: "Global Photography Contest",
+        description: "Submit your best shots and win amazing prizes.",
+        instructor: "ShutterSync",
+        thumbnail: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&q=80&w=1000",
+        href: "/events/competition"
     }
 };
 
@@ -84,7 +91,7 @@ export default function MyLearningDashboard() {
             ...(enrollments.workshops || []).map(w => ({ ...w, type: 'workshops', meta: WORKSHOP_METADATA[w.workshopId] || WORKSHOP_METADATA[3] })),
             ...(enrollments.courses || []).map(c => ({ ...c, type: 'courses', meta: COURSE_METADATA[c.courseId] || COURSE_METADATA[1] })),
             ...(enrollments.photowalks || []).map(p => ({ ...p, type: 'events', meta: EVENT_METADATA[p.photowalkId] || EVENT_METADATA[1] })),
-            ...(enrollments.competitions || []).map(comp => ({ ...comp, type: 'events', meta: EVENT_METADATA[comp.competitionId] || EVENT_METADATA[1] }))
+            ...(enrollments.competitions || []).map(comp => ({ ...comp, type: 'events', meta: EVENT_METADATA[(comp as any).competitionId ?? comp._id] || EVENT_METADATA[2] })),
         ];
 
         if (activeTab === 'All') return all;

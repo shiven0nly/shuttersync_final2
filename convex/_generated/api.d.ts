@@ -10,6 +10,7 @@
 
 import type * as certificates from "../certificates.js";
 import type * as collaborationInquiries from "../collaborationInquiries.js";
+import type * as competitionRegistrations from "../competitionRegistrations.js";
 import type * as competitions from "../competitions.js";
 import type * as courses from "../courses.js";
 import type * as debug from "../debug.js";
@@ -28,6 +29,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   certificates: typeof certificates;
   collaborationInquiries: typeof collaborationInquiries;
+  competitionRegistrations: typeof competitionRegistrations;
   competitions: typeof competitions;
   courses: typeof courses;
   debug: typeof debug;

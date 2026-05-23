@@ -155,4 +155,33 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_user", ["userId"]),
+
+  registrations: defineTable({
+    userId: v.string(), // Clerk user ID
+    fullName: v.string(),
+    email: v.string(),
+    phoneNumber: v.string(),
+    expectedSubmissions: v.number(),
+    totalFeesPaid: v.number(), // calculated as expectedSubmissions * 19
+    paymentStatus: v.union(v.literal("pending"), v.literal("completed")),
+    agreedToTerms: v.boolean(),
+    registeredAt: v.number(), // timestamp
+  })
+    .index("by_user", ["userId"])
+    .index("by_email", ["email"])
+    .index("by_paymentStatus", ["paymentStatus"]),
+
+  competition_submissions: defineTable({
+    userId: v.string(), // Clerk user ID
+    registrationId: v.id("registrations"),
+    fullName: v.string(),
+    email: v.string(),
+    upiTransactionId: v.string(),
+    driveLinks: v.array(v.string()),
+    status: v.string(), // "pending", "approved", "rejected"
+    submittedAt: v.number(), // timestamp
+  })
+    .index("by_user", ["userId"])
+    .index("by_registration", ["registrationId"])
+    .index("by_status", ["status"]),
 });

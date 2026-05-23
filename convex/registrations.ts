@@ -149,7 +149,7 @@ export const getMyEnrollments = query({
       .take(100);
 
     const competitions = await ctx.db
-      .query("competition_registrations")
+      .query("registrations")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
       .take(100);
 
