@@ -103,9 +103,7 @@ const Header = React.memo(function Header() {
   return (
     <>
       <header
-        className={`fixed left-0 z-50 transition-all duration-500 min-w-full ${
-          pathname === '/' && !isScrolled ? 'top-8' : 'top-0'
-        } ${
+        className={`fixed left-0 top-0 z-50 transition-all duration-500 min-w-full ${
           isScrolled
             ? 'bg-white/80 backdrop-blur-xl shadow-[0_8px_32px_-4px_rgba(0,0,0,0.1)] border border-black/10'
             : pathname === '/gallery' ? 'bg-black/20 backdrop-blur-md border border-white/10' : 'bg-white/30 backdrop-blur-md border border-black/5'

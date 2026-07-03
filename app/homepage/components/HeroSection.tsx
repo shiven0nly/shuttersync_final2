@@ -102,7 +102,7 @@ export default function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#fafafa] pt-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#fafafa] pt-16"
     >
       {/* Background Script Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -177,7 +177,7 @@ export default function HeroSection() {
               Start Exploring
             </RippleButton>
           </Link>
-          <Link href="/workshops/lightroom-mastery">
+          <Link href="/events/workshop/photography-vision">
             <RippleButton className="min-w-[200px] px-10 py-4 text-[15px] font-medium rounded-full bg-white text-black border border-black/5 shadow-sm hover:bg-black/5 hover:text-black transition-colors">
               Join Workshop
             </RippleButton>
