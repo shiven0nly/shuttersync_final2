@@ -627,7 +627,7 @@ export default function PhotographyVisionWorkshopPage() {
                                     {/* Scan to Pay Box */}
                                     <div className="border border-zinc-200 bg-white p-6 rounded-[8px] space-y-4">
                                         <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-900 border-b border-zinc-150 pb-2">
-                                            Scan and Pay &mdash; INR 49
+                                            Scan and Pay &mdash; INR 199
                                         </div>
                                         <div className="flex flex-col sm:flex-row gap-4 items-center">
                                             <div className="relative size-32 bg-white border border-zinc-100 p-1 shrink-0 rounded-[4px]">
@@ -641,7 +641,7 @@ export default function PhotographyVisionWorkshopPage() {
                                             <div className="flex-1">
                                                 <ol className="text-[10px] text-zinc-500 font-light leading-relaxed list-decimal pl-4 space-y-1">
                                                     <li>Scan QR using any UPI app (GPay, PhonePe, Paytm).</li>
-                                                    <li>Transfer the ₹49 entry fee.</li>
+                                                    <li>Transfer the ₹199 entry fee.</li>
                                                     <li>Copy the 12-digit UPI Transaction ID below.</li>
                                                 </ol>
                                             </div>
