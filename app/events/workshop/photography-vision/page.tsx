@@ -207,7 +207,7 @@ export default function PhotographyVisionWorkshopPage() {
                         >
                             <div className="relative aspect-[4/3] md:aspect-square w-full overflow-hidden rounded-[6px]">
                                 <Image
-                                    src="/sachin/harbour_DZhmrjHD4Lb.png"
+                                    src="/sachin/harbour_DZhmrjHD4Lb.jpg"
                                     alt="Harbour — Photography by Sachin Sudarsanan"
                                     fill
                                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -230,7 +230,7 @@ export default function PhotographyVisionWorkshopPage() {
                         >
                             <div className="relative aspect-[4/3] md:aspect-square w-full overflow-hidden rounded-[6px]">
                                 <Image
-                                    src="/sachin/banaras_DZZ2lyEj4Rd.png"
+                                    src="/sachin/banaras_DZZ2lyEj4Rd.jpg"
                                     alt="Banaras — Photography by Sachin Sudarsanan"
                                     fill
                                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
