@@ -295,7 +295,7 @@ export default function PhotographyVisionWorkshopPage() {
                         <span className='flex flex-row gap-5'>
                         <img src="/sachin/sachy_profilephoto.jpg" alt="sachin profile photo" className='w-full h-auto max-w-[200px] object-cover rounded-full  ' />
                         <p className="text-sm sm:text-base text-zinc-600 font-light leading-relaxed text-pretty">
-                            Sachin is a highly influential Travel Photographer and Content Creator based in Kerala, India. He has built a dedicated, passionate community of over <strong>54.3k followers</strong> by documenting raw storytelling. Leveraging both smartphones and mirrorless cameras, his workshop breaks down the craft of photography to its conceptual and visual foundations.
+                            Sachin is a highly influential Travel Photographer and Content Creator based in Keralam, India. He has built a dedicated, passionate community of over <strong>54.3k followers</strong> by documenting raw storytelling. Leveraging both smartphones and mirrorless cameras, his workshop breaks down the craft of photography to its conceptual and visual foundations.
                         </p>
                         </span>
                         
