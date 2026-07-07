@@ -481,12 +481,61 @@ export default function PhotographyVisionWorkshopPage() {
                             <p className="text-zinc-500 text-sm max-w-md mx-auto mb-8 leading-relaxed text-pretty">
                                 Your spot in the Photography Vision Workshop has been secured. We have sent the setup guide and links to {formData.email}.
                             </p>
+                            <div className="bg-white border border-zinc-200 rounded-[12px] p-6 mb-6 space-y-4">
+                                <div className="space-y-1 text-center">
+                                    <p className="text-[9px] uppercase tracking-[0.25em] text-zinc-400 font-sans">Next Step</p>
+
+                                    <p className="text-base font-serif text-zinc-900">Join the Workshop Community</p>
+                                    <p className="text-xs text-zinc-500 font-light">All session links, materials, and updates will be shared inside these groups.</p>
+                                </div>
+
+                                <a
+                                    href="https://chat.whatsapp.com/KyYRBOWTXzq10vUI9g1XQB?s=cl&p=a&ilr=2"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between w-full px-5 py-4 bg-[#25D366] text-white rounded-[8px] hover:opacity-90 transition-opacity"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-xl">📸</span>
+                                        <div className="text-left">
+                                            <p className="text-[10px] font-bold uppercase tracking-wider">Workshop Group</p>
+                                            <p className="text-xs opacity-80 font-light">Stories Behind the lens — Sachin Sudarsanan</p>
+                                        </div>
+                                    </div>
+                                    <Icon name="ArrowRightIcon" size={14} className="text-white opacity-80 shrink-0" />
+                                </a>
+
+                                <a
+                                    href="https://chat.whatsapp.com/DdYKdvQZZhB3FV5oSi1NcR"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between w-full px-5 py-4 bg-zinc-50 border border-zinc-200 text-zinc-900 rounded-[8px] hover:bg-zinc-100 transition-colors"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-xl">🌐</span>
+                                        <div className="text-left">
+                                            <p className="text-[10px] font-bold uppercase tracking-wider">General Community Group</p>
+                                            <p className="text-xs text-zinc-500 font-light">ShutterSync — All members</p>
+                                        </div>
+                                    </div>
+                                    <Icon name="ArrowRightIcon" size={14} className="text-zinc-400 shrink-0" />
+                                </a>
+                            </div>
+                            {/* Support & Back */}
+                            <div className='flex flex-col mt-10 gap-5 justify-center items-center'>
+
                             <Link
                                 href="/events"
-                                className="inline-flex items-center gap-2 px-8 py-3 bg-zinc-950 text-white text-[11px] font-bold uppercase tracking-[0.2em] rounded-[4px] hover:bg-zinc-805 transition-all"
+                                className="gap-2 px-8 py-3 bg-zinc-950 text-white text-[11px] font-bold uppercase tracking-[0.2em] rounded-[4px] hover:bg-zinc-805 transition-all w-fit"
                             >
                                 Back to Events
                             </Link>
+                            <div className="text-center space-y-4">
+                                <p className="text-sm uppercase tracking-widest text-zinc-400 font-sans">
+                                    Support &amp; Assistance &mdash; <a href="https://wa.me/919460272387" className="text-zinc-900 hover:underline">+91 94602 72387</a> &bull; <a href="https://wa.me/919455955981" className="text-zinc-900 hover:underline">+91 94559 55981</a>
+                                </p>
+                            </div>
+</div>
                         </div>
                     ) : showSuccess ? (
                         <div className="py-8">
