@@ -547,12 +547,7 @@ export default function PhotographyVisionWorkshopPage() {
                                 <p className="text-[9px] uppercase tracking-widest text-zinc-400 font-sans">
                                     Support &amp; Assistance &mdash; <a href="https://wa.me/919460272387" className="text-zinc-900 hover:underline">+91 94602 72387</a> &bull; <a href="https://wa.me/919455955981" className="text-zinc-900 hover:underline">+91 94559 55981</a>
                                 </p>
-                                <button
-                                    onClick={() => { setShowSuccess(false); setStep(1); }}
-                                    className="text-[10px] uppercase tracking-wider text-zinc-400 hover:text-zinc-700 transition-colors"
-                                >
-                                    Close
-                                </button>
+
                             </div>
                         </div>
                     ) : (
