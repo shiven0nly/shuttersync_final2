@@ -510,7 +510,7 @@ export default function PhotographyVisionWorkshopPage() {
                                 </div>
 
                                 <a
-                                    href="https://chat.whatsapp.com/CW5iLBntSka5PqP37L3F3j"
+                                    href="https://chat.whatsapp.com/KyYRBOWTXzq10vUI9g1XQB?s=cl&p=a&ilr=2"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center justify-between w-full px-5 py-4 bg-[#25D366] text-white rounded-[8px] hover:opacity-90 transition-opacity"
