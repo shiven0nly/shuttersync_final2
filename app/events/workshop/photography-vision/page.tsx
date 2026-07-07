@@ -519,7 +519,7 @@ export default function PhotographyVisionWorkshopPage() {
                                         <span className="text-xl">📸</span>
                                         <div className="text-left">
                                             <p className="text-[10px] font-bold uppercase tracking-wider">Workshop Group</p>
-                                            <p className="text-xs opacity-80 font-light">Photography Vision — Sachin Sudarsanan</p>
+                                            <p className="text-xs opacity-80 font-light">Stories Behind the lens — Sachin Sudarsanan</p>
                                         </div>
                                     </div>
                                     <Icon name="ArrowRightIcon" size={14} className="text-white opacity-80 shrink-0" />

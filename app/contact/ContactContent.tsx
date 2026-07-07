@@ -333,7 +333,19 @@ export default function ContactContent() {
                 <div className="w-10 h-10 border border-black flex items-center justify-center bg-white rotate-3">
                   <Icon name="EnvelopeIcon" size={16} />
                 </div>
-                <span>shuttersync.official@gmail.com</span>
+                <span>shuttersyncofficial1@gmail.com</span>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 border border-black flex items-center justify-center bg-white shrink-0 rotate-2 mt-0.5">
+                  <Icon name="PhoneIcon" size={16} />
+                </div>
+                <div className="space-y-1">
+                  <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-black/40">Support &amp; Assistance</p>
+                  <div className="flex flex-col gap-0.5">
+                    <a href="https://wa.me/919460272387" className="text-xs font-bold uppercase tracking-widest text-black hover:text-green-600 transition-colors">+91 94602 72387</a>
+                    <a href="https://wa.me/919455955981" className="text-xs font-bold uppercase tracking-widest text-black hover:text-green-600 transition-colors">+91 94559 55981</a>
+                  </div>
+                </div>
               </div>
               <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
                 <div className="w-10 h-10 border border-black flex items-center justify-center bg-white -rotate-3">
